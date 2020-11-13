@@ -32,17 +32,17 @@ export default class Game {
     $('body').append(askPlayerNameFormDiv);
   }
 
+  buttonWork() {
+    const startGameButton = $('#startGameButton');
+    startGameButton.on('click', () => {
+      $('#startGameButton').css("display", "none");
+    });
+  }
 
 
 }
 
 
-buttonWork() {
-  const startGameButton = $('#startGameButton');
-  startGameButton.on('click', () => {
-    $('#startGameButton').css("display", "none");
-  });
-}
 
 
 
