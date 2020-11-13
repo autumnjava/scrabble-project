@@ -30,6 +30,7 @@ export default class Game {
     }
     formTag.append(`<input type="submit" value="Submit the form">`);
     askPlayerNameFormDiv.append(formTag);
+    $('body').append(askPlayerNameFormDiv);
 
     //this.createBoard();
     //await this.tilesFromFile();
@@ -50,7 +51,7 @@ export default class Game {
     // render the board + players
     //this.render();
 
-    console.log('Starting the game.')
+    console.log('Starting the game.');
   }
 
   startButtonListener() {
