@@ -1,10 +1,11 @@
 //import Player from "./Player.js";
 export default class Game {
 
+
   async start() {
     // show the start page first
     this.showFrontPage();
-    buttonWork();
+    this.buttonWork();
   }
 
   showFrontPage() {
@@ -33,7 +34,8 @@ export default class Game {
   }
 
   buttonWork() {
-    const startGameButton = $('#startGameButton');
+
+    let startGameButton = $('#startGameButton');
     startGameButton.on('click', () => {
       $('#startGameButton').css("display", "none");
     });
@@ -46,4 +48,4 @@ export default class Game {
 
 
 
-} git
+
