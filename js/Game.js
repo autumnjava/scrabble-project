@@ -1,54 +1,32 @@
-//import Player from "./Player.js";
+import Player from "./Player.js";
 export default class Game {
 
-
   async start() {
-    // show the start page first
-    this.showFrontPage();
-    // Click the button "start game" to start playing
-    this.buttonWork();
+
+    //this.createBoard();
+    //await this.tilesFromFile();
+    // console.table is a nice way
+    // to log arrays and objects
+    //console.log(this.board);
+    //onsole.table(this.tiles);
+    // create players
+    //this.players = [
+
+    //Create players according to desired amount of players, and their names
+    //maybe a for loop to create players? Smth like if player wants to create 3 players and entered their names, then for loop to create 3 players
+    //new Player(this, 'Player 1'),
+    //new Player(this, 'Player 2')
+
+    //];
+    //console.table(this.players);
+    // render the board + players
+    //this.render();
+
+    console.log('Starting the game.')
   }
 
-  showFrontPage() {
-    let formToFills = [
-      { label: 'Player 1', required: true },
-      { label: 'Player 2', required: true },
-      { label: 'Player 3', required: false },
-      { label: 'Player 4', required: false }
-    ]
-    console.log('hej')
-    let askPlayerNameFormDiv = $('<div class="form"></div>');
-    let formTag = $('<form></form>');
-    for (let formToFill of formToFills) {
-      formTag.append(`
-        <div>
-        <label for="username">${formToFill.label}</lable>
-        <input type="text" id="playername" placeholder="Write name here..." ${formToFill.required ? 'required' : ''}>
-        </div>
-      `)
-    }
-    formTag.append(`<input type="submit" value="Submit the form">`);
-    askPlayerNameFormDiv.append(formTag);
-
-    //${ formToFill.required ? 'required' : '' }
-    $('body').append(askPlayerNameFormDiv);
+  startButtonListener() {
+    $('.button-start-game').click(() => alert('Here i will actually call the start() method'));
   }
-
-
-  //Click on a button "start game" and it will dissappear
-  buttonWork() {
-
-    let startGameButton = $('#startGameButton');
-    startGameButton.on('click', () => {
-      $('#startGameButton').css("display", "none");
-    });
-  }
-
 
 }
-
-
-
-
-
-
