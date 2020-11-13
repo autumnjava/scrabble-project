@@ -1,10 +1,12 @@
 //import Player from "./Player.js";
 export default class Game {
 
+
   async start() {
     // show the start page first
     this.showFrontPage();
     buttonWork();
+    this.buttonWork();
     await this.tilesFromFile();
   }
 
@@ -34,34 +36,35 @@ export default class Game {
   }
 
   buttonWork() {
-    const startGameButton = $('#startGameButton');
+
+    let startGameButton = $('#startGameButton');
     startGameButton.on('click', () => {
       $('#startGameButton').css("display", "none");
     });
   }
 
 
-}
+
+
+
+
+  async tilesFromFile() {
+    this.tiles = [];
+    // Read the tile info from file
+    (await $.get('tiles.txt'))
+      .split('\r').join('')
+      .split('\n').forEach(x => {
+        x = x.split(' ');
+        x[0] = x[0] === '_' ? ' ' : x[0];
+        // add tiles to this.tiles
+        while (x[2]--) {
+          this.tiles.push({ char: x[0], points: +x[1] })
+        }
+      });
+    // Shuffle in random order
+    this.tiles.sort(() => Math.random() - 0.5);
 
   }
-
-async tilesFromFile() {
-  this.tiles = [];
-  // Read the tile info from file
-  (await $.get('tiles.txt'))
-    .split('\r').join('')
-    .split('\n').forEach(x => {
-      x = x.split(' ');
-      x[0] = x[0] === '_' ? ' ' : x[0];
-      // add tiles to this.tiles
-      while (x[2]--) {
-        this.tiles.push({ char: x[0], points: +x[1] })
-      }
-    });
-  // Shuffle in random order
-  this.tiles.sort(() => Math.random() - 0.5);
-
-}
 
 }
 //git
@@ -69,4 +72,4 @@ async tilesFromFile() {
 
 
 
-} git
+
