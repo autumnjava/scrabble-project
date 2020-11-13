@@ -1,21 +1,21 @@
 //import Player from "./Player.js";
 export default class Game {
 
-  async start(){ 
+  async start() {
     // show the start page first
     this.showFrontPage();
   }
 
-  showFrontPage() { 
+  showFrontPage() {
     let formToFills = [
-      {label: 'Player 1', required: 'true'},
-      {label: 'Player 2', required: 'true'},
-      {label: 'Player 3', required: 'false'},
-      {label: 'Player 4', required: 'false'}
+      { label: 'Player 1', required: 'true' },
+      { label: 'Player 2', required: 'true' },
+      { label: 'Player 3', required: 'false' },
+      { label: 'Player 4', required: 'false' }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form></form>');
-    for (let formToFill of formToFills) { 
+    for (let formToFill of formToFills) {
       let keys = Object.keys(formToFill);
       formTag.append(`
         <div>
@@ -27,9 +27,7 @@ export default class Game {
     formTag.append(`<input type="submit" value="Submit the form">`);
 
 
-    askPlayerNameFormDiv.append(formTag);
-    $('body').append(askPlayerNameFormDiv);
+
+
   }
-
-
 }
