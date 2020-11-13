@@ -4,6 +4,7 @@ export default class Game {
   async start() {
     // show the start page first
     this.showFrontPage();
+    buttonWork();
   }
 
   showFrontPage() {
@@ -30,4 +31,15 @@ export default class Game {
 
 
   }
-}git
+
+
+  buttonWork() {
+    const startGameButton = $('#startGameButton');
+    startGameButton.on('click', () => {
+      $('#startGameButton').css("display", "none");
+    });
+  }
+
+
+
+} git
