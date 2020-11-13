@@ -78,14 +78,26 @@ export default class Game {
 
 
   buttonWork() {
-    $('.startGameButton').on('click', () => {
-      $('.startGameButton').css("display", "none");
+    let startButton = $('#startGameButton');
+    let skipButton = $('#skipButton');
+
+    //Click on "start game" button and it will dissappear
+    startButton.click(function () {
+      startButton.toggle();
     })
+
+
+    //Click on "skip turn" button and player skips turn (in process)
+    skipButton.click(function () {
+
+    })
+
+
   }
 
 
 
-  //git
+
 
 }
 
