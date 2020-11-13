@@ -4,7 +4,7 @@ export default class Game {
   async start() {
     // show the start page first
     this.showFrontPage();
-    buttonWork();
+
     // Click the button "start game" to start playing
     this.buttonWork();
     await this.tilesFromFile();
@@ -75,6 +75,12 @@ export default class Game {
     this.tiles.sort(() => Math.random() - 0.5);
   }
 
+
+  buttonWork() {
+    $('.startGameButton').on('click', () => {
+      $('.startGameButton').css("display", "none");
+    })
+  }
 
 
 
