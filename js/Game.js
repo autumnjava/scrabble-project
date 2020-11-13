@@ -30,7 +30,7 @@ export default class Game {
     }
     formTag.append(`<input type="submit" value="Submit the form">`);
     askPlayerNameFormDiv.append(formTag);
-    $('body').append(askPlayerNameFormDiv);
+    $('.startPage').append(askPlayerNameFormDiv);
 
     //this.createBoard();
     //await this.tilesFromFile();
