@@ -1,17 +1,4 @@
-export default class Person {
 
-  alive = true;
-
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
-
-  sayHi() {
-    return 'Hello my name i ' + this.name + ' and I am ' + this.age + ' years old. ' + 'I am ' + (this.alive ? 'alive' : 'dead') + '.'
-  }
-
-}
 export default class Player {
 
 
