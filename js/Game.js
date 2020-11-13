@@ -1,6 +1,5 @@
-//import Player from "./Player.js";
+import Player from "./Player.js";
 export default class Game {
-
 
   async start() {
     // show the start page first
@@ -32,18 +31,30 @@ export default class Game {
     formTag.append(`<input type="submit" value="Submit the form">`);
     askPlayerNameFormDiv.append(formTag);
 
-    //${ formToFill.required ? 'required' : '' }
-    $('body').append(askPlayerNameFormDiv);
+    //this.createBoard();
+    //await this.tilesFromFile();
+    // console.table is a nice way
+    // to log arrays and objects
+    //console.log(this.board);
+    //onsole.table(this.tiles);
+    // create players
+    //this.players = [
+
+    //Create players according to desired amount of players, and their names
+    //maybe a for loop to create players? Smth like if player wants to create 3 players and entered their names, then for loop to create 3 players
+    //new Player(this, 'Player 1'),
+    //new Player(this, 'Player 2')
+
+    //];
+    //console.table(this.players);
+    // render the board + players
+    //this.render();
+
+    console.log('Starting the game.')
   }
 
-
-  //Click on a button "start game" and it will dissappear
-  buttonWork() {
-
-    let startGameButton = $('#startGameButton');
-    startGameButton.on('click', () => {
-      $('#startGameButton').css("display", "none");
-    });
+  startButtonListener() {
+    $('.button-start-game').click(() => alert('Here i will actually call the start() method'));
   }
 
 
@@ -70,3 +81,4 @@ export default class Game {
   //git
 
 }
+
