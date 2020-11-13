@@ -1,7 +1,7 @@
 
 
 
-.start_game_button button{
+.button-start-game button{
  
    display: inline-block;
   
@@ -22,7 +22,7 @@
  
 }
 
-.start_game_button button:hover{
+.button-start-game button:hover{
 
   background-color: black;
   color: white;
