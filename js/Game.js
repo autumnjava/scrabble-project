@@ -5,6 +5,7 @@ export default class Game {
   async start() {
     // show the start page first
     this.showFrontPage();
+    // Click the button "start game" to start playing
     this.buttonWork();
   }
 
@@ -33,6 +34,8 @@ export default class Game {
     $('body').append(askPlayerNameFormDiv);
   }
 
+
+  //Click on a button "start game" and it will dissappear
   buttonWork() {
 
     let startGameButton = $('#startGameButton');
