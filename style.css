@@ -87,9 +87,13 @@ body {
   border: 1px solid #53746e;
   width: 6.2vh;
   height: 5.2vh;
-  background-color: #badcdf;
+  background-color: #a1c2dd;
   float: left;
   
+}
+
+.board > div:hover{
+  background-color: black;
 }
 
 .board > div:nth-child(15n+1){
