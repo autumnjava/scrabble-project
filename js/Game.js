@@ -35,20 +35,22 @@ export default class Game {
 
 
   async createBoard() {
-    let boardWithTiles = [];
-
     // Two dimensional array with objects
     // NOTE: not the correct objects
     this.board = [...new Array(15)].map(x => new Array(15).fill(
-      { specialValue: '', tile: undefined }));
+      { specialValue: undefined, tile: undefined }));
 
     // Split txt-file into 15 different arrays
     // With specialValue position marked up
     (await $.get('boardTiles.txt')).split('\r').join('')
       .split('\n').forEach(x => {
         x = x.split('|');
-        x.splice(1, 0);
-        console.log(x);
       });
+  }
+
+  renderBoard() {
+    $('.board').remove();
+    let $board = $('<div class="board"/>').appendTo('body');
+    this.board.flat().forEach(x => $board.append('<div/>'));
   }
 }
