@@ -3,34 +3,35 @@ export default class Game {
 
   async start() {
     // show the start page first
-    this.showFrontPage();
+    this.showFormInStartPage();
 
     // Click the button "start game" to start playing
     this.buttonWork();
     await this.tilesFromFile();
   }
 
-  showFrontPage() {
+  showFormInStartPage() {
     let formToFills = [
-      { label: 'Player 1', required: true },
-      { label: 'Player 2', required: true },
-      { label: 'Player 3', required: false },
-      { label: 'Player 4', required: false }
+      { label: 'Player 1', id:'playername1', required: true },
+      { label: 'Player 2', id: 'playername2', required: true },
+      { label: 'Player 3', id: 'playername3', required: false },
+      { label: 'Player 4', id: 'playername4', required: false }
     ]
-    console.log('hej')
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form></form>');
     for (let formToFill of formToFills) {
       formTag.append(`
         <div>
         <label for="username">${formToFill.label}</lable>
-        <input type="text" id="playername" placeholder="Write name here..." ${formToFill.required ? 'required' : ''}>
+        <input type="text" id="${formToFill.id}" placeholder="Write name here..." ${formToFill.required ? 'required' : ''}>
         </div>
       `)
     }
-    formTag.append(`<input type="submit" value="Submit the form">`);
+    formTag.append(`<button type="submit" class="formButton" name="submitbutton">Submit here</button>`);
+    //formTag.append(`<button class="formButton">Submit form Button</button>`);
     askPlayerNameFormDiv.append(formTag);
-    $('body').append(askPlayerNameFormDiv);
+    $('.startPage').append(askPlayerNameFormDiv);
+
 
     //this.createBoard();
     //await this.tilesFromFile();
@@ -51,7 +52,6 @@ export default class Game {
     // render the board + players
     //this.render();
 
-    console.log('Starting the game.');
   }
 
   startButtonListener() {
