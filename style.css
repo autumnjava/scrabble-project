@@ -1,12 +1,20 @@
 
 
 /*Styling for buttons*/
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background-color: rgb(195, 236, 233);
+}
 .button-start-game button{
  
    display: inline-block;
   
-  color: black;
-  background-color: white;
+  color: white;
+  background-color:  black;
   cursor: pointer;
   border: 1px solid black;
   padding: 1.2rem 3rem;
@@ -16,7 +24,7 @@
   transition: all 300ms ease-in-out;
   position: absolute;
   right: 40rem;
-  top: 18rem;
+  top: 35rem;
 
 
   
@@ -25,14 +33,14 @@
 
 .button-start-game button:hover{
 
-  background-color: black;
-  color: white;
+  background-color:transparent;
+  color: black;
 }
 
 .skipButton button{
 
-   color: black;
-   background-color: white;
+   color: white;
+   background-color: black;
   cursor: pointer;
   border: 1px solid black;
   padding: 0.5rem 1rem;
@@ -43,6 +51,7 @@
   position: absolute;
   right: 10rem;
   bottom: 8rem;
+  display: none;
   
   
   
@@ -51,6 +60,6 @@
 
 .skipButton button:hover{
 
-  background-color: black;
-  color: white
+  background-color: transparent;
+  color: black;
 }

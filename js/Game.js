@@ -12,7 +12,7 @@ export default class Game {
 
   showFormInStartPage() {
     let formToFills = [
-      { label: 'Player 1', id:'playername1', required: true },
+      { label: 'Player 1', id: 'playername1', required: true },
       { label: 'Player 2', id: 'playername2', required: true },
       { label: 'Player 3', id: 'playername3', required: false },
       { label: 'Player 4', id: 'playername4', required: false }
@@ -82,8 +82,10 @@ export default class Game {
     let skipButton = $('#skipButton');
 
     //Click on "start game" button and it will dissappear
+    //OBS! start page also dissappears
     startButton.click(function () {
       startButton.toggle();
+      $('.startPage').toggle();
     })
 
 
@@ -97,6 +99,7 @@ export default class Game {
 
 
 
+  //$('.formButton') --> button for submitting the form
 
 
 }
