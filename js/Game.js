@@ -30,4 +30,14 @@ export default class Game {
 
 
   }
+
+
+  async createBoard() {
+    let boardWithTiles = [];
+    (await $.get('boardTiles.txt')).split('\r').join('')
+      .split('\n').forEach(x => {
+        x = x.split('|');
+        console.log(x);
+      });
+  }
 }
