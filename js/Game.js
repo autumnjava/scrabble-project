@@ -5,6 +5,16 @@ export default class Game {
     // show the start page first
     this.showFormInStartPage();
 
+
+    //Create board
+    this.createBoard();
+    console.log(this.board);
+    this.renderGamePage();
+
+
+    console.log(this.board);
+
+
     // Click the button "start game" to start playing
     this.buttonWork();
     await this.tilesFromFile();
@@ -52,6 +62,31 @@ export default class Game {
     // render the board + players
     //this.render();
 
+
+
+  }
+  createBoard() {
+    this.board = [...new Array(15)].map(x => new Array(15).fill({
+      specialValue: 'default',
+      tile: undefined
+    }));
+
+  }
+
+
+  renderGamePage() {
+    // Create the board and players divs
+    $('.board, .players').remove();
+    let $board = $('<div class="board"/>').appendTo($('.gamePage'));
+    let $players = $('<div class="players"/>').appendTo($('.gamePage'));
+    // Render the board
+    // (will be more code when we know how to represent 
+    //  the special squares)
+    this.board.flat().forEach(x => $board.append('<div/>'));
+    // Render the players
+    /*this.players.forEach(player =>
+      $players.append(player.render()));
+    this.addDragEvents();*/
   }
 
   startButtonListener() {
@@ -86,6 +121,8 @@ export default class Game {
     startButton.click(function () {
       startButton.toggle();
       $('.startPage').toggle();
+      $('.not-show').css("display", "flex");
+
     })
 
 
