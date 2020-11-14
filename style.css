@@ -1,11 +1,12 @@
 
 
-
+/*Styling for buttons*/
 .button-start-game button{
  
    display: inline-block;
   
   color: black;
+  background-color: white;
   cursor: pointer;
   border: 1px solid black;
   padding: 1.2rem 3rem;
@@ -28,9 +29,10 @@
   color: white;
 }
 
-.game_buttons button{
+.skipButton button{
 
    color: black;
+   background-color: white;
   cursor: pointer;
   border: 1px solid black;
   padding: 0.5rem 1rem;
@@ -41,13 +43,14 @@
   position: absolute;
   right: 10rem;
   bottom: 8rem;
-  display:none;
+  
+  
   
 
 }
 
-.game_buttons button:hover{
+.skipButton button:hover{
 
-  background-color: rgb(77, 224, 217);
-  color: black;
+  background-color: black;
+  color: white
 }
