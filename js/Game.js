@@ -1,18 +1,21 @@
 import Player from "./Player.js";
 export default class Game {
 
+  players = [];
+
   async start() {
-    // show the start page first
-    this.showFormInStartPage();
+    this.createFormAndShowInStartPage();
 
     // Click the button "start game" to start playing
     this.buttonWork();
+    /*
     await this.tilesFromFile();
     this.createBoard();
     this.renderBoard();
+    */
   }
 
-  showFormInStartPage() {
+  createFormAndShowInStartPage() {
     let formToFills = [
       { label: 'Player 1', id: 'playername1', required: true },
       { label: 'Player 2', id: 'playername2', required: true },
@@ -20,21 +23,19 @@ export default class Game {
       { label: 'Player 4', id: 'playername4', required: false }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
-    let formTag = $('<form></form>');
+    let formTag = $('<form id="form"></form>');
     for (let formToFill of formToFills) {
       formTag.append(`
         <div>
         <label for="username">${formToFill.label}</lable>
-        <input type="text" id="${formToFill.id}" placeholder="Write name here..." ${formToFill.required ? 'required' : ''}>
+        <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
+        <br>
         </div>
       `)
     }
-    formTag.append(`<button type="submit" class="formButton" name="submitbutton">Submit here</button>`);
-    //formTag.append(`<button class="formButton">Submit form Button</button>`);
+    formTag.append(`<button class="submitButton" name="submitButton" id="submitButton" type="submit">Submit here</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
-
-
     //this.createBoard();
     //await this.tilesFromFile();
     // console.table is a nice way
@@ -82,6 +83,33 @@ export default class Game {
   buttonWork() {
     let startButton = $('#startGameButton');
     let skipButton = $('#skipButton');
+    let playerList = this.players;
+    function submitForm(event) {
+      event.preventDefault();
+      let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
+      for (let playerId of playerIds) {
+        let playerName = document.getElementById(playerId).value;
+        console.log(playerId);
+        if (playerName.length <= 0) {
+          if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
+            return;
+          }
+          continue;
+        }
+        else {
+          playerList.push(new Player(playerName, this))
+          // this.players.push(new Player(playerName, this));
+          
+        }
+      }
+      
+      $('.gamePage').removeClass("not-show");
+      $('.startPage').addClass("not-show");
+      $('.board').show();
+    }
+
+    let form = document.getElementById('form');
+    form.addEventListener('submit', submitForm);
 
     //Click on "start game" button and it will dissappear
     //OBS! start page also dissappears
@@ -100,10 +128,6 @@ export default class Game {
 
 
   }
-
-
-
-  //$('.formButton') --> button for submitting the form
 
   async createBoard() {
     // Two dimensional array with objects
