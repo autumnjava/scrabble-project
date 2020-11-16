@@ -3,7 +3,7 @@ export default class Game {
 
   async start() {
     // show the start page first
-    this.showFrontPage();
+    //this.showFrontPage();
     this.createBoard();
     console.log(this.board);
   }
@@ -38,7 +38,7 @@ export default class Game {
     // Two dimensional array with objects
     // NOTE: not the correct objects
     this.board = [...new Array(15)].map(x => new Array(15).fill(
-      { specialValue: undefined, tile: undefined }));
+      { specialValue: ' ', tile: undefined }));
 
     // Split txt-file into 15 different arrays
     // With specialValue position marked up
@@ -50,19 +50,19 @@ export default class Game {
         x = x.split('|');
         this.specialTiles.push(x);
       });
-    //console.log(this.specialTiles);
+
+    // Loop through array and match the index from tiles-array to board-array
     this.specialTiles.flat().forEach((specialVal, i) => {
-      // console.log(i, specialVal);
       if (specialVal === 'tw') {
-        console.log(i);
+        //console.log(specialVal, i);
+        console.log(this.board.flat()[i]); // board shows the same index
+        $('board').attr({ 'specialValue': specialVal }); // need to change value to same as from tiles-array
+
+
+        let squar = $('.board').attr('specialValue');
+        console.log(squar);
       }
     });
-
-    let filterTwIndex = this.specialTiles.flat().filter((word, i) => word.includes('tw'));
-    //console.log('specialVal:', filterTwIndex);
-    let filterDlIndex = this.specialTiles.flat().filter((word, i) => word === ('dl'));
-    //console.log('specialVal:', filterDlIndex);
-
   }
 
   renderBoard() {
