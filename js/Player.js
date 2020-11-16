@@ -5,7 +5,7 @@ export default class Player {
   constructor(name, myGame) {
     this.name = name;
     this.myGame = myGame;
-    //this.currentTiles = [...this.myGame.getTiles(), ' '];
+    this.currentTiles = [...this.myGame.getTiles(), ' '];
     this.points = 0;
   }
 

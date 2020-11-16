@@ -1,36 +1,23 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
 /*Styling for buttons*/
-
-html {
-  height: 100%;
-}
-body {
-  min-height: 100%;
-  background-color: rgb(195, 236, 233);
-}
 
 .not-show{
   display:none;
 }
 
 .startPage form{
-  margin: 10vh;
+  margin: 25vh;
   text-align: center;
 }
 
 .startPage form div{
-  margin: 5px;
+  margin: 10px;
   font-family: Arial;
 }
 
 .startPage button{
   display: inline-block;
   color: white;
-  background-color:  rgb(31, 30, 30);
+  background-color: #cf816b;/*#f5b880;*/
   cursor: pointer;
   border: 5px solid white;
   border-radius: 50px;
@@ -62,10 +49,6 @@ body button:hover{
   position: absolute;
   right: 10rem;
   bottom: 8rem;
-
-  
-  
-  
 
 }
 .breakButton button{
@@ -101,6 +84,8 @@ body button:hover{
 
 .board {
   /* border: 15px solid rgb(241, 255, 42); */
+  margin-top: 7vh;
+  margin-left: 20px;
   border-radius: 5px;
   display: inline-block;
   display: none;

@@ -6,12 +6,10 @@ export default class Game {
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
-    /*
     this.buttonWork();
     await this.tilesFromFile();
     this.createBoard();
     this.renderBoard();
-    */
   }
 
   createFormAndShowInStartPage() {
@@ -72,6 +70,8 @@ export default class Game {
       $('.startPage').addClass("not-show");
       $('.gamePage').removeClass("not-show");
       $('.board').show();
+      $('header').animate({ "font-size": "15px","padding": "5px" });
+      $('footer').animate({ "font-size": "10px", "padding": "3px"});
     }
 
     let form = document.getElementById('form');
@@ -98,20 +98,9 @@ export default class Game {
 
 
   buttonWork() {
-    let startButton = $('#startGameButton');
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
-
-    //Click on "start game" button and it will dissappear
-    //OBS! start page also dissappears
-    startButton.click(function () {
-      //startButton.toggle();
-      $('.gamePage').removeClass("not-show");
-      $('.startPage').addClass("not-show");
-      $('.board').show();
-    })
-
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
