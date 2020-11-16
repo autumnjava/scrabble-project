@@ -86,8 +86,9 @@ export default class Game {
     //Click on "start game" button and it will dissappear
     //OBS! start page also dissappears
     startButton.click(function () {
-      startButton.toggle();
-      $('.startPage').toggle();
+      //startButton.toggle();
+      $('.gamePage').removeClass("not-show");
+      $('.startPage').addClass("not-show");
       $('.board').show();
     })
 

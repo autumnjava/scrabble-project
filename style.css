@@ -31,6 +31,9 @@ body {
  
 }
 
+.not-show{
+  display:none;
+}
 .button-start-game button:hover{
 
   background-color:transparent;
@@ -51,7 +54,7 @@ body {
   position: absolute;
   right: 10rem;
   bottom: 8rem;
-  display: none;
+
   
   
   
