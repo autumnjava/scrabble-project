@@ -82,6 +82,7 @@ export default class Game {
   buttonWork() {
     let startButton = $('#startGameButton');
     let skipButton = $('#skipButton');
+    let breakButton = $('#breakButton')
 
     //Click on "start game" button and it will dissappear
     //OBS! start page also dissappears
@@ -98,7 +99,10 @@ export default class Game {
 
     })
 
+    //Click on "Break button" too exit the game (in process)
+    breakButton.click(function () {
 
+    })
   }
 
 

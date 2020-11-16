@@ -60,12 +60,33 @@ body {
   
 
 }
+.breakButton button{
+  color: white;
+  background-color: black;
+  cursor: pointer;
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  text-transform:uppercase;
+  font-weight: 100%;
+  transition: all 300ms ease-in-out;
+  position: absolute;
+  right: 5rem;
+  bottom: 8rem;
+}
 
 .skipButton button:hover{
 
   background-color: transparent;
   color: black;
 }
+
+.breakButton button:hover{
+
+  background-color: transparent;
+  color: black;
+}
+
 
 .board {
   /* border: 15px solid rgb(241, 255, 42); */
