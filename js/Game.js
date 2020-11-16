@@ -45,7 +45,7 @@ export default class Game {
 
   }
 
-  startGameButtonListener() { 
+  startGameButtonListener() {
     let playerList = this.players;
     let game = this;
 
@@ -63,19 +63,25 @@ export default class Game {
         }
         else {
           playerList.push(new Player(playerName, game))
-          // this.players.push(new Player(playerName, this));
+
 
         }
       }
       $('.startPage').addClass("not-show");
       $('.gamePage').removeClass("not-show");
       $('.board').show();
-      $('header').animate({ "font-size": "15px","padding": "5px" });
-      $('footer').animate({ "font-size": "10px", "padding": "3px"});
+      $('header').animate({ "font-size": "15px", "padding": "5px" });
+      $('footer').animate({ "font-size": "10px", "padding": "3px" });
+      this.players = playerList;
+      console.table(this.players); //Skriver ut alla players för säkerhetens skull
+
+
     }
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
+
+
   }
 
 
