@@ -7,7 +7,7 @@ export default class Game {
     this.createFormAndShowInStartPage();
 
     // Click the button "start game" to start playing
-    this.submitButtonListener();
+    this.startGameButtonListener();
     /*
     this.buttonWork();
     await this.tilesFromFile();
@@ -34,7 +34,7 @@ export default class Game {
         </div>
       `)
     }
-    formTag.append(`<button class="submitButton" name="submitButton" id="submitButton" type="submit">Submit here</button>`);
+    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">start game here</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
     //this.createBoard();
@@ -58,8 +58,9 @@ export default class Game {
 
   }
 
-  submitButtonListener() { 
+  startGameButtonListener() { 
     let playerList = this.players;
+    let game = this;
 
     function submitForm(event) {
       event.preventDefault();
@@ -74,20 +75,21 @@ export default class Game {
           continue;
         }
         else {
-          playerList.push(new Player(playerName, this))
+          playerList.push(new Player(playerName, game))
           // this.players.push(new Player(playerName, this));
 
         }
       }
 
-      $('.gamePage').removeClass("not-show");
       $('.startPage').addClass("not-show");
+      $('.gamePage').removeClass("not-show");
       $('.board').show();
     }
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
   }
+
 
   async tilesFromFile() {
     this.tiles = [];
@@ -176,7 +178,6 @@ export default class Game {
 
     this.addDragEvents();
   }
-
 
 
   addDragEvents() {

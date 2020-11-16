@@ -9,7 +9,7 @@ body {
   min-height: 100%;
   background-color: rgb(195, 236, 233);
 }
-.button-start-game button{
+.startPage button{
  
    display: inline-block;
   
@@ -34,7 +34,7 @@ body {
 .not-show{
   display:none;
 }
-.button-start-game button:hover{
+.startPage button:hover{
 
   background-color:transparent;
   color: black;
