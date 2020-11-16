@@ -101,6 +101,24 @@ export default class Game {
 
   //$('.formButton') --> button for submitting the form
 
+  async createBoard() {
+    // Two dimensional array with objects
+    // NOTE: not the correct objects
+    this.board = [...new Array(15)].map(x => new Array(15).fill(
+      { specialValue: undefined, tile: undefined }));
+
+    // Split txt-file into 15 different arrays
+    // With specialValue position marked up
+    this.specialTiles = [];
+    (await $.get('boardTiles.txt'))
+      .split('\r').join('')
+      .split('\n')
+      .forEach(x => {
+        x = x.split('|');
+        this.specialTiles.push(x);
+      });
+
+  }
 
 }
 
