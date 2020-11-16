@@ -123,10 +123,21 @@ export default class Game {
     console.log(this.specialTiles);
 
   }
+
+  getTiles(howMany = 7) {
+    // Return a number of tiles (and remove from this.tiles)
+    return this.tiles.splice(0, howMany);
+  }
+
   renderBoard() {
-    $('.board').remove();
+    // render board and player divs
+    $('.board, .players').remove();
+    let $players = $('<div class="players"/>').appendTo('body');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
+    //render all the players
+    this.players.forEach(player =>
+      $players.append(player.render()));
   }
 }
 
