@@ -128,6 +128,94 @@ export default class Game {
     $('.board').remove();
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
+
+
+    this.addDragEvents();
+  }
+
+
+
+  addDragEvents() {
+    let that = this;
+    // let tile in the stands be draggable
+    $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
+      .on('dragStart', function () {
+        // set a high z-index so that the tile being drag
+        // is on top of everything  
+        $(this).css({ zIndex: 100 });
+      })
+      .on('dragMove', function (e, pointer) {
+        //$(this).css('background-color', 'blue');
+
+        //let { pageX, pageY } = pointer;
+        let pageX = pointer.pageX;
+        let pageY = pointer.pageY;
+
+        let $squares = $('.board > div');
+        for (let square of $squares) {
+          let squareTop = $(square).offset().top;
+          let squareLeft = $(square).offset().left;
+          let squareRight = $(square).offset().left + $(square).width();
+          let squareBottom = $(square).offset().top + $(square).height();
+
+          if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
+            $(square).css('background-color', 'orange');
+          } else {
+            $(square).css('background-color', '');
+          }
+        }
+
+
+        /* //This works very fine until you drag a tile at the same time...
+                $('.board').children().each(function () {
+                  $(this).hover(function () {
+                    $(this).css('background-color', 'orange');
+                  }, function () {
+                    $(this).css('background-color', '');
+                  });
+                }); */
+
+        // we will need code that reacts
+        // if you have moved a tile to a square on the board
+        // (light it up so the player knows where the tile will drop)
+        // but that code is not written yet ;)
+
+      })
+      .on('dragEnd', function (e, pointer) {
+        let { pageX, pageY } = pointer;
+        let me = $(this);
+
+        // reset the z-index
+        me.css({ zIndex: '' });
+
+        let player = that.players[+$(this).attr('data-player')];
+        let tileIndex = +$(this).attr('data-tile');
+        let tile = player.tiles[tileIndex];
+
+        // we will need code that reacts
+        // if you have moved a tile to a square on the board
+        // (add the square to the board, remove it from the stand)
+        // but that code is not written yet ;)
+
+        // but we do have the code that let you
+        // drag the tiles in a different order in the stands
+        let $stand = $(this).parent('.stand');
+        let { top, left } = $stand.offset();
+        let bottom = top + $stand.height();
+        let right = left + $stand.width();
+        // if dragged within the limit of the stand
+        if (pageX > left && pageX < right
+          && pageY > top && pageY < bottom) {
+          let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+          let pt = player.tiles;
+          // move around
+          pt.splice(tileIndex, 1, ' ');
+          pt.splice(newIndex, 0, tile);
+          //preserve the space where the tile used to be
+          while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+        }
+        that.render();
+      });
   }
 }
 
