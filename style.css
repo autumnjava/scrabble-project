@@ -1,4 +1,7 @@
-
+* {
+  margin: 0;
+  padding: 0;
+}
 
 /*Styling for buttons*/
 
@@ -9,35 +12,40 @@ body {
   min-height: 100%;
   background-color: rgb(195, 236, 233);
 }
-.startPage button{
- 
-   display: inline-block;
-  
-  color: white;
-  background-color:  black;
-  cursor: pointer;
-  border: 1px solid black;
-  padding: 1.2rem 3rem;
-  font-size: 1.6rem;
-  text-transform:uppercase;
-  font-weight: 500%;
-  transition: all 300ms ease-in-out;
-  position: absolute;
-  right: 40rem;
-  top: 35rem;
-
-
-  
- 
-}
 
 .not-show{
   display:none;
 }
-.startPage button:hover{
 
+.startPage form{
+  margin: 10vh;
+  text-align: center;
+}
+
+.startPage form div{
+  margin: 5px;
+  font-family: Arial;
+}
+
+.startPage button{
+  display: inline-block;
+  color: white;
+  background-color:  rgb(31, 30, 30);
+  cursor: pointer;
+  border: 5px solid white;
+  border-radius: 50px;
+  margin: 10vh;
+  padding: 1.2rem 3rem;
+  font-size: 1.6rem;
+  text-transform:uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+  /*position: absolute;*/
+}
+
+body button:hover{
   background-color:transparent;
-  color: black;
+  color: rgb(31, 30, 30);
 }
 
 .skipButton button{
@@ -88,23 +96,6 @@ body {
   position: absolute;
   right: 18rem;
   bottom: 8rem;
-}
-
-.skipButton button:hover{
-
-  background-color: transparent;
-  color: black;
-}
-
-.breakButton button:hover{
-
-  background-color: transparent;
-  color: black;
-}
-
-.checkWordButton button:hover{
-  background-color: transparent;
-  color : black;
 }
 
 
