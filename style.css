@@ -63,3 +63,28 @@ body {
   background-color: transparent;
   color: black;
 }
+
+.board {
+  /* border: 15px solid rgb(241, 255, 42); */
+  border-radius: 5px;
+  display: inline-block;
+  display: none;
+}
+
+.board > div {
+  border: 1px solid rgb(39, 37, 37);
+  margin: 0.5px;
+  background-color: rgb(255, 255, 255);
+  width: 5.2vh;
+  height: 5.2vh;
+  float: left;
+  border-radius: 2px;
+}
+
+.board > div:nth-child(15n+1){
+  clear: both;
+}
+
+.board > div::after{
+  display: block;
+}
