@@ -24,7 +24,7 @@ export default class Game {
     for (let formToFill of formToFills) {
       formTag.append(`
         <div>
-        <label for="username">${formToFill.label}</lable>
+        <label for="username"><span>${formToFill.label}</span></lable>
         <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
         <br>
         </div>
