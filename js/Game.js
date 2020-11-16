@@ -119,6 +119,10 @@ export default class Game {
       });
 
   }
-
+  renderBoard() {
+    $('.board').remove();
+    let $board = $('<div class="board"/>').appendTo('body');
+    this.board.flat().forEach(x => $board.append('<div/>'));
+  }
 }
 
