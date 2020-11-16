@@ -8,6 +8,8 @@ export default class Game {
     // Click the button "start game" to start playing
     this.buttonWork();
     await this.tilesFromFile();
+    this.createBoard();
+    this.renderBoard();
   }
 
   showFormInStartPage() {
@@ -86,6 +88,7 @@ export default class Game {
     startButton.click(function () {
       startButton.toggle();
       $('.startPage').toggle();
+      $('.board').show();
     })
 
 
@@ -117,11 +120,12 @@ export default class Game {
         x = x.split('|');
         this.specialTiles.push(x);
       });
+    console.log(this.specialTiles);
 
   }
   renderBoard() {
     $('.board').remove();
-    let $board = $('<div class="board"/>').appendTo('body');
+    let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
   }
 }
