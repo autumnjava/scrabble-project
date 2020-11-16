@@ -42,10 +42,27 @@ export default class Game {
 
     // Split txt-file into 15 different arrays
     // With specialValue position marked up
-    (await $.get('boardTiles.txt')).split('\r').join('')
-      .split('\n').forEach(x => {
+    this.specialTiles = [];
+    (await $.get('boardTiles.txt'))
+      .split('\r').join('')
+      .split('\n')
+      .forEach(x => {
         x = x.split('|');
+        this.specialTiles.push(x);
       });
+    //console.log(this.specialTiles);
+    this.specialTiles.flat().forEach((specialVal, i) => {
+      // console.log(i, specialVal);
+      if (specialVal === 'tw') {
+        console.log(i);
+      }
+    });
+
+    let filterTwIndex = this.specialTiles.flat().filter((word, i) => word.includes('tw'));
+    //console.log('specialVal:', filterTwIndex);
+    let filterDlIndex = this.specialTiles.flat().filter((word, i) => word === ('dl'));
+    //console.log('specialVal:', filterDlIndex);
+
   }
 
   renderBoard() {
