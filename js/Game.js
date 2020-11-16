@@ -7,8 +7,9 @@ export default class Game {
     this.createFormAndShowInStartPage();
 
     // Click the button "start game" to start playing
-    this.buttonWork();
+    this.submitButtonListener();
     /*
+    this.buttonWork();
     await this.tilesFromFile();
     this.createBoard();
     this.renderBoard();
@@ -57,10 +58,36 @@ export default class Game {
 
   }
 
-  startButtonListener() {
-    $('.button-start-game').click(() => alert('Here i will actually call the start() method'));
-  }
+  submitButtonListener() { 
+    let playerList = this.players;
 
+    function submitForm(event) {
+      event.preventDefault();
+      let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
+      for (let playerId of playerIds) {
+        let playerName = document.getElementById(playerId).value;
+        if (playerName.length <= 0) {
+          if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
+            playerList = [];
+            return;
+          }
+          continue;
+        }
+        else {
+          playerList.push(new Player(playerName, this))
+          // this.players.push(new Player(playerName, this));
+
+        }
+      }
+
+      $('.gamePage').removeClass("not-show");
+      $('.startPage').addClass("not-show");
+      $('.board').show();
+    }
+
+    let form = document.getElementById('form');
+    form.addEventListener('submit', submitForm);
+  }
 
   async tilesFromFile() {
     this.tiles = [];
@@ -83,33 +110,6 @@ export default class Game {
   buttonWork() {
     let startButton = $('#startGameButton');
     let skipButton = $('#skipButton');
-    let playerList = this.players;
-    function submitForm(event) {
-      event.preventDefault();
-      let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
-      for (let playerId of playerIds) {
-        let playerName = document.getElementById(playerId).value;
-        console.log(playerId);
-        if (playerName.length <= 0) {
-          if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
-            return;
-          }
-          continue;
-        }
-        else {
-          playerList.push(new Player(playerName, this))
-          // this.players.push(new Player(playerName, this));
-          
-        }
-      }
-      
-      $('.gamePage').removeClass("not-show");
-      $('.startPage').addClass("not-show");
-      $('.board').show();
-    }
-
-    let form = document.getElementById('form');
-    form.addEventListener('submit', submitForm);
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
 
