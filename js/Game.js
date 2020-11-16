@@ -35,39 +35,35 @@ export default class Game {
 
 
   async createBoard() {
-    // Two dimensional array with objects
-    // NOTE: not the correct objects
-    this.board = [...new Array(15)].map(x => new Array(15).fill(
-      { specialValue: ' ', tile: undefined }));
+    // Two dimensional array with object and correct property values
+    this.board = [...new Array(15)]
+      .map(x => [...new Array(15)].map(x => ({})));
+    [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
+      .forEach(([y, x]) => this.board[y][x].specialValue = 'tw');
+    [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10],
+    [7, 7], [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
+    [13, 13]]
+      .forEach(([y, x]) => this.board[y][x].specialValue = 'dw');
+    [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
+    [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 6], [8, 6], [8, 8],
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [13, 0], [13, 11]]
+      .forEach(([y, x]) => this.board[y][x].specialValue = 'dl');
+    [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
+    [9, 9], [9, 13], [13, 5], [13, 9]]
+      .forEach(([y, x]) => this.board[y][x].specialValue = 'tl');
 
-    // Split txt-file into 15 different arrays
-    // With specialValue position marked up
-    this.specialTiles = [];
-    (await $.get('boardTiles.txt'))
-      .split('\r').join('')
-      .split('\n')
-      .forEach(x => {
-        x = x.split('|');
-        this.specialTiles.push(x);
-      });
-
-    // Loop through array and match the index from tiles-array to board-array
-    this.specialTiles.flat().forEach((specialVal, i) => {
-      if (specialVal === 'tw') {
-        //console.log(specialVal, i);
-        console.log(this.board.flat()[i]); // board shows the same index
-        $('board').attr({ 'specialValue': specialVal }); // need to change value to same as from tiles-array
-
-
-        let squar = $('.board').attr('specialValue');
-        console.log(squar);
-      }
-    });
   }
 
   renderBoard() {
     $('.board').remove();
     let $board = $('<div class="board"/>').appendTo('body');
     this.board.flat().forEach(x => $board.append('<div/>'));
+    $('.board').html(
+      this.board.flat().map(x => `
+        <div class="${x.special ? 'special-' + x.special : ''}">
+         ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+        </div>
+      `).join('')
+    );
   }
 }
