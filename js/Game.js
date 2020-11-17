@@ -131,6 +131,7 @@ export default class Game {
     [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
     [9, 9], [9, 13], [13, 5], [13, 9]]
       .forEach(([y, x]) => this.board[y][x].specialValue = 'tl');
+    [[7, 7]].forEach(([y, x]) => this.board[y][x].specialValue = 'start');
   }
 
 
