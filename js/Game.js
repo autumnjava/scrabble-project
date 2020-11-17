@@ -13,8 +13,8 @@ export default class Game {
 
   startGame() {
     this.createBoard();
-    this.render();
     this.currentPlayer = this.players[0];
+    this.render();
   }
 
   createFormAndShowInStartPage() {
@@ -96,6 +96,7 @@ export default class Game {
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
       changePlayer();
+      that.render();
     })
 
     //Click on "Break button" too exit the game (in process)
@@ -146,8 +147,12 @@ export default class Game {
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
     //render all the players
+    /*
     this.players.forEach(player =>
       $players.append(player.render()));
+      */
+    // render currentPlayer
+    $players.append(this.currentPlayer.render());
     this.addDragEvents();
   }
 
