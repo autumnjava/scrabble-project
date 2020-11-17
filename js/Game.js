@@ -37,7 +37,6 @@ export default class Game {
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }
-  
 
   startGameButtonListener() {
     let that = this;
@@ -197,9 +196,11 @@ export default class Game {
         // reset the z-index
         me.css({ zIndex: '' });
 
-        let player = that.players[+$(this).attr('data-player')];
-        let tileIndex = +$(this).attr('data-tile');
-        let tile = player.tiles[tileIndex];
+        //THIS PART NEEDS TO BE FIXED: 
+
+        //let player = that.players[+$(this).attr('data-player')];
+        //let tileIndex = +$(this).attr('data-tile');
+        //let tile = player.tiles[tileIndex];
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board

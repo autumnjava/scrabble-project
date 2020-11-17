@@ -126,9 +126,55 @@ body button:hover{
 
 .players {
   position: absolute;
-  top: 10vh;
-  right: 10px;
-  background-color: chartreuse;
+  top: 50px;
+  right: 5px;
+}
+
+.stand {
+  background-color:rgb(33, 57, 81);
+  padding: 10px;
+  width: 53vh;
+}
+
+.stand::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.stand .tile {
+  cursor: pointer;
+}
+
+.tile {
+  z-index: 1;
+  position: relative;
+  text-align:center;
+  width: 5.6vh;
+  height: 5.6vh;
+  float: left;
+  background-color: rgb(229, 212, 194); 
+  border: 1px solid #000;
+  border-radius: 3px;
+  margin: 0 2px;
+  font-size: 3.5vh;
+}
+
+.board .tile {
+  position: absolute;
+  margin: 1px;
+}
+
+.tile span {
+  position: absolute;
+  font-size: 1.5vh;
+  right: 3px;
+  bottom: 3px;
+}
+
+.tile.none {
+  border: 0;
+  background-color: transparent;
 }
 
 .pname {
