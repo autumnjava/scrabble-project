@@ -101,7 +101,6 @@ body button:hover{
   margin-left: 20px;
   border-radius: 5px;
   display: inline-block;
-  display: none;
 }
 
 .board > div {

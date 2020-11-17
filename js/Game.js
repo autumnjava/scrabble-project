@@ -37,10 +37,10 @@ export default class Game {
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }
+  
 
   startGameButtonListener() {
     let that = this;
-
     function submitForm(event) {
       event.preventDefault();
       let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
