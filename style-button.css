@@ -114,6 +114,10 @@ body button:hover{
   border-radius: 2px;
 }
 
+.board .holdingTile:hover {
+  background-color: brown;
+}
+
 .board > div:nth-child(15n+1){
   clear: both;
 }
@@ -124,8 +128,9 @@ body button:hover{
 
 .players {
   position: absolute;
-  top: 10px;
+  top: 10vh;
   right: 10px;
+  background-color: chartreuse;
 }
 
 .pname {

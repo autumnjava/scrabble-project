@@ -8,6 +8,13 @@ export default class Game {
     this.startGameButtonListener();
     this.buttonWork();
     await this.tilesFromFile();
+    //this.createBoard();
+    //this.renderBoard();
+    console.log("hereee1", this.players);
+  }
+
+  startGame() { 
+    console.table('hellooo',this.players);
     this.createBoard();
     this.renderBoard();
   }
@@ -26,28 +33,16 @@ export default class Game {
         <div>
         <label for="username"><span>${formToFill.label}</span></lable>
         <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
-        <br>
         </div>
       `)
     }
     formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">start game here</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
-    //this.createBoard();
-    //await this.tilesFromFile();
-    // console.table is a nice way
-    // to log arrays and objects
-    //console.log(this.board);
-    //onsole.table(this.tiles);
-    //console.table(this.players);
-    // render the board + players
-    //this.render();
-
   }
 
   startGameButtonListener() {
-    let playerList = this.players;
-    let game = this;
+    let that = this;
 
     function submitForm(event) {
       event.preventDefault();
@@ -56,32 +51,23 @@ export default class Game {
         let playerName = document.getElementById(playerId).value;
         if (playerName.length <= 0) {
           if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
-            playerList = [];
+            that.players = [];
             return;
           }
           continue;
         }
-        else {
-          playerList.push(new Player(playerName, game))
-
-
-        }
+        else that.players.push(new Player(playerName, that));
       }
       $('.startPage').addClass("not-show");
       $('.gamePage').removeClass("not-show");
       $('.board').show();
       $('header').animate({ "font-size": "15px", "padding": "5px" });
       $('footer').animate({ "font-size": "10px", "padding": "3px" });
-      this.players = playerList;
-      console.table(this.players); //Skriver ut alla players för säkerhetens skull
-
-
+      that.startGame();
     }
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
-
-
   }
 
 
@@ -140,8 +126,8 @@ export default class Game {
         this.specialTiles.push(x);
       });
     console.log(this.specialTiles);
-
   }
+
 
   getTiles(howMany = 7) {
     // Return a number of tiles (and remove from this.tiles)
@@ -149,16 +135,16 @@ export default class Game {
   }
 
   renderBoard() {
+    console.log("hereeesss", this.players);
     // render board and player divs
     $('.board, .players').remove();
-    let $players = $('<div class="players"/>').appendTo('body');
+    let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
     //render all the players
     this.players.forEach(player =>
       $players.append(player.render()));
 
-    console.log(this.players);
     this.addDragEvents();
   }
 
