@@ -8,8 +8,11 @@ export default class Game {
     this.startGameButtonListener();
     this.buttonWork();
     await this.tilesFromFile();
-    this.createBoard();
-    this.renderBoard();
+    if (!this.players.length) {
+      this.createBoard();
+      this.renderBoard();
+    }
+
   }
 
   createFormAndShowInStartPage() {
