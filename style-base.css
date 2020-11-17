@@ -25,6 +25,7 @@ header {
 }
 
 footer {
+  position: fixed;
   color: white;
   background-color:  #213951;
   padding: 10px;

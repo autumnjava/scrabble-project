@@ -152,7 +152,7 @@ export default class Game {
     this.players.forEach(player =>
       $players.append(player.render()));
 
-
+    console.log(this.players);
     this.addDragEvents();
   }
 
