@@ -13,7 +13,7 @@ export default class Game {
   startGame() { 
     console.table('hellooo',this.players);
     this.createBoard();
-    this.renderBoard();
+    this.render();
   }
 
   createFormAndShowInStartPage() {
@@ -131,8 +131,7 @@ export default class Game {
     return this.tiles.splice(0, howMany);
   }
 
-  renderBoard() {
-    console.log("hereeesss", this.players);
+  render() {
     // render board and player divs
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
@@ -141,7 +140,6 @@ export default class Game {
     //render all the players
     this.players.forEach(player =>
       $players.append(player.render()));
-
     this.addDragEvents();
   }
 
@@ -225,7 +223,7 @@ export default class Game {
           //preserve the space where the tile used to be
           while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
         }
-        that.renderBoard();
+        that.render();
       });
   }
 }
