@@ -8,9 +8,6 @@ export default class Game {
     this.startGameButtonListener();
     this.buttonWork();
     await this.tilesFromFile();
-    //this.createBoard();
-    //this.renderBoard();
-    console.log("hereee1", this.players);
   }
 
   startGame() { 
