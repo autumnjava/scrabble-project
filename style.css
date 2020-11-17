@@ -179,11 +179,6 @@ background-color: #e5d4c2;
 
 .players {
   position: absolute;
-<<<<<<< HEAD
-  top: 10vh;
-  right: 20vw;
-  background-color: chartreuse;
-=======
   top: 50px;
   right: 5px;
 }
@@ -233,50 +228,8 @@ background-color: #e5d4c2;
 .tile.none {
   border: 0;
   background-color: transparent;
->>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
 }
 
 .pname {
   margin-bottom: 20px;
-<<<<<<< HEAD
 }
-
-.stand {
-  background-color: rgb(94, 34, 34);
-  padding: 1vh;
-  width: 25vw;
-}
-
-.stand::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.stand .tile {
-  cursor: pointer;
-}
-
-.tile {
-  z-index: 1;
-  position: relative;
-  text-align:center;
-  width: 5.6vh;
-  height: 5.6vh;
-  float: left;
-  background-color: #fff; 
-  border: 1px solid #000;
-  border-radius: 3px;
-  margin: 0 2px;
-  font-size: 4.5vh;
-}
-
-.tile span {
-  position: absolute;
-  font-size: 1.5vh;
-  right: 2px;
-  bottom: 2px;
-}
-=======
-}
->>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
