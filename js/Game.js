@@ -12,7 +12,7 @@ export default class Game {
   }
 
   startGame() {
-    this.addItemsToGamePage();
+    this.createBoard();
     this.currentPlayer = this.players[0];
     this.render();
   }
@@ -65,10 +65,6 @@ export default class Game {
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
-  }
-
-  addItemsToGamePage() { 
-    this.createBoard();
   }
 
 
