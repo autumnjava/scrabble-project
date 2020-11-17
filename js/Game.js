@@ -7,7 +7,7 @@ export default class Game {
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
-    this.buttonWork();
+    this.addButtonEvent();
     await this.tilesFromFile();
   }
 
@@ -90,7 +90,7 @@ export default class Game {
   }
 
 
-  buttonWork() {
+  addButtonEvent() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
@@ -163,6 +163,9 @@ export default class Game {
       */
     // render currentPlayer
     $players.append(this.currentPlayer.render());
+    if (this.tiles.length < 7) { 
+      $('.changeTilesButton').hide();
+    }
     this.addDragEvents();
   }
 
