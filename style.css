@@ -49,9 +49,8 @@ body button:hover{
 }
 
 .skipButton button{
-
-   color: white;
-   background-color: black;
+  color: white;
+  background-color: black;
   cursor: pointer;
   border: 1px solid black;
   padding: 0.5rem 1rem;
@@ -113,7 +112,7 @@ body button:hover{
   border-radius: 2px;
 }
 
-.board .holdingTile:hover {
+.hover {
   background-color: brown;
 }
 
