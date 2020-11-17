@@ -136,6 +136,12 @@ export default class Game {
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
+    $('.board').html(
+      this.board.flat().map(x => `
+        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        </div>
+      `).join('')
+    );
     //render all the players
     this.players.forEach(player =>
       $players.append(player.render()));
