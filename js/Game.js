@@ -12,7 +12,7 @@ export default class Game {
   }
 
   startGame() {
-    this.createBoard();
+    this.addItemsToGamePage();
     this.currentPlayer = this.players[0];
     this.render();
   }
@@ -65,6 +65,10 @@ export default class Game {
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
+  }
+
+  addItemsToGamePage() { 
+    this.createBoard();
   }
 
 
@@ -186,13 +190,11 @@ export default class Game {
           let squareBottom = $(square).offset().top + $(square).height();
 
           if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
-            $(square).css('background-color', 'orange');
+            $(square).css('background-color', 'rgb(33, 57, 81)');
           } else {
             $(square).css('background-color', '');
           }
         }
-
-
         /* //This works very fine until you drag a tile at the same time...
                 $('.board').children().each(function () {
                   $(this).hover(function () {
