@@ -95,7 +95,7 @@ body button:hover{
 
 
 .board {
-  /* border: 15px solid rgb(241, 255, 42); */
+  border: 10px solid #b77b57; 
   margin-top: 7vh;
   margin-left: 20px;
   border-radius: 5px;
