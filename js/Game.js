@@ -2,6 +2,7 @@ import Player from "./Player.js";
 export default class Game {
 
   players = [];
+  currentPlayer = '';
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -11,12 +12,8 @@ export default class Game {
   }
 
   startGame() {
-    console.table('hellooo', this.players);
     this.createBoard();
-<<<<<<< HEAD
     this.currentPlayer = this.players[0];
-=======
->>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
     this.render();
   }
 
@@ -90,18 +87,15 @@ export default class Game {
 
 
   buttonWork() {
+    let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-<<<<<<< HEAD
       changePlayer();
       that.render();
-=======
-
->>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
     })
 
     //Click on "Break button" too exit the game (in process)
@@ -112,6 +106,12 @@ export default class Game {
     checkWordButton.click(function () {
 
     })
+    function changePlayer() {
+      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
+        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
+      }
+      else that.currentPlayer = that.players[0];
+    }
   }
 
   createBoard() {
