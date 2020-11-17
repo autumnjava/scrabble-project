@@ -34,7 +34,7 @@ export default class Game {
   }
 
 
-  async createBoard() {
+  createBoard() {
     // Two dimensional array with object and correct property values
     this.board = [...new Array(15)]
       .map(x => [...new Array(15)].map(x => ({})));
@@ -60,8 +60,7 @@ export default class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `
-        <div class="${x.special ? 'special-' + x.special : ''}">
-         ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
         </div>
       `).join('')
     );
