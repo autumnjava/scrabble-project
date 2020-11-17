@@ -7,6 +7,7 @@ export default class Player {
     this.myGame = myGame;
     this.currentTiles = [...this.myGame.getTiles(), ' '];
     this.points = 0;
+    this.correctWordCounter = 0;
   }
 
 

@@ -135,6 +135,7 @@ export default class Game {
     [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
     [9, 9], [9, 13], [13, 5], [13, 9]]
       .forEach(([y, x]) => this.board[y][x].specialValue = 'tl');
+    [[7, 7]].forEach(([y, x]) => this.board[y][x].specialValue = 'start');
   }
 
 
@@ -219,9 +220,10 @@ export default class Game {
 
         //THIS PART NEEDS TO BE FIXED: 
 
-        //let player = that.players[+$(this).attr('data-player')];
-        //let tileIndex = +$(this).attr('data-tile');
-        //let tile = player.tiles[tileIndex];
+        let player = that.players[+$(this).attr('data-player')];
+        let tileIndex = +$(this).attr('data-tile');
+        console.log(player, tileIndex, player.tiles);
+        let tile = player.currentTiles[tileIndex];
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
@@ -238,7 +240,7 @@ export default class Game {
         if (pageX > left && pageX < right
           && pageY > top && pageY < bottom) {
           let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-          let pt = player.tiles;
+          let pt = player.currentTiles;
           // move around
           pt.splice(tileIndex, 1, ' ');
           pt.splice(newIndex, 0, tile);
