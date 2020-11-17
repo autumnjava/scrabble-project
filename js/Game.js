@@ -1,6 +1,7 @@
 import Player from "./Player.js";
 export default class Game {
 
+  currentPlayer = '';
   players = [];
 
   async start() {
@@ -11,9 +12,9 @@ export default class Game {
   }
 
   startGame() {
-    console.table('hellooo', this.players);
     this.createBoard();
     this.render();
+    this.currentPlayer = this.players[0];
   }
 
   createFormAndShowInStartPage() {
@@ -87,23 +88,29 @@ export default class Game {
 
 
   buttonWork() {
+    let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-
+      changePlayer();
     })
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
-
     })
 
     checkWordButton.click(function () {
-
     })
+
+    function changePlayer() {
+      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
+        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
+      }
+      else that.currentPlayer = that.players[0];
+    }
   }
 
   createBoard() {
@@ -130,6 +137,7 @@ export default class Game {
     // Return a number of tiles (and remove from this.tiles)
     return this.tiles.splice(0, howMany);
   }
+
 
   render() {
     // render board and player divs
