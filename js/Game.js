@@ -1,7 +1,6 @@
 import Player from "./Player.js";
 export default class Game {
 
-  currentPlayer = '';
   players = [];
 
   async start() {
@@ -12,9 +11,9 @@ export default class Game {
   }
 
   startGame() {
+    console.table('hellooo', this.players);
     this.createBoard();
     this.render();
-    this.currentPlayer = this.players[0];
   }
 
   createFormAndShowInStartPage() {
@@ -38,7 +37,6 @@ export default class Game {
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }
-
 
   startGameButtonListener() {
     let that = this;
@@ -88,29 +86,23 @@ export default class Game {
 
 
   buttonWork() {
-    let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      changePlayer();
+
     })
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
+
     })
 
     checkWordButton.click(function () {
-    })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
+    })
   }
 
   createBoard() {
@@ -138,18 +130,12 @@ export default class Game {
     return this.tiles.splice(0, howMany);
   }
 
-
   render() {
     // render board and player divs
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
-    $('.board').html(
-      this.board.flat().map(x => `
-        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-        </div>
-      `).join(''))
     //render all the players
     this.players.forEach(player =>
       $players.append(player.render()));
@@ -210,9 +196,11 @@ export default class Game {
         // reset the z-index
         me.css({ zIndex: '' });
 
-        let player = that.players[+$(this).attr('data-player')];
-        let tileIndex = +$(this).attr('data-tile');
-        let tile = player.tiles[tileIndex];
+        //THIS PART NEEDS TO BE FIXED: 
+
+        //let player = that.players[+$(this).attr('data-player')];
+        //let tileIndex = +$(this).attr('data-tile');
+        //let tile = player.tiles[tileIndex];
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
