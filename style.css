@@ -49,5 +49,18 @@
 }
 
 .board > div::after{
+  display: inline-block;
+}
+
+.board > div.special-tw{
+background-color: rgb(248, 164, 164);
+}
+
+.board .special-tw::after{
+  content: 'TW';
+  color: #FFF;
+  font-style: bold;
   display: block;
+  text-align: center;
+  font-size: 3vh;
 }
