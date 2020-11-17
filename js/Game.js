@@ -1,7 +1,6 @@
 import Player from "./Player.js";
 export default class Game {
 
-  currentPlayer = '';
   players = [];
 
   async start() {
@@ -12,8 +11,12 @@ export default class Game {
   }
 
   startGame() {
+    console.table('hellooo', this.players);
     this.createBoard();
+<<<<<<< HEAD
     this.currentPlayer = this.players[0];
+=======
+>>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
     this.render();
   }
 
@@ -38,7 +41,6 @@ export default class Game {
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }
-  
 
   startGameButtonListener() {
     let that = this;
@@ -88,30 +90,28 @@ export default class Game {
 
 
   buttonWork() {
-    let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+<<<<<<< HEAD
       changePlayer();
       that.render();
+=======
+
+>>>>>>> 4ab6e0c0068d58030a88df358e170be04934f76b
     })
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
+
     })
 
     checkWordButton.click(function () {
-    })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
+    })
   }
 
   createBoard() {
@@ -126,7 +126,7 @@ export default class Game {
       .forEach(([y, x]) => this.board[y][x].specialValue = 'dw');
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
       .forEach(([y, x]) => this.board[y][x].specialValue = 'dl');
     [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
     [9, 9], [9, 13], [13, 5], [13, 9]]
@@ -138,7 +138,6 @@ export default class Game {
     // Return a number of tiles (and remove from this.tiles)
     return this.tiles.splice(0, howMany);
   }
-
 
   render() {
     // render board and player divs
@@ -210,9 +209,11 @@ export default class Game {
         // reset the z-index
         me.css({ zIndex: '' });
 
-        let player = that.players[+$(this).attr('data-player')];
-        let tileIndex = +$(this).attr('data-tile');
-        let tile = player.tiles[tileIndex];
+        //THIS PART NEEDS TO BE FIXED: 
+
+        //let player = that.players[+$(this).attr('data-player')];
+        //let tileIndex = +$(this).attr('data-tile');
+        //let tile = player.tiles[tileIndex];
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
