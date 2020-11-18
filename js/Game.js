@@ -101,6 +101,7 @@ export default class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+      that.currentPlayer.attemptCounter++;
       that.checkGameEnd();
       changePlayer();
       that.render();
@@ -113,9 +114,17 @@ export default class Game {
     })
 
     checkWordButton.click(function () {
+      // in process
+      if (scrabbleOk) {
+        that.currentPlayer.attemptCounter = 0;
+      }
 
+      if (that.currentPlayer.checkWordButton >= 3) {
+        that.currentPlayer.attemptCounter++;
+      }
       that.checkGameEnd();
-
+      changePlayer();
+      that.render();
     })
 
     function changePlayer() {
