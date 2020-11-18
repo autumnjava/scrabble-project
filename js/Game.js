@@ -220,6 +220,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
         </div>
       `).join('')
     );
@@ -233,9 +234,13 @@ export default class Game {
     if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
     }
+    // render the tiles
+    $('.tiles').html(
+      this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    );
+
     this.addDragEvents();
   }
-
 
   addDragEvents() {
     let that = this;
@@ -261,25 +266,11 @@ export default class Game {
           let squareBottom = $(square).offset().top + $(square).height();
 
           if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
-            $(square).css('background-color', 'rgb(33, 57, 81)');
+            $(square).addClass('hover');
           } else {
-            $(square).css('background-color', '');
+            $(square).removeClass('hover');
           }
         }
-        /* //This works very fine until you drag a tile at the same time...
-                $('.board').children().each(function () {
-                  $(this).hover(function () {
-                    $(this).css('background-color', 'orange');
-                  }, function () {
-                    $(this).css('background-color', '');
-                  });
-                }); */
-
-        // we will need code that reacts
-        // if you have moved a tile to a square on the board
-        // (light it up so the player knows where the tile will drop)
-        // but that code is not written yet ;)
-
       })
       .on('dragEnd', function (e, pointer) {
         let { pageX, pageY } = pointer;
@@ -288,17 +279,31 @@ export default class Game {
         // reset the z-index
         me.css({ zIndex: '' });
 
-        //THIS PART NEEDS TO BE FIXED: 
-
         let player = that.players[+$(this).attr('data-player')];
         let tileIndex = +$(this).attr('data-tile');
-        console.log(player, tileIndex, player.tiles);
         let tile = player.currentTiles[tileIndex];
+
+        console.log(tileIndex, 'tileIndex');
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
         // (add the square to the board, remove it from the stand)
         // but that code is not written yet ;)
+        let $dropZone = $('.hover');
+        if (!$dropZone.length) { that.render(); return; }
+
+        let squareIndex = $('.board > div').index($dropZone);
+
+        // convert to y and x coords in this.board MUST WORK ON IT MORE
+        let y = Math.floor(squareIndex / 15);
+        let x = squareIndex % 15;
+
+        console.log(y, x);
+
+        // put the tile on the board and re-render
+        //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
+        that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+        //that.render();
 
         // but we do have the code that let you
         // drag the tiles in a different order in the stands
