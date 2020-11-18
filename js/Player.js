@@ -8,6 +8,7 @@ export default class Player {
     this.currentTiles = [...this.myGame.getTiles(), ' '];
     this.points = 0;
     this.correctWordCounter = 0;
+    this.attemptCounter = 0;
   }
 
 
