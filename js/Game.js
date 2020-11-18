@@ -163,10 +163,8 @@ export default class Game {
     }
 
     if (this.endGame) {
-
+      this.currentTilePoints();
       //If endGame is true sort players' points and rank them (in process)
-
-
     }
     //return this.endGame; --> return boolean value if necessary 
   }
@@ -322,5 +320,24 @@ export default class Game {
         that.render();
       });
   }
+
+  currentTilePoints() {
+    for (let player of this.players) {
+      for (let tile of player.currentTiles) {
+        for (let key in tile) {
+          let val = tile[key];
+          if (key === 'points') {
+            player.tilePoints = (player.tilePoints + val);
+          }
+        }
+      }
+      // This will remove all tiles left in players array of tiles when game ends
+      player.currentTiles.splice(0, player.currentTiles.length);
+      // The sum of players tiles left will be decreased from players points
+      player.points = (player.points - player.tilePoints);
+    }
+  }
+
+
 }
 
