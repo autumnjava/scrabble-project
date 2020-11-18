@@ -261,6 +261,8 @@ background-color: #b77b57;
  position: absolute;
  right: 28rem;
  top: 0.2rem;
-
 }
 
+.board > div.hover {
+  background-color: orange;
+}
