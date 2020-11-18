@@ -115,9 +115,9 @@ export default class Game {
 
     checkWordButton.click(function () {
       // in process
-      if (scrabbleOk) {
-        that.currentPlayer.attemptCounter = 0;
-      }
+      //if (scrabbleOk) {
+      //  that.currentPlayer.attemptCounter = 0;
+      //}
 
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
@@ -136,11 +136,34 @@ export default class Game {
 
   }
 
+  checkAllPlayersAttemptCounters() {
+
+    let counterPlayers = 0;
+
+    for (let player of this.players) {
+      if (player.attemptCounter >= 3) {
+        counterPlayers++;
+      }
+      if (counterPlayers === this.players.length) {
+        this.endGame = true;
+      }
+    }
+  }
+
   checkGameEnd() {
 
     this.endGame = '';
+    let countedPlayers = 0;
 
     for (let player of this.players) {
+      if (player.attemptCounter >= 3) {
+        countedPlayers++;
+      }
+      // If all players attemptCounters are >= 3 the game will end
+      if (countedPlayers === this.players.length) {
+        this.endGame = true;
+        break;
+      }
       if (player.currentTiles.length == 0 && this.tiles.length == 0) {
 
         this.endGame = true;
