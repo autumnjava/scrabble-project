@@ -67,7 +67,7 @@ export default class Game {
     form.addEventListener('submit', submitForm);
   }
 
-  addItemsToGamePage() { 
+  addItemsToGamePage() {
     this.createBoard();
   }
 
@@ -90,6 +90,9 @@ export default class Game {
   }
 
 
+
+
+
   addButtonEvent() {
     let that = this;
     let skipButton = $('#skipButton');
@@ -98,6 +101,7 @@ export default class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+      that.checkGameEnd();
       changePlayer();
       that.render();
     })
@@ -105,18 +109,50 @@ export default class Game {
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
 
+
     })
 
     checkWordButton.click(function () {
 
+      that.checkGameEnd();
+
     })
+
     function changePlayer() {
       if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
         that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
       }
       else that.currentPlayer = that.players[0];
     }
+
   }
+
+  checkGameEnd() {
+
+    this.endGame = '';
+
+    for (let player of this.players) {
+      if (player.currentTiles.length == 0 && this.tiles.length == 0) {
+
+        this.endGame = true;
+        break;
+
+      }
+      else {
+
+        this.endGame = false;
+      }
+    }
+
+    if (this.endGame) {
+
+      //If endGame is true sort players' points and rank them (in process)
+
+
+    }
+    //return this.endGame; --> return boolean value if necessary 
+  }
+
 
   createBoard() {
     // Two dimensional array with object and correct property values
@@ -163,7 +199,7 @@ export default class Game {
       */
     // render currentPlayer
     $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) { 
+    if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
     }
     this.addDragEvents();
