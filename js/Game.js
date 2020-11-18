@@ -136,20 +136,6 @@ export default class Game {
 
   }
 
-  checkAllPlayersAttemptCounters() {
-
-    let counterPlayers = 0;
-
-    for (let player of this.players) {
-      if (player.attemptCounter >= 3) {
-        counterPlayers++;
-      }
-      if (counterPlayers === this.players.length) {
-        this.endGame = true;
-      }
-    }
-  }
-
   checkGameEnd() {
 
     this.endGame = '';
