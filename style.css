@@ -244,5 +244,23 @@ background-color: #b77b57;
 }
 
 .pname {
-  margin-bottom: 20px;
+  
+  position: absolute;
+  right: 28.2rem;
+  top: 3.3rem;
+  font-size: large;
+  
+
 }
+
+.fas{
+  color: rgb(33, 57, 81);
+
+}
+.icon{
+ position: absolute;
+ right: 28rem;
+ top: 0.2rem;
+
+}
+
