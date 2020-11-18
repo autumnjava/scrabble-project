@@ -296,7 +296,7 @@ export default class Game {
 
         // convert to y and x coords in this.board MUST WORK ON IT MORE
         let y = Math.floor(squareIndex / 15);
-        let x = squareIndex >= 15 ? (squareIndex % 10) : (squareIndex % 100);
+        let x = squareIndex % 15;
 
         console.log(y, x);
 
