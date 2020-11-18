@@ -9,6 +9,7 @@ export default class Player {
     this.points = 0;
     this.correctWordCounter = 0;
     this.attemptCounter = 0;
+    this.tilePoints = 0;
   }
 
 
@@ -32,6 +33,5 @@ export default class Player {
       
       `;
   }
-
 
 }
