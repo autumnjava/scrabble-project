@@ -270,7 +270,7 @@ export default class Game {
       let squareRight = $(square).offset().left + $(square).width();
       let squareBottom = $(square).offset().top + $(square).height();
 
-      if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
+      if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop && !$(square).find('.tile').length) {
         $(square).addClass('hover');
       } else {
         $(square).removeClass('hover');
@@ -302,6 +302,8 @@ export default class Game {
 
     // put the tile on the board and re-render
     this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+
+
 
     // drag the tiles in a different order in the stands
     let $stand = $(me).parent('.stand');
