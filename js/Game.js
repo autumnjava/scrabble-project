@@ -241,7 +241,7 @@ export default class Game {
 
     this.addDragEvents();
     //this.moveTilesAroundBoard();
-    console.log(this.y, this.x, 'see if we can get them outside?');
+    console.log(this.y, this.x, 'see if we can get them outside dragEnd() NOTE its undefined at first?');
   }
 
 
@@ -251,7 +251,7 @@ export default class Game {
     // let tile in the stands be draggable
     $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
       .on('dragStart', () => that.dragStart())
-      .on('dragMove', (e, pointer) => that.dragMove(e, pointer))
+      .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
 
@@ -259,13 +259,9 @@ export default class Game {
     $(this).css({ zIndex: 100 });
   }
 
-  dragMove(e, pointer) {
-    //let me = $(e.currentTarget);
-    //$(me).css('background-color', 'blue');
-
-    //let { pageX, pageY } = pointer;
+  dragMove(pointer) {
     let pageX = pointer.pageX;
-    let pageY = pointer.pageY;
+    let pageY = pointer.pageY; //ABOVE is same as: let { pageX, pageY } = pointer;
 
     let $squares = $('.board > div');
     for (let square of $squares) {
@@ -284,7 +280,7 @@ export default class Game {
 
   dragEnd(e, pointer) {
     let { pageX, pageY } = pointer;
-    let me = $(e.currentTarget);
+    let me = $(e.currentTarget); //Tile that we are currently dragging.
 
     // reset the z-index
     me.css({ zIndex: '' });
@@ -293,30 +289,20 @@ export default class Game {
     let tileIndex = +$(me).attr('data-tile');
     let tile = player.currentTiles[tileIndex];
 
-    console.log(tileIndex, 'tileIndex');
-
-    // we will need code that reacts
     // if you have moved a tile to a square on the board
     // (add the square to the board, remove it from the stand)
-    // but that code is not written yet ;)
     let $dropZone = $('.hover');
     if (!$dropZone.length) { this.render(); return; }
 
     let squareIndex = $('.board > div').index($dropZone);
 
-    // convert to y and x coords in this.board MUST WORK ON IT MORE
+    // convert to y and x coords in this.board
     this.y = Math.floor(squareIndex / 15);
     this.x = squareIndex % 15;
 
-    console.log(this.y, this.x);
-
     // put the tile on the board and re-render
-    //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
-    console.log(player.currentTiles, 'player.currentTIles');
     this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
-    //that.render();
 
-    // but we do have the code that let you
     // drag the tiles in a different order in the stands
     let $stand = $(me).parent('.stand');
     let { top, left } = $stand.offset();
