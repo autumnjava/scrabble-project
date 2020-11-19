@@ -16,7 +16,13 @@ export default class Player {
   //Method to write information about player and tiles
   render() {
 
-    return `<div class="stand">
+    return `
+    <div class="player-icon">
+      <div class="icon"><i class="fas fa-user fa-3x"></i></div>
+       <div class="pname">${this.name}  </div>
+      </div>
+      
+      <div class="stand">
       ${this.currentTiles.map((x, i) => `<div 
           class="tile ${x.char ? '' : 'none'}"
           data-player="${this.myGame.players.indexOf(this)}"
@@ -25,12 +31,6 @@ export default class Player {
         ${x.char || ''}
         <span>${x.points || ''}</span>
       </div>`).join('')}
-      </div>
-    
-      
-       <div class="player-icon">
-      <div class="icon"><i class="fas fa-user fa-3x"></i></div>
-       <div class="pname">${this.name}  </div>
       </div>
      
       `;
