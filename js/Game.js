@@ -339,7 +339,7 @@ export default class Game {
         }
         that.render();
       });
-      .on('dragStart', () => that.dragStart())
+      on('dragStart', () => that.dragStart())
       .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
