@@ -12,7 +12,7 @@ export default class Game {
   }
 
   startGame() {
-    this.addItemsToGamePage();
+    this.createBoard();
     this.currentPlayer = this.players[0];
     this.render();
   }
@@ -59,18 +59,13 @@ export default class Game {
       $('.gamePage').removeClass("not-show");
       $('.board').show();
       $('header').animate({ "font-size": "15px", "padding": "5px" });
-      $('footer').animate({ "font-size": "10px", "padding": "3px" });
+      $('footer').animate({ "font-size": "50%", "padding": "0.1vh" });
       that.startGame();
     }
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
   }
-
-  addItemsToGamePage() {
-    this.createBoard();
-  }
-
 
   async tilesFromFile() {
     this.tiles = [];
@@ -88,10 +83,6 @@ export default class Game {
     // Shuffle in random order
     this.tiles.sort(() => Math.random() - 0.5);
   }
-
-
-
-
 
   addButtonEvent() {
     let that = this;
@@ -213,9 +204,10 @@ export default class Game {
 
   render() {
     // render board and player divs
-    $('.board, .players').remove();
-    let $players = $('<div class="players"/>').appendTo('.gamePage');
+    $('.board, .playersAndButtons, .players').remove();
     let $board = $('<div class="board"/>').appendTo('.gamePage');
+    let $playersAndButtons = $('<div class="playersAndButtons"/>').appendTo('.gamePage');
+    let $players = $('<div class="players"/>').appendTo('.playersAndButtons');
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `

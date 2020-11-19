@@ -48,6 +48,12 @@ body button:hover{
   color: rgb(31, 30, 30);
 }
 
+.gamePage {
+  display: flex;
+  position: relative;
+  margin-top: 6vh;
+}
+
 .gamePage button {
   color: white;
   background-color: black;
@@ -62,12 +68,6 @@ body button:hover{
   position: absolute;
   right: 18rem;
   bottom: 8rem;
-}
-
-.gamePage .buttons {
-  right: 10rem;
-  bottom: 8rem;
-  background-color: cornflowerblue;
 }
 
 .skipButton button{
@@ -93,13 +93,13 @@ body button:hover{
 }
 
 .changeTilesButton button {
-  right: 28rem;
+  right: 50%;
   bottom: 8rem;
 }
 
 .board {
   border: 10px solid #b77b57; 
-  margin-top: 7vh;
+  margin-top: 1vh;
   margin-left: 20px;
   border-radius: 5px;
   display: inline-block;
@@ -190,8 +190,16 @@ background-color: #b77b57;
   padding-top: 1.7vh;
 }
 
+.playersAndButtons {
+  display: inline-block;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+  width: 30%;
+}
+
 .players {
-  position: absolute;
+  position: relative;
   top: 10vh;
   right: 15vw;
 }
