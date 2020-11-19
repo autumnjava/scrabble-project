@@ -72,12 +72,10 @@ body button:hover{
 
 .skipButton button{
   right: 10rem;
-  bottom: 8rem;
 }
 .breakButton button{
   opacity: 0.5;
   right: 5rem;
-  bottom: 8rem;
 }
 
 #breakButton:hover{
@@ -89,12 +87,44 @@ body button:hover{
 
 .checkWordButton button{
   right: 18rem;
-  bottom: 8rem;
 }
 
-.changeTilesButton button {
-  right: 28rem;
-  bottom: 8rem;
+.changeTiles {
+  position: absolute;
+  bottom: 15em;
+  right: 10vw;
+  background-color: cornflowerblue;
+  height: 40vh;
+  width: 70vh;
+}
+
+.changeTiles .changeTilesSquare{
+  float: left;
+  position: relative;
+  height: 30vh;
+  width: 30vh;
+  margin: 4vh;
+  border: 0.3em dashed pink;
+  border-radius: 10px;
+}
+
+.changeTiles .changeTilesSquare p {
+  text-align: center;
+  position: absolute;
+  color: pink;
+  background-color: rebeccapurple;
+  font-size: 5vh;
+  height: 80;
+  top: calc(50% - 10vh);
+  left: calc(50% - 10vh);
+} 
+
+.changeTiles button {
+  float: left;
+  position: relative;
+  top: 1em;
+  left: 1em;
+
 }
 
 .board {
