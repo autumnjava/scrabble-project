@@ -2,17 +2,17 @@ import Player from "./Player.js";
 export default class Game {
 
   players = [];
-  currentPlayer = '';
+  //currentPlayer = '';
 
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
-    this.addButtonEvent();
+    this.addButtonEvents();
     await this.tilesFromFile();
   }
 
   startGame() {
-    this.addItemsToGamePage();
+    this.createBoard();
     this.currentPlayer = this.players[0];
     this.render();
   }
@@ -67,11 +67,6 @@ export default class Game {
     form.addEventListener('submit', submitForm);
   }
 
-  addItemsToGamePage() {
-    this.createBoard();
-  }
-
-
   async tilesFromFile() {
     this.tiles = [];
     // Read the tile info from file
@@ -93,7 +88,7 @@ export default class Game {
 
 
 
-  addButtonEvent() {
+  addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
@@ -151,13 +146,10 @@ export default class Game {
         break;
       }
       if (player.currentTiles.length == 0 && this.tiles.length == 0) {
-
         this.endGame = true;
         break;
-
       }
       else {
-
         this.endGame = false;
       }
     }
@@ -205,9 +197,7 @@ export default class Game {
     });
   }
 
-
   getTiles(howMany = 7) {
-    // Return a number of tiles (and remove from this.tiles)
     return this.tiles.splice(0, howMany);
   }
 
@@ -229,7 +219,7 @@ export default class Game {
     if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
     }
-    // render the tiles
+
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
