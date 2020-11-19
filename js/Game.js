@@ -340,7 +340,7 @@ export default class Game {
         }
         console.log(player.tilesPlaced);
         that.render();
-      });
+      })
       .on('dragStart', () => that.dragStart())
       .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
