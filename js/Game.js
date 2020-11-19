@@ -300,7 +300,7 @@ export default class Game {
     // (add the square to the board, remove it from the stand)
     // but that code is not written yet ;)
     let $dropZone = $('.hover');
-    if (!$dropZone.length) { that.render(); return; }
+    if (!$dropZone.length) { this.render(); return; }
 
     let squareIndex = $('.board > div').index($dropZone);
 
