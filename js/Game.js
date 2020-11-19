@@ -72,6 +72,18 @@ export default class Game {
   }
 
 
+
+
+  //Check if there is empty tile on board and give prompt window
+  checkIfEmptyTile() {
+    if (($('#boardSquare .empty').length > 0)) {
+      prompt("Välj en bokstav för tomma brickan", "");
+      console.log('Found an empty tile')
+    }
+  }
+
+
+
   async tilesFromFile() {
     this.tiles = [];
     // Read the tile info from file
@@ -85,6 +97,7 @@ export default class Game {
           this.tiles.push({ char: x[0], points: +x[1] })
         }
       });
+
     // Shuffle in random order
     this.tiles.sort(() => Math.random() - 0.5);
   }
@@ -118,6 +131,7 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
+      that.checkIfEmptyTile();
 
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
@@ -204,7 +218,7 @@ export default class Game {
         this.board[y][x].tileValue = 2
     });
   }
-
+  //${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
 
   getTiles(howMany = 7) {
     // Return a number of tiles (and remove from this.tiles)
@@ -219,8 +233,9 @@ export default class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `
-        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+        <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+       
+        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''}
         </div>
       `).join('')
     );
@@ -304,6 +319,7 @@ export default class Game {
         //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
         that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
         //that.render();
+
 
         // but we do have the code that let you
         // drag the tiles in a different order in the stands
