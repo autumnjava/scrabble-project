@@ -300,3 +300,7 @@ background-color: #b77b57;
 .board > div.hover {
   background-color: orange;
 }
+
+.changeTiles .changeTilesSquare.hover {
+  background-color: rgb(33, 57, 81);
+}
