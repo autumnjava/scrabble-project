@@ -67,10 +67,6 @@ export default class Game {
     form.addEventListener('submit', submitForm);
   }
 
-  addItemsToGamePage() {
-    this.createBoard();
-  }
-
 
   async tilesFromFile() {
     this.tiles = [];
