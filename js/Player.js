@@ -8,6 +8,8 @@ export default class Player {
     this.currentTiles = [...this.myGame.getTiles(), ' '];
     this.points = 0;
     this.correctWordCounter = 0;
+    this.attemptCounter = 0;
+    this.tilePoints = 0;
   }
 
 
@@ -24,9 +26,14 @@ export default class Player {
         <span>${x.points || ''}</span>
       </div>`).join('')}
       </div>
-      <div class="pname">${this.name}</div>
+    
+      
+       <div class="player-icon">
+      <div class="icon"><i class="fas fa-user fa-3x"></i></div>
+       <div class="pname">${this.name}  </div>
+      </div>
+     
       `;
   }
-
 
 }
