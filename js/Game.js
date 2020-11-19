@@ -67,6 +67,10 @@ export default class Game {
     form.addEventListener('submit', submitForm);
   }
 
+  addItemsToGamePage() {
+    this.createBoard();
+  }
+
 
   async tilesFromFile() {
     this.tiles = [];
@@ -236,6 +240,7 @@ export default class Game {
     );
 
     this.addDragEvents();
+    console.log(this.y, this.x, 'see if we can get them outside?');
   }
 
   addDragEvents() {
@@ -291,14 +296,14 @@ export default class Game {
         let squareIndex = $('.board > div').index($dropZone);
 
         // convert to y and x coords in this.board MUST WORK ON IT MORE
-        let y = Math.floor(squareIndex / 15);
-        let x = squareIndex % 15;
+        that.y = Math.floor(squareIndex / 15);
+        that.x = squareIndex % 15;
 
-        console.log(y, x);
+        console.log(that.y, that.x);
 
         // put the tile on the board and re-render
         //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
-        that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+        that.board[that.y][that.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
         //that.render();
 
         // but we do have the code that let you
