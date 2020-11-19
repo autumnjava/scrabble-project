@@ -10,6 +10,7 @@ export default class Player {
     this.correctWordCounter = 0;
     this.attemptCounter = 0;
     this.tilePoints = 0;
+    this.tilesPlaced = [];
   }
 
 

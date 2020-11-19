@@ -4,6 +4,7 @@ export default class Game {
   players = [];
   //currentPlayer = '';
 
+
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
@@ -83,7 +84,6 @@ export default class Game {
     // Shuffle in random order
     this.tiles.sort(() => Math.random() - 0.5);
   }
-
 
 
 
@@ -274,6 +274,7 @@ export default class Game {
         let tile = player.currentTiles[tileIndex];
 
         console.log(tileIndex, 'tileIndex');
+        console.log(tile);
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
@@ -289,9 +290,23 @@ export default class Game {
         let x = squareIndex % 15;
 
         console.log(y, x);
+        let tilesPosY = y;
+        let tilesPosX = x;
+        tile.position = { tilesPosY, tilesPosX }
+
+
+        console.log('test', tile.position);
+        if (!player.tilesPlaced.length) {
+          player.tilesPlaced.push(tile);
+        }
+        else {
+          player.tilesPlaced.push(tile);
+        }
+
+
 
         // put the tile on the board and re-render
-        //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
+        //console.log(that.board[y][x].tile, 'THIS IS THE TILE'
         that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
         //that.render();
 
@@ -309,9 +324,12 @@ export default class Game {
           // move around
           pt.splice(tileIndex, 1, ' ');
           pt.splice(newIndex, 0, tile);
+
+
           //preserve the space where the tile used to be
           while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
         }
+        console.log(player.tilesPlaced);
         that.render();
       });
   }
