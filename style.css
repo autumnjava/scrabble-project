@@ -273,6 +273,22 @@ background-color: #b77b57;
   background-color: transparent;
 }
 
-.pname {
-  margin-bottom: 20px;
+.fas{
+  color: rgb(33, 57, 81);
+
+}
+
+.player-icon{
+
+  margin:auto;
+  text-align:center;
+  vertical-align:middle;
+  position: absolute;
+  right: 27rem;
+  bottom: -0.3rem;
+}
+
+
+.board > div.hover {
+  background-color: orange;
 }

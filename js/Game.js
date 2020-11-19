@@ -86,6 +86,9 @@ export default class Game {
   }
 
 
+
+
+
   addButtonEvent() {
     let that = this;
     let skipButton = $('#skipButton');
@@ -94,6 +97,8 @@ export default class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+      that.currentPlayer.attemptCounter++;
+      that.checkGameEnd();
       changePlayer();
       that.render();
     })
@@ -101,37 +106,99 @@ export default class Game {
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
 
+
     })
 
     checkWordButton.click(function () {
+      // in process
+      //if (scrabbleOk) {
+      //  that.currentPlayer.attemptCounter = 0;
+      //}
 
+      if (that.currentPlayer.checkWordButton >= 3) {
+        that.currentPlayer.attemptCounter++;
+      }
+      that.checkGameEnd();
+      changePlayer();
+      that.render();
     })
+
     function changePlayer() {
       if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
         that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
       }
       else that.currentPlayer = that.players[0];
     }
+
   }
+
+  checkGameEnd() {
+
+    this.endGame = '';
+    let countedPlayers = 0;
+
+    for (let player of this.players) {
+      if (player.attemptCounter >= 3) {
+        countedPlayers++;
+      }
+      // If all players attemptCounters are >= 3 the game will end
+      if (countedPlayers === this.players.length) {
+        this.endGame = true;
+        break;
+      }
+      if (player.currentTiles.length == 0 && this.tiles.length == 0) {
+
+        this.endGame = true;
+        break;
+
+      }
+      else {
+
+        this.endGame = false;
+      }
+    }
+
+    if (this.endGame) {
+      this.currentTilePoints();
+      //If endGame is true sort players' points and rank them (in process)
+    }
+    //return this.endGame; --> return boolean value if necessary 
+  }
+
 
   createBoard() {
     // Two dimensional array with object and correct property values
     this.board = [...new Array(15)]
       .map(x => [...new Array(15)].map(x => ({})));
     [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'tw');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tw',
+          this.board[y][x].tileValue = 3
+      });
     [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10],
-    [7, 7], [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
+    [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
     [13, 13]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'dw');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dw',
+          this.board[y][x].tileValue = 2
+      });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'dl');
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dl',
+          this.board[y][x].tileValue = 2
+      });
     [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
     [9, 9], [9, 13], [13, 5], [13, 9]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'tl');
-    [[7, 7]].forEach(([y, x]) => this.board[y][x].specialValue = 'start');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tl',
+          this.board[y][x].tileValue = 3
+      });
+    [[7, 7]].forEach(([y, x]) => {
+      this.board[y][x].specialValue = 'start',
+        this.board[y][x].tileValue = 2
+    });
   }
 
 
@@ -149,6 +216,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
         </div>
       `).join('')
     );
@@ -159,12 +227,16 @@ export default class Game {
       */
     // render currentPlayer
     $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) { 
+    if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
     }
+    // render the tiles
+    $('.tiles').html(
+      this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    );
+
     this.addDragEvents();
   }
-
 
   addDragEvents() {
     let that = this;
@@ -190,25 +262,11 @@ export default class Game {
           let squareBottom = $(square).offset().top + $(square).height();
 
           if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
-            $(square).css('background-color', 'rgb(33, 57, 81)');
+            $(square).addClass('hover');
           } else {
-            $(square).css('background-color', '');
+            $(square).removeClass('hover');
           }
         }
-        /* //This works very fine until you drag a tile at the same time...
-                $('.board').children().each(function () {
-                  $(this).hover(function () {
-                    $(this).css('background-color', 'orange');
-                  }, function () {
-                    $(this).css('background-color', '');
-                  });
-                }); */
-
-        // we will need code that reacts
-        // if you have moved a tile to a square on the board
-        // (light it up so the player knows where the tile will drop)
-        // but that code is not written yet ;)
-
       })
       .on('dragEnd', function (e, pointer) {
         let { pageX, pageY } = pointer;
@@ -217,17 +275,31 @@ export default class Game {
         // reset the z-index
         me.css({ zIndex: '' });
 
-        //THIS PART NEEDS TO BE FIXED: 
-
         let player = that.players[+$(this).attr('data-player')];
         let tileIndex = +$(this).attr('data-tile');
-        console.log(player, tileIndex, player.tiles);
         let tile = player.currentTiles[tileIndex];
+
+        console.log(tileIndex, 'tileIndex');
 
         // we will need code that reacts
         // if you have moved a tile to a square on the board
         // (add the square to the board, remove it from the stand)
         // but that code is not written yet ;)
+        let $dropZone = $('.hover');
+        if (!$dropZone.length) { that.render(); return; }
+
+        let squareIndex = $('.board > div').index($dropZone);
+
+        // convert to y and x coords in this.board MUST WORK ON IT MORE
+        let y = Math.floor(squareIndex / 15);
+        let x = squareIndex % 15;
+
+        console.log(y, x);
+
+        // put the tile on the board and re-render
+        //console.log(that.board[y][x].tile, 'THIS IS THE TILE')
+        that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+        //that.render();
 
         // but we do have the code that let you
         // drag the tiles in a different order in the stands
@@ -249,5 +321,24 @@ export default class Game {
         that.render();
       });
   }
+
+  currentTilePoints() {
+    for (let player of this.players) {
+      for (let tile of player.currentTiles) {
+        for (let key in tile) {
+          let val = tile[key];
+          if (key === 'points') {
+            player.tilePoints = (player.tilePoints + val);
+          }
+        }
+      }
+      // This will remove all tiles left in players array of tiles when game ends
+      player.currentTiles.splice(0, player.currentTiles.length);
+      // The sum of players tiles left will be decreased from players points
+      player.points = (player.points - player.tilePoints);
+    }
+  }
+
+
 }
 
