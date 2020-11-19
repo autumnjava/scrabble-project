@@ -118,6 +118,7 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
+      that.checkIfEmptyTile(); //It's here temporarily
 
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
@@ -135,6 +136,14 @@ export default class Game {
     }
 
   }
+
+  checkIfEmptyTile() {
+    if (($('#boardSquare .empty').length > 0)) {
+      prompt("Välj en bokstav för tomma brickan", "");
+      console.log('Found an empty tile')
+    }
+  }
+
 
   checkGameEnd() {
 
@@ -219,8 +228,8 @@ export default class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `
-        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+        <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''}
         </div>
       `).join('')
     );
