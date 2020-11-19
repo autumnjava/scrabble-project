@@ -4,20 +4,8 @@
   display:none;
 }
 
-.startPage {
-  margin: 90px auto;
-}
-
-.gamePage {
-  margin-top: 37px;
-  margin-bottom: 19.5px;
-  font-family: Arial;
-}
-
 .startPage form{
-  display: relative;
-  margin: 0 auto;
-  margin-top: 20vh;
+  margin: 20vh 20vh 0 20vh;
   text-align: center;
 }
 
@@ -49,7 +37,7 @@
   margin: 10vh 10vh 0 10vh;
   padding: 1.2em 3em;
   font-size: 4vh;
-  text-transform: uppercase;
+  text-transform:uppercase;
   font-weight: bold;
   transition: all 300ms ease-in-out;
   /*position: absolute;*/
@@ -78,14 +66,18 @@ body button:hover{
 
 .gamePage .buttons {
   right: 10rem;
+  bottom: 8rem;
+  background-color: cornflowerblue;
 }
 
 .skipButton button{
   right: 10rem;
+  bottom: 8rem;
 }
 .breakButton button{
   opacity: 0.5;
   right: 5rem;
+  bottom: 8rem;
 }
 
 #breakButton:hover{
@@ -97,48 +89,17 @@ body button:hover{
 
 .checkWordButton button{
   right: 18rem;
+  bottom: 8rem;
 }
 
-.changeTiles {
-  position: absolute;
-  top: 24vh;
-  right: 10vw;
-  height: 40vh;
-  width: 70vh;
-}
-
-.changeTiles .changeTilesSquare{
-  float: left;
-  position: relative;
-  height: 30vh;
-  width: 30vh;
-  margin: 4vh;
-  border: 0.3em dashed #e5d4c2;
-  border-radius: 10px;
-  background-color: #cf816a;
-}
-
-.changeTiles .changeTilesSquare p {
-  position: relative;
-  text-align: center;
-  color: #e5d4c2;
-  font-size: 5vh;
-  margin: 0 auto;
-  width: 80%;
-  height: 60%;
-  top: 20%;
-} 
-
-.changeTiles button {
-  float: left;
-  position: relative;
-  top: 1em;
-  left: 1em;
+.changeTilesButton button {
+  right: 28rem;
+  bottom: 8rem;
 }
 
 .board {
   border: 10px solid #b77b57; 
-  margin-top: 1vh;
+  margin-top: 7vh;
   margin-left: 20px;
   border-radius: 5px;
   display: inline-block;
@@ -232,23 +193,13 @@ background-color: #b77b57;
 .players {
   position: absolute;
   top: 10vh;
-  right: 10vw;
-}
-
-.player-icon{
-  float: left;
-  text-align:center;
-  vertical-align:middle;
-  position: relative;
+  right: 15vw;
 }
 
 .stand {
-  float: left;
   background-color:rgb(33, 57, 81);
   padding: 10px;
   width: 53vh;
-  border-radius: 5px;
-  position: relative;
 }
 
 .stand::after {
@@ -296,6 +247,17 @@ background-color: #b77b57;
   color: rgb(33, 57, 81);
 
 }
+
+.player-icon{
+
+  margin:auto;
+  text-align:center;
+  vertical-align:middle;
+  position: absolute;
+  right: 27rem;
+  bottom: -0.3rem;
+}
+
 
 .board > div.hover {
   background-color: orange;
