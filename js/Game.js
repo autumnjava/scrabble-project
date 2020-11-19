@@ -84,11 +84,30 @@ export default class Game {
     this.tiles.sort(() => Math.random() - 0.5);
   }
 
+
+  //Check if empty tile is placed on board
   checkIfEmptyTile() {
+    let that = this;
+    var maxLength = 1;
+    var myBool = false;
     if (($('#boardSquare .empty').length > 0)) {
-      prompt("Välj en bokstav för tomma brickan", "");
-      console.log('Found an empty tile')
+
+      while (!myBool) {
+        this.emptyTileLetter = prompt("Välj en bokstav för tomma brickan", "");
+        if (maxLength == this.emptyTileLetter.length && this.emptyTileLetter.length != null) {
+          myBool = true;
+        }
+        else {
+          alert('Välj bara 1 bokstav')
+        }
+      }
+      console.log('Empty tile letter is: ', this.emptyTileLetter);
+
+
     }
+    let emptyTile = $('.empty')
+    console.log(emptyTile);
+
   }
 
 
@@ -121,7 +140,7 @@ export default class Game {
       //  that.currentPlayer.attemptCounter = 0;
       //}
 
-      that.checkIfEmptyTile(); //Detta står här för tillfälligt
+      that.checkIfEmptyTile();
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
@@ -218,7 +237,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''}
+        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}">${x.tile.char}</div>` : ''}
 
         </div>
       `).join('')
@@ -243,12 +262,14 @@ export default class Game {
 
   addDragEvents() {
     let that = this;
+
     // let tile in the stands be draggable
     $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
       .on('dragStart', function () {
         // set a high z-index so that the tile being drag
         // is on top of everything  
         $(this).css({ zIndex: 100 });
+
       })
       .on('dragMove', function (e, pointer) {
         //$(this).css('background-color', 'blue');
@@ -272,6 +293,7 @@ export default class Game {
         }
       })
       .on('dragEnd', function (e, pointer) {
+
         let { pageX, pageY } = pointer;
         let me = $(this);
 
