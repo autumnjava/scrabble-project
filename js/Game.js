@@ -242,12 +242,7 @@ export default class Game {
         </div>
       `).join('')
     );
-    //render all the players
-    /*
-    this.players.forEach(player =>
-      $players.append(player.render()));
-      */
-    // render currentPlayer
+
     $players.append(this.currentPlayer.render());
     if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
