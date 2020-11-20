@@ -86,27 +86,29 @@ export default class Game {
 
 
   //Check if empty tile is placed on board
+  //in process
   checkIfEmptyTile() {
-    let that = this;
-    var maxLength = 1;
-    var myBool = false;
-    if (($('.boardSquare .empty').length > 0)) {
+    this.letter = prompt('Please write one letter for empty tile')
 
-      while (!myBool) {
-        this.emptyTileLetter = prompt("Välj en bokstav för tomma brickan", "");
-        if (maxLength == this.emptyTileLetter.length && this.emptyTileLetter.length != null) {
-          myBool = true;
-        }
-        else {
-          alert('Välj bara 1 bokstav')
-        }
-      }
-      console.log('Empty tile letter is: ', this.emptyTileLetter);
-
+    if (this.letter.length != 1) {
+      alert('Please write only 1 letter')
+      this.checkIfEmptyTile();
 
     }
-    let emptyTile = $('.empty')
-    console.log(emptyTile);
+
+    this.lastClickedTile = this.draggingTile[0];
+    let activeTileIndex = this.lastClickedTile.dataset.tile;
+    console.log(this.draggingTile);
+    console.log(this.lastClickedTile);
+    console.log(this.currentPlayer.currentTiles[activeTileIndex]);
+    let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
+    console.log(activeTile);
+
+
+    activeTile.char = this.letter;
+    this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
+    console.log(this.currentPlayer.currentTiles);
+    this.render();
 
   }
 
@@ -269,6 +271,9 @@ export default class Game {
     let me = $(e.currentTarget);
     $(me).css({ zIndex: 100 });
     $('.changeTiles .changeTilesSquare').addClass('hover');
+    this.draggingTile = me;
+    this.checkIfEmptyTile();
+
   }
 
   dragMove(pointer) {
@@ -289,19 +294,21 @@ export default class Game {
       }
     }
     let $changeQuare = $('.changeTiles .changeTilesSquare');
-        let { top, left } = $changeQuare.offset();
-        let right = $changeQuare.width() + left;
-        let bottom = $changeQuare.height() + top;
-        if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
-          $changeQuare.addClass('hover');
-        } else {
-          $changeQuare.removeClass('hover');
-        }
+    let { top, left } = $changeQuare.offset();
+    let right = $changeQuare.width() + left;
+    let bottom = $changeQuare.height() + top;
+    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+      $changeQuare.addClass('hover');
+    } else {
+      $changeQuare.removeClass('hover');
+    }
   }
 
   dragEnd(e, pointer) {
+    this.checkIfEmptyTile();
     let { pageX, pageY } = pointer;
     let me = $(e.currentTarget);  //Tile that we are currently dragging.
+
 
     // reset the z-index
     me.css({ zIndex: '' });
@@ -315,7 +322,7 @@ export default class Game {
       $(me).addClass('onChangeTilesSquare');
 
     }
-    else{
+    else {
       $(me).removeClass('onChangeTilesSquare');
       let player = this.players[+$(me).attr('data-player')];
       let tileIndex = +$(me).attr('data-tile');
@@ -358,7 +365,7 @@ export default class Game {
       this.render();
     }
   }
-  
+
   /*  moveTilesAroundBoard() {
      //NOTE: can only be done on those tiles that are placed during CURRENT round.
      $('.board .tile').draggabilly({ containment: 'body' })
