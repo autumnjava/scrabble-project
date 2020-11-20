@@ -299,6 +299,8 @@ export default class Game {
         let x = squareIndex % 15;
 
         console.log(y, x);
+
+        // In progress - save & check word
         let tilesPosY = y;
         let tilesPosX = x;
         tile.position = { tilesPosY, tilesPosX }
@@ -340,7 +342,7 @@ export default class Game {
         }
         console.log(player.tilesPlaced);
         that.render();
-      });
+      })
       .on('dragStart', () => that.dragStart())
       .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
