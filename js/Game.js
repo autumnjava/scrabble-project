@@ -321,12 +321,12 @@ export default class Game {
         console.log(y, x);
 
         // In progress - save & check word
-        let tilesPosY = y;
-        let tilesPosX = x;
-        tile.position = { tilesPosY, tilesPosX }
+        // Add property values y and x to tile object
+        tile.positionY = y;
+        tile.positionX = x;
 
+        console.log('tile positions', tile);
 
-        console.log('test', tile.position);
         if (!player.tilesPlaced.length) {
           player.tilesPlaced.push(tile);
         }
@@ -334,6 +334,11 @@ export default class Game {
           player.tilesPlaced.push(tile);
         }
 
+        // Makes copies of the tilesPlaced-array only showing position Y and X
+        let allPositionY = player.tilesPlaced.map(tile => tile.positionY);
+        console.log('allPositionY: ', allPositionY);
+        let allPositionX = player.tilesPlaced.map(tile => tile.positionX);
+        console.log('allPositionX: ', allPositionX);
 
 
         // put the tile on the board and re-render
