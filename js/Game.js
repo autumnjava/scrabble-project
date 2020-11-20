@@ -85,11 +85,30 @@ export default class Game {
     this.tiles.sort(() => Math.random() - 0.5);
   }
 
+
+  //Check if empty tile is placed on board
   checkIfEmptyTile() {
+    let that = this;
+    var maxLength = 1;
+    var myBool = false;
     if (($('#boardSquare .empty').length > 0)) {
-      prompt("Välj en bokstav för tomma brickan", "");
-      console.log('Found an empty tile')
+
+      while (!myBool) {
+        this.emptyTileLetter = prompt("Välj en bokstav för tomma brickan", "");
+        if (maxLength == this.emptyTileLetter.length && this.emptyTileLetter.length != null) {
+          myBool = true;
+        }
+        else {
+          alert('Välj bara 1 bokstav')
+        }
+      }
+      console.log('Empty tile letter is: ', this.emptyTileLetter);
+
+
     }
+    let emptyTile = $('.empty')
+    console.log(emptyTile);
+
   }
 
 
@@ -121,7 +140,7 @@ export default class Game {
       //  that.currentPlayer.attemptCounter = 0;
       //}
 
-      that.checkIfEmptyTile(); //Detta står här för tillfälligt
+      that.checkIfEmptyTile();
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
@@ -243,6 +262,7 @@ export default class Game {
 
   addDragEvents() {
     let that = this;
+
     // let tile in the stands be draggable
     $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
       .on('dragStart', function () {
