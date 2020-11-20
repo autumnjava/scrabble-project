@@ -91,7 +91,7 @@ export default class Game {
     let that = this;
     var maxLength = 1;
     var myBool = false;
-    if (($('#boardSquare .empty').length > 0)) {
+    if (($('.boardSquare .empty').length > 0)) {
 
       while (!myBool) {
         this.emptyTileLetter = prompt("Välj en bokstav för tomma brickan", "");
@@ -236,7 +236,7 @@ export default class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `
-        <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''} 
 
         </div>
