@@ -265,13 +265,14 @@ export default class Game {
 
     // let tile in the stands be draggable
     $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-      .on('dragStart', () => that.dragStart())
+      .on('dragStart', (e) => that.dragStart(e))
       .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
 
-  dragStart() {
-    $(this).css({ zIndex: 100 });
+  dragStart(e) {
+    let me = $(e.currentTarget);
+    $(me).css({ zIndex: 100 });
   }
 
   dragMove(pointer) {
