@@ -306,6 +306,24 @@ export default class Game {
     let tile = player.currentTiles[tileIndex];
 
     console.log(tileIndex, 'tileIndex');
+    
+    // drag the tiles in a different order in the stands
+    let $stand = $(me).parent('.stand');
+    console.log('heloooo', $stand);
+    let { top, left } = $stand.offset();
+    let bottom = top + $stand.height();
+    let right = left + $stand.width();
+    // if dragged within the limit of the stand
+    if (pageX > left && pageX < right
+      && pageY > top && pageY < bottom) {
+      let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+      let pt = player.currentTiles;
+      // move around
+      pt.splice(tileIndex, 1, ' ');
+      pt.splice(newIndex, 0, tile);
+      //preserve the space where the tile used to be
+      while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+    }
 
     // if you have moved a tile to a square on the board
     // (add the square to the board, remove it from the stand)
@@ -322,22 +340,6 @@ export default class Game {
     console.log(player.currentTiles, 'player.currentTIles');
     this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
 
-    // drag the tiles in a different order in the stands
-    let $stand = $(me).parent('.stand');
-    let { top, left } = $stand.offset();
-    let bottom = top + $stand.height();
-    let right = left + $stand.width();
-    // if dragged within the limit of the stand
-    if (pageX > left && pageX < right
-      && pageY > top && pageY < bottom) {
-      let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-      let pt = player.currentTiles;
-      // move around
-      pt.splice(tileIndex, 1, ' ');
-      pt.splice(newIndex, 0, tile);
-      //preserve the space where the tile used to be
-      while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-    }
     this.render();
   }
 
