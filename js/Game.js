@@ -283,8 +283,8 @@ export default class Game {
     for (let square of $squares) {
       let squareTop = $(square).offset().top;
       let squareLeft = $(square).offset().left;
-      let squareRight = $(square).offset().left + $(square).width();
-      let squareBottom = $(square).offset().top + $(square).height();
+      let squareRight = squareLeft + $(square).width();
+      let squareBottom = squareTop + $(square).height();
 
       if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop && !$(square).find('.tile').length) {
         $(square).addClass('hover');
@@ -306,10 +306,8 @@ export default class Game {
     let tile = player.currentTiles[tileIndex];
 
     console.log(tileIndex, 'tileIndex');
-    
     // drag the tiles in a different order in the stands
     let $stand = $(me).parent('.stand');
-    console.log('heloooo', $stand);
     let { top, left } = $stand.offset();
     let bottom = top + $stand.height();
     let right = left + $stand.width();
@@ -342,6 +340,14 @@ export default class Game {
 
     this.render();
   }
+  
+  /*  moveTilesAroundBoard() {
+     //NOTE: can only be done on those tiles that are placed during CURRENT round.
+     $('.board .tile').draggabilly({ containment: 'body' })
+       .on('dragStart', () => this.dragStart()) //NOTE zIndex shall be more than 100!
+       .on('dragMove', () => this.dragMove())
+       .on('dragEnd', () => this.dragEnd());
+   } */
 
   /*  moveTilesAroundBoard() {
      //NOTE: can only be done on those tiles that are placed during CURRENT round.
