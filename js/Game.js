@@ -1,4 +1,5 @@
 import Player from "./Player.js";
+import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 export default class Game {
 
   players = [];
@@ -109,7 +110,6 @@ export default class Game {
     this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
     console.log(this.currentPlayer.currentTiles);
     this.render();
-
   }
 
 
@@ -267,13 +267,13 @@ export default class Game {
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
 
+  lastClickedTile;
   dragStart(e) {
     let me = $(e.currentTarget);
     $(me).css({ zIndex: 100 });
     $('.changeTiles .changeTilesSquare').addClass('hover');
     this.draggingTile = me;
     this.checkIfEmptyTile();
-
   }
 
   dragMove(pointer) {
@@ -307,11 +307,10 @@ export default class Game {
   dragEnd(e, pointer) {
     this.checkIfEmptyTile();
     let { pageX, pageY } = pointer;
-    let me = $(e.currentTarget);  //Tile that we are currently dragging.
 
 
     // reset the z-index
-    me.css({ zIndex: '' });
+    this.lastClickedTile.css({ zIndex: '' });
 
     let $changeQuare = $('.changeTiles .changeTilesSquare');
     $changeQuare.removeClass('hover');
@@ -319,18 +318,18 @@ export default class Game {
     let right = $changeQuare.width() + left;
     let bottom = $changeQuare.height() + top;
     if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
-      $(me).addClass('onChangeTilesSquare');
+      this.lastClickedTile.addClass('onChangeTilesSquare');
 
     }
     else {
-      $(me).removeClass('onChangeTilesSquare');
-      let player = this.players[+$(me).attr('data-player')];
-      let tileIndex = +$(me).attr('data-tile');
+      this.lastClickedTile.removeClass('onChangeTilesSquare');
+      let player = this.players[+this.lastClickedTile.attr('data-player')];
+      let tileIndex = +this.lastClickedTile.attr('data-tile');
       let tile = player.currentTiles[tileIndex];
 
       console.log(tileIndex, 'tileIndex');
       // drag the tiles in a different order in the stands
-      let $stand = $(me).parent('.stand');
+      let $stand = this.lastClickedTile.parent('.stand');
       console.log($stand);
       let { top, left } = $stand.offset();
       let bottom = top + $stand.height();
