@@ -311,8 +311,12 @@ export default class Game {
     let { top, left } = $changeQuare.offset();
     let right = $changeQuare.width() + left;
     let bottom = $changeQuare.height() + top;
-    if (!(pageX > left && pageX < right && pageY < bottom && pageY > top)) {
+    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+      $(me).addClass('onChangeTilesSquare');
 
+    }
+    else{
+      $(me).removeClass('onChangeTilesSquare');
       let player = this.players[+$(me).attr('data-player')];
       let tileIndex = +$(me).attr('data-tile');
       let tile = player.currentTiles[tileIndex];
@@ -320,6 +324,7 @@ export default class Game {
       console.log(tileIndex, 'tileIndex');
       // drag the tiles in a different order in the stands
       let $stand = $(me).parent('.stand');
+      console.log($stand);
       let { top, left } = $stand.offset();
       let bottom = top + $stand.height();
       let right = left + $stand.width();
