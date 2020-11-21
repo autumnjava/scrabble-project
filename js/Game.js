@@ -335,11 +335,26 @@ export default class Game {
         }
 
         // Makes copies of the tilesPlaced-array only showing position Y and X
-        let allPositionY = player.tilesPlaced.map(tile => tile.positionY);
-        console.log('allPositionY: ', allPositionY);
-        let allPositionX = player.tilesPlaced.map(tile => tile.positionX);
-        console.log('allPositionX: ', allPositionX);
+        let allPositionsY = player.tilesPlaced.map(tile => tile.positionY);
+        console.log('allPositionY: ', allPositionsY);
+        let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
+        console.log('allPositionX: ', allPositionsX);
 
+        // Check if word is horizontal or vertical
+        let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
+        console.log(allXAreSame);
+        let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
+
+        // Sort so the positions comes in the right order
+        if (!allXAreSame) {
+          that.sortPositionX = player.tilesPlaced.slice().sort((a, b) => a.positionX < b.positionX ? -1 : 1);
+        }
+        else if (!allYAreSame) {
+          that.sortPositionY = player.tilesPlaced.slice().sort((a, b) => a.positionY < b.positionY ? -1 : 1);
+        }
+
+        console.log(that.sortPositionX);
+        console.log(that.sortPositionY);
 
         // put the tile on the board and re-render
         //console.log(that.board[y][x].tile, 'THIS IS THE TILE'
@@ -365,7 +380,7 @@ export default class Game {
           //preserve the space where the tile used to be
           while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
         }
-        console.log(player.tilesPlaced);
+        // console.log(player.tilesPlaced);
         that.render();
       })
       .on('dragStart', () => that.dragStart())
