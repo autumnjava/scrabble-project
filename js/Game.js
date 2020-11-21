@@ -89,28 +89,44 @@ export default class Game {
   //Check if empty tile is placed on board
   //in process
   checkIfEmptyTile() {
-    this.letter = prompt('Please write one letter for empty tile')
 
-    if (this.letter.length != 1) {
-      alert('Please write only 1 letter')
-      this.checkIfEmptyTile();
+    let letter = prompt("Choose letter for the empty tile", "");
+    if (letter.length == 1 && letter != null) {
+
+      this.lastClickedTile = this.draggingTile[0];
+      let activeTileIndex = this.lastClickedTile.dataset.tile;
+      console.log(this.draggingTile);
+      console.log(this.lastClickedTile);
+      console.log(this.currentPlayer.currentTiles[activeTileIndex]);
+      let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
+      console.log('active tile is ', activeTile);
+
+      activeTile.char = letter;
+
+      this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
+      console.log(this.currentPlayer.currentTiles);
+      this.render();
 
     }
+    else {
+      alert('Please write only 1 letter')
+    }
 
-    this.lastClickedTile = this.draggingTile[0];
-    let activeTileIndex = this.lastClickedTile.dataset.tile;
-    console.log(this.draggingTile);
-    console.log(this.lastClickedTile);
-    console.log(this.currentPlayer.currentTiles[activeTileIndex]);
-    let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
-    console.log(activeTile);
+    /*After letter is chosen we need to delete class 'empty' for this tile in order to drag the tile freely but
+     I'm still thinking about how to do that
+
+     
+    $('.empty').each(function () {  ----> Doesn't really work yet
+      if ($(this).char != ' ') {
+        $(this).removeClass('empty')
+
+      }
+    });*/
 
 
-    activeTile.char = this.letter;
-    this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
-    console.log(this.currentPlayer.currentTiles);
-    this.render();
+
   }
+
 
 
 
@@ -142,7 +158,7 @@ export default class Game {
       //  that.currentPlayer.attemptCounter = 0;
       //}
 
-      that.checkIfEmptyTile();
+
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
@@ -239,7 +255,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''} 
+        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''} 
 
         </div>
       `).join('')
@@ -271,9 +287,16 @@ export default class Game {
   dragStart(e) {
     let me = $(e.currentTarget);
     $(me).css({ zIndex: 100 });
-    $('.changeTiles .changeTilesSquare').addClass('hover');
     this.draggingTile = me;
-    this.checkIfEmptyTile();
+    //If the dragging tile has class "empty", give alert to choose letter
+    if (this.draggingTile.hasClass('empty')) {
+      this.checkIfEmptyTile();
+
+    }
+
+    $('.changeTiles .changeTilesSquare').addClass('hover');
+
+
   }
 
   dragMove(pointer) {
@@ -305,7 +328,7 @@ export default class Game {
   }
 
   dragEnd(e, pointer) {
-    this.checkIfEmptyTile();
+
     let { pageX, pageY } = pointer;
 
 
