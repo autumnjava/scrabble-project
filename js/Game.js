@@ -333,7 +333,7 @@ export default class Game {
         let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
         console.log('allPositionX: ', allPositionsX);
 
-        // Check if word is horizontal or vertical
+        // Check if word is horizontal or vertical - returns true or false
         let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
         let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
 
@@ -345,6 +345,8 @@ export default class Game {
           player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
         }
 
+        // Loop through the sorted array, take the value of property char and 
+        // convert it into a string
         let wordToCheck = '';
         for (let tile of player.tilesPlaced) {
           for (let key in tile) {
