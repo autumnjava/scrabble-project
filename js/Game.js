@@ -338,7 +338,13 @@ export default class Game {
         let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
 
         // Sort so the positions comes i order
-        if (!allYAreSame) {
+        if (!allYAreSame && !allXAreSame) {
+          // Should not be a valid move
+          // Should place all tiles back to stand?
+          console.log('not a valid move');
+          return;
+        }
+        else if (!allYAreSame) {
           player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
         }
         else if (!allXAreSame) {
