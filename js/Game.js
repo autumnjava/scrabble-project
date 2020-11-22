@@ -325,14 +325,7 @@ export default class Game {
         tile.positionY = y;
         tile.positionX = x;
 
-        console.log('tile positions', tile);
-
-        if (!player.tilesPlaced.length) {
-          player.tilesPlaced.push(tile);
-        }
-        else {
-          player.tilesPlaced.push(tile);
-        }
+        player.tilesPlaced.push(tile);
 
         // Makes copies of the tilesPlaced-array only showing position Y and X
         let allPositionsY = player.tilesPlaced.map(tile => tile.positionY);
@@ -342,19 +335,27 @@ export default class Game {
 
         // Check if word is horizontal or vertical
         let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
-        console.log(allXAreSame);
         let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
 
-        // Sort so the positions comes in the right order
-        if (!allXAreSame) {
-          that.sortPositionX = player.tilesPlaced.slice().sort((a, b) => a.positionX < b.positionX ? -1 : 1);
+        // Sort so the positions comes i order
+        if (!allYAreSame) {
+          player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
         }
-        else if (!allYAreSame) {
-          that.sortPositionY = player.tilesPlaced.slice().sort((a, b) => a.positionY < b.positionY ? -1 : 1);
+        else if (!allXAreSame) {
+          player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
         }
 
-        console.log(that.sortPositionX);
-        console.log(that.sortPositionY);
+        let wordToCheck = '';
+        for (let tile of player.tilesPlaced) {
+          for (let key in tile) {
+            let val = tile[key];
+            if (key === 'char') {
+              wordToCheck += val;
+            }
+          }
+        }
+        console.log(wordToCheck);
+
 
         // put the tile on the board and re-render
         //console.log(that.board[y][x].tile, 'THIS IS THE TILE'
@@ -380,7 +381,6 @@ export default class Game {
           //preserve the space where the tile used to be
           while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
         }
-        // console.log(player.tilesPlaced);
         that.render();
       })
       .on('dragStart', () => that.dragStart())
