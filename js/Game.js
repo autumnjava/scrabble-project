@@ -93,37 +93,27 @@ export default class Game {
     let letter = prompt("Choose letter for the empty tile", "");
     if (letter.length == 1 && letter != null) {
 
-      this.lastClickedTile = this.draggingTile[0];
+      this.lastClickedTile = this.me[0];
       let activeTileIndex = this.lastClickedTile.dataset.tile;
-      console.log(this.draggingTile);
+      console.log(this.me);
       console.log(this.lastClickedTile);
       console.log(this.currentPlayer.currentTiles[activeTileIndex]);
       let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
       console.log('active tile is ', activeTile);
 
+
       activeTile.char = letter;
 
       this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
       console.log(this.currentPlayer.currentTiles);
+      console.log(this);
       this.render();
+
 
     }
     else {
       alert('Please write only 1 letter')
     }
-
-    /*After letter is chosen we need to delete class 'empty' for this tile in order to drag the tile freely but
-     I'm still thinking about how to do that
-
-     
-    $('.empty').each(function () {  ----> Doesn't really work yet
-      if ($(this).char != ' ') {
-        $(this).removeClass('empty')
-
-      }
-    });*/
-
-
 
   }
 
@@ -283,14 +273,22 @@ export default class Game {
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
 
-  lastClickedTile;
+  //lastClickedTile; --> ?
+
+
   dragStart(e) {
-    let me = $(e.currentTarget);
-    $(me).css({ zIndex: 100 });
-    this.draggingTile = me;
+    this.me = $(e.currentTarget);
+    $(this.me).css({ zIndex: 100 });
     //If the dragging tile has class "empty", give alert to choose letter
-    if (this.draggingTile.hasClass('empty')) {
+    if (this.me.hasClass('empty')) {
+
       this.checkIfEmptyTile();
+      let draggingTileIndex = $(this.me).attr('data-tile'); // Selecting index of changed tile
+
+      var divs = $('.stand div'); //Creating array of divs in stand class
+
+      $(divs[draggingTileIndex]).removeClass('empty') //Selecting changed tile div and removing class empty
+      console.log('changed tile is: ', divs[draggingTileIndex])
 
     }
 
