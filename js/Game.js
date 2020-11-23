@@ -1,4 +1,6 @@
 import Player from "./Player.js";
+import SAOLchecker from "./SAOLchecker.js";
+import SAOLcheckker from "./SAOLchecker.js";
 export default class Game {
 
   players = [];
@@ -139,6 +141,9 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
+
+      that.checkWordWithSAOL();
+
 
       that.checkIfEmptyTile();
       if (that.currentPlayer.checkWordButton >= 3) {
@@ -489,6 +494,40 @@ export default class Game {
       // The sum of players tiles left will be decreased from players points
       player.points = (player.points - player.tilePoints);
     }
+  }
+
+
+  checkWordWithSAOL() {
+    let that = this;
+
+    console.log(that.wordToCheck);
+
+    if (SAOLchecker.scrabbleOk(that.wordToCheck)) {
+      console.log(that.wordToCheck);
+      console.log('word was a word!');
+    }
+
+    else if (this.reverseWordToCheck(that.wordToCheck)) {
+      console.log('Word was a word but reversed')
+    }
+    else {
+      console.log('word was not a word');
+      this.currentPlayer.attemptCounter;
+    }
+  }
+
+  reverseWordToCheck(reversedWord) {
+    reversedWord = '';
+    function reverseString(str) {
+      var newString = "";
+      for (var i = str.length - 1; i >= 0; i--) {
+        newString += str[i];
+      }
+      return newString;
+    }
+    reverseString(reversedWord);
+    console.log(reversedWord);
+    SAOLchecker.scrabbleOk(reversedWord);
   }
 
 
