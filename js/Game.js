@@ -122,6 +122,17 @@ export default class Game {
 
   }
 
+  //Sorting player array by points
+  SortByPoints() {
+    this.sortedPlayers = this.players.slice().sort(
+      (a, b) => {
+        return a.points > b.points ? -1 : 1;
+      }
+    );
+
+    //console.log(this.sortedPlayers);
+
+  }
 
 
 
@@ -148,6 +159,7 @@ export default class Game {
     })
 
     checkWordButton.click(function () {
+
       // in process
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
@@ -196,6 +208,7 @@ export default class Game {
 
     if (this.endGame) {
       this.currentTilePoints();
+      this.SortByPoints(); //Sorting players' array by points
       //If endGame is true sort players' points and rank them (in process)
     }
     //return this.endGame; --> return boolean value if necessary 
