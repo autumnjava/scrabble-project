@@ -3,6 +3,7 @@ import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 export default class Game {
 
   players = [];
+  lastClickedTile;
   //currentPlayer = '';
 
   async start() {
@@ -97,11 +98,8 @@ export default class Game {
 
         letter = letter.toUpperCase();
         myBool = true;
-        this.lastClickedTile = this.me[0];
-        let activeTileIndex = this.lastClickedTile.dataset.tile;
-        console.log(this.me);
-        console.log(this.lastClickedTile);
-        console.log(this.currentPlayer.currentTiles[activeTileIndex]);
+        let clickedTile = this.lastClickedTile[0];
+        let activeTileIndex = clickedTile.dataset.tile;
         let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
         console.log('active tile is ', activeTile);
 
@@ -295,13 +293,14 @@ export default class Game {
 
 
   dragStart(e) {
-    this.me = $(e.currentTarget);
-    $(this.me).css({ zIndex: 100 });
+    let me = $(e.currentTarget);
+    this.lastClickedTile = me;
+    $(me).css({ zIndex: 100 });
     //If the dragging tile has class "empty", give alert to choose letter
-    if (this.me.hasClass('empty')) {
+    if (me.hasClass('empty')) {
 
       this.checkIfEmptyTile();
-      let draggingTileIndex = $(this.me).attr('data-tile'); // Selecting index of changed tile
+      let draggingTileIndex = $(me).attr('data-tile'); // Selecting index of changed tile
 
       var divs = $('.stand div'); //Creating array of divs in stand class
 
@@ -311,9 +310,8 @@ export default class Game {
     }
 
     $('.changeTiles .changeTilesSquare').addClass('hover');
-
-
   }
+
 
   dragMove(pointer) {
     let pageX = pointer.pageX;
