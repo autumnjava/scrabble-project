@@ -1,8 +1,12 @@
 import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import TileChanger from "./ButtonHandler/TileChanger.js"
 export default class Game {
 
   players = [];
+  lastClickedTile;
+  tileChanger = new TileChanger(this);
+  //currentPlayer = '';
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -111,12 +115,11 @@ export default class Game {
 
 
 
-
-
   addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
+    let changeTilesButton = $('.changeTilesButton');
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
@@ -126,6 +129,8 @@ export default class Game {
       changePlayer();
       that.render();
     })
+
+    changeTilesButton.click(that.tileChanger.clickOnEventHandler());
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
@@ -243,9 +248,7 @@ export default class Game {
     );
 
     $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) {
-      $('.changeTilesButton').hide();
-    }
+    this.tileChanger.hideButton(7);
 
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
