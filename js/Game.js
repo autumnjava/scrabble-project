@@ -271,7 +271,7 @@ export default class Game {
   dragStart(e) {
     let me = $(e.currentTarget);
     $(me).css({ zIndex: 100 });
-    $('.changeTiles .changeTilesSquare').addClass('hover');
+    this.tileChanger.squareChangeClass('hover');
     this.lastClickedTile = me;
   }
 
@@ -292,15 +292,7 @@ export default class Game {
         $(square).removeClass('hover');
       }
     }
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-        let { top, left } = $changeQuare.offset();
-        let right = $changeQuare.width() + left;
-        let bottom = $changeQuare.height() + top;
-        if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
-          $changeQuare.addClass('hover');
-        } else {
-          $changeQuare.removeClass('hover');
-        }
+    this.tileChanger.pointerInSquare(pageX, pageY);
   }
 
   dragEnd(e, pointer) {
@@ -308,13 +300,8 @@ export default class Game {
 
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
-
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-    $changeQuare.removeClass('hover');
-    let { top, left } = $changeQuare.offset();
-    let right = $changeQuare.width() + left;
-    let bottom = $changeQuare.height() + top;
-    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+    
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
 
     }
