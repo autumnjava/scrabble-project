@@ -3,7 +3,6 @@ import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 export default class Game {
 
   players = [];
-  //currentPlayer = '';
 
   async start() {
     this.createFormAndShowInStartPage();
