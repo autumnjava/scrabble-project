@@ -90,29 +90,34 @@ export default class Game {
   //in process
   checkIfEmptyTile() {
 
-    let letter = prompt("Choose letter for the empty tile", "");
-    if (letter.length == 1 && letter != null) {
+    let myBool = false;
+    while (!myBool) {
+      let letter = prompt("Choose letter for the empty tile", "");
+      if (letter.length == 1 && letter != null) {
 
-      this.lastClickedTile = this.me[0];
-      let activeTileIndex = this.lastClickedTile.dataset.tile;
-      console.log(this.me);
-      console.log(this.lastClickedTile);
-      console.log(this.currentPlayer.currentTiles[activeTileIndex]);
-      let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
-      console.log('active tile is ', activeTile);
-
-
-      activeTile.char = letter;
-
-      this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
-      console.log(this.currentPlayer.currentTiles);
-      console.log(this);
-      this.render();
+        letter = letter.toUpperCase();
+        myBool = true;
+        this.lastClickedTile = this.me[0];
+        let activeTileIndex = this.lastClickedTile.dataset.tile;
+        console.log(this.me);
+        console.log(this.lastClickedTile);
+        console.log(this.currentPlayer.currentTiles[activeTileIndex]);
+        let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
+        console.log('active tile is ', activeTile);
 
 
-    }
-    else {
-      alert('Please write only 1 letter')
+        activeTile.char = letter;
+
+        this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
+        console.log(this.currentPlayer.currentTiles);
+        console.log(this);
+        this.render();
+
+
+      }
+      else {
+        alert('Please write only 1 letter')
+      }
     }
 
   }
