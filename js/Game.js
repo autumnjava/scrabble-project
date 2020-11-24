@@ -1,6 +1,6 @@
 import Player from "./Player.js";
 import SAOLchecker from "./SAOLchecker.js";
-import SAOLcheckker from "./SAOLchecker.js";
+import wordChecker from "./ButtonHandler/wordChecker.js";
 export default class Game {
 
   players = [];
