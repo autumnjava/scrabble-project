@@ -3,6 +3,16 @@ export default class GameEnder{
   constructor(game) { 
     this.game = game;
     this.endGame = false;
+    this.reason = '';
+    this.page = $('.endPage');
+  }
+
+  endTheGame() { 
+    this.hideEverything();
+    this.removeCurrentTilesFromPlayer();
+    this.sortByPoints();
+    this.render();
+      //If endGame is true sort players' points and rank them (in process)
   }
 
   hideEverything() { 
@@ -19,10 +29,12 @@ export default class GameEnder{
       }
       if (countedPlayers === this.game.players.length) {
         this.endGame = true;
+        this.reason = 'All players attempt over 3';
         break;
       }
-      if (player.currentTiles.length == 0 && this.tiles.length == 0) {
+      if (player.currentTiles.length == 0 && this.game.tiles.length == 0) {
         this.endGame = true;
+        this.reason = 'Ran out of tiles';
         break;
       }
       else {
@@ -31,9 +43,7 @@ export default class GameEnder{
     }
 
     if (this.endGame) {
-      this.removeCurrentTilesFromPlayer();
-      this.sortByPoints();
-      //If endGame is true sort players' points and rank them (in process)
+      this.endTheGame();
     }
     //return this.endGame; --> return boolean value if necessary 
   }
@@ -61,6 +71,12 @@ export default class GameEnder{
       // The sum of players tiles left will be decreased from players points
       player.points = (player.points - player.tilePoints);
     }
+  }
+
+  render() { 
+    $('body').append(this.page);
+    this.page.append(`
+    <p class="large">Hello</p>`)
   }
 
   showWinners() { 

@@ -70,6 +70,7 @@ export default class Game {
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
   }
+  
 
   async tilesFromFile() {
     this.tiles = [];
@@ -122,11 +123,7 @@ export default class Game {
 
   }
 
-
-
-
-
-
+  
   addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
