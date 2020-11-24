@@ -136,6 +136,7 @@ export default class Game {
       //  that.currentPlayer.attemptCounter = 0;
       //}
       that.wordCheckerInstance.convertToString(that.currentPlayer);
+      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
 
 

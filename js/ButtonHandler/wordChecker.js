@@ -5,6 +5,7 @@ export default class WordChecker {
   constructor(game) {
     this.game = game;
     this.wordToCheck = '';
+    this.tilePointsOfWord = 0;
   }
 
   sortTiles(tile, x, y, player) {
@@ -44,6 +45,17 @@ export default class WordChecker {
     // convert it into a string
 
   }
+  calculatePoints(player) {
+    for (let tile of player.tilesPlaced) {
+      for (let key in tile) {
+        let val = tile[key];
+        if (key === 'points') {
+          this.tilePointsOfWord += val;
+        }
+      }
+    }
+    console.log('points of tiles', this.tilePointsOfWord);
+  }
 
   convertToString(player) {
     for (let tile of player.tilesPlaced) {
@@ -54,10 +66,8 @@ export default class WordChecker {
         }
       }
     }
-    console.log('in dragevent', this.wordToCheck);
-    this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+    console.log('To String', this.wordToCheck);
   }
-
   async checkWordWithSAOL() {
 
     console.log(this.wordToCheck);
@@ -68,27 +78,17 @@ export default class WordChecker {
     if (isWordCorrect) {
       console.log(this.wordToCheck);
       console.log('word was a word!');
+      this.game.currentPlayer.points += this.tilePointsOfWord;
+      console.log(this.game.currentPlayer.points);
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
     else {
       console.log('word was not a word');
       this.game.currentPlayer.attemptCounter++;
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
     this.wordToCheck = '';
   }
-  /*
-    reverseWordToCheck(reversedWord) {
-      reversedWord = '';
-      function reverseString(str) {
-        var newString = "";
-        for (var i = str.length - 1; i >= 0; i--) {
-          newString += str[i];
-        }
-        return newString;
-      }
-      reverseString(reversedWord);
-      console.log(reversedWord);
-      SAOLchecker.scrabbleOk(reversedWord);
-    }
-    */
+
 
 }
