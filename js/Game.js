@@ -5,7 +5,7 @@ export default class Game {
 
   players = [];
   //currentPlayer = '';
-
+  wordToCheck = '';
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -358,16 +358,16 @@ export default class Game {
 
         // Loop through the sorted array, take the value of property char and 
         // convert it into a string
-        let wordToCheck = '';
+
         for (let tile of player.tilesPlaced) {
           for (let key in tile) {
             let val = tile[key];
             if (key === 'char') {
-              wordToCheck += val;
+              that.wordToCheck += val;
             }
           }
         }
-        console.log(wordToCheck);
+        console.log('in dragevent', that.wordToCheck);
 
 
         // put the tile on the board and re-render
@@ -498,21 +498,21 @@ export default class Game {
 
 
   checkWordWithSAOL() {
-    let that = this;
 
-    console.log(that.wordToCheck);
 
-    if (SAOLchecker.scrabbleOk(that.wordToCheck)) {
-      console.log(that.wordToCheck);
+    console.log(this.wordToCheck);
+
+    if (SAOLchecker.scrabbleOk(this.wordToCheck)) {
+      console.log(this.wordToCheck);
       console.log('word was a word!');
     }
 
-    else if (this.reverseWordToCheck(that.wordToCheck)) {
+    else if (this.reverseWordToCheck(this.wordToCheck)) {
       console.log('Word was a word but reversed')
     }
     else {
       console.log('word was not a word');
-      this.currentPlayer.attemptCounter;
+      this.currentPlayer.attemptCounter++;
     }
   }
 
