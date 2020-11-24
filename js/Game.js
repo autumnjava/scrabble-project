@@ -1,11 +1,13 @@
 import Player from "./Player.js";
 import SAOLchecker from "./SAOLchecker.js";
 import WordChecker from "./ButtonHandler/WordChecker.js";
+import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 export default class Game {
 
   players = [];
+  lastClickedTile;
   //currentPlayer = '';
-  WordCheckerInstance = new WordChecker(this);
+  wordCheckerInstance = new WordChecker(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -88,30 +90,21 @@ export default class Game {
   }
 
 
-  //Check if empty tile is placed on board
-  checkIfEmptyTile() {
-    let that = this;
-    var maxLength = 1;
-    var myBool = false;
-    if (($('#boardSquare .empty').length > 0)) {
 
-      while (!myBool) {
-        this.emptyTileLetter = prompt("Välj en bokstav för tomma brickan", "");
-        if (maxLength == this.emptyTileLetter.length && this.emptyTileLetter.length != null) {
-          myBool = true;
-        }
-        else {
-          alert('Välj bara 1 bokstav')
-        }
+
+
+  //Sorting player array by points
+  SortByPoints() {
+    this.sortedPlayers = this.players.slice().sort(
+      (a, b) => {
+        return a.points > b.points ? -1 : 1;
       }
-      console.log('Empty tile letter is: ', this.emptyTileLetter);
+    );
 
-
-    }
-    let emptyTile = $('.empty')
-    console.log(emptyTile);
+    //console.log(this.sortedPlayers);
 
   }
+
 
 
 
@@ -137,17 +130,18 @@ export default class Game {
     })
 
     checkWordButton.click(function () {
+
       // in process
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
       that.sortTiles(tile, x, y, player);
       that.convertToString(player);
-      that.WordCheckerInstance.checkWordWithSAOL();
+      that.wordCheckerInstance.checkWordWithSAOL();
 
 
 
-      that.checkIfEmptyTile();
+
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
@@ -190,6 +184,7 @@ export default class Game {
 
     if (this.endGame) {
       this.currentTilePoints();
+      this.SortByPoints(); //Sorting players' array by points
       //If endGame is true sort players' points and rank them (in process)
     }
     //return this.endGame; --> return boolean value if necessary 
@@ -243,18 +238,13 @@ export default class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map(x => `
-        <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : ''}"> ${x.tile.char}</div>` : ''} 
+        <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''} 
 
         </div>
-      `).join('') //MUST WORK ABOVE
+      `).join('')
     );
-    //render all the players
-    /*
-    this.players.forEach(player =>
-      $players.append(player.render()));
-      */
-    // render currentPlayer
+
     $players.append(this.currentPlayer.render());
     if (this.tiles.length < 7) {
       $('.changeTilesButton').hide();
@@ -267,101 +257,48 @@ export default class Game {
     this.addDragEvents();
   }
 
+  //Check if empty tile is placed on board
+  //in process
+  checkIfEmptyTile() {
+    if (this.board[this.y][this.x].tile.char == " ") {
+      console.log('Empty tile found')
+      let myBool = false;
+      while (!myBool) {
+
+        let letter = prompt('Please write in 1 letter for empty tile', '');
+        if (letter.length == 1 && letter != null) { //Not accepting integer value --> in process
+          letter = letter.toUpperCase();
+          myBool = true;
+          this.board[this.y][this.x].tile.char = letter;
+
+          this.render();
+          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
+        }
+      }
+    }
+  }
+
+
   addDragEvents() {
     let that = this;
 
     // let tile in the stands be draggable
     $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-      .on('dragStart', function () {
-        // set a high z-index so that the tile being drag
-        // is on top of everything  
-        $(this).css({ zIndex: 100 });
-      })
-      .on('dragMove', function (e, pointer) {
-        //$(this).css('background-color', 'blue');
-
-        //let { pageX, pageY } = pointer;
-        let pageX = pointer.pageX;
-        let pageY = pointer.pageY;
-
-        let $squares = $('.board > div');
-        for (let square of $squares) {
-          let squareTop = $(square).offset().top;
-          let squareLeft = $(square).offset().left;
-          let squareRight = $(square).offset().left + $(square).width();
-          let squareBottom = $(square).offset().top + $(square).height();
-
-          if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
-            $(square).addClass('hover');
-          } else {
-            $(square).removeClass('hover');
-          }
-        }
-      })
-      .on('dragEnd', function (e, pointer) {
-        let { pageX, pageY } = pointer;
-        let me = $(this);
-
-
-        // reset the z-index
-        me.css({ zIndex: '' });
-
-        let player = that.players[+$(this).attr('data-player')];
-        let tileIndex = +$(this).attr('data-tile');
-        let tile = player.currentTiles[tileIndex];
-
-        console.log(tileIndex, 'tileIndex');
-        console.log(tile);
-
-        // we will need code that reacts
-        // if you have moved a tile to a square on the board
-        // (add the square to the board, remove it from the stand)
-        // but that code is not written yet ;)
-        let $dropZone = $('.hover');
-        if (!$dropZone.length) { that.render(); return; }
-
-        let squareIndex = $('.board > div').index($dropZone);
-
-        // convert to y and x coords in this.board MUST WORK ON IT MORE
-        let y = Math.floor(squareIndex / 15);
-        let x = squareIndex % 15;
-
-        console.log(y, x);
-
-        // put the tile on the board and re-render
-        //console.log(that.board[y][x].tile, 'THIS IS THE TILE'
-        that.board[y][x].tile = player.currentTiles.splice(tileIndex, 1)[0];
-        //that.render();
-
-        // but we do have the code that let you
-        // drag the tiles in a different order in the stands
-        let $stand = $(this).parent('.stand');
-        let { top, left } = $stand.offset();
-        let bottom = top + $stand.height();
-        let right = left + $stand.width();
-        // if dragged within the limit of the stand
-        if (pageX > left && pageX < right
-          && pageY > top && pageY < bottom) {
-          let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-          let pt = player.currentTiles;
-          // move around
-          pt.splice(tileIndex, 1, ' ');
-          pt.splice(newIndex, 0, tile);
-
-
-          //preserve the space where the tile used to be
-          while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-        }
-        that.render();
-      })
-      .on('dragStart', () => that.dragStart())
+      .on('dragStart', (e) => that.dragStart(e))
       .on('dragMove', (pointer) => that.dragMove(pointer))
       .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
   }
 
-  dragStart() {
-    $(this).css({ zIndex: 100 });
+  //lastClickedTile; --> ?
+
+
+  dragStart(e) {
+    let me = $(e.currentTarget);
+    this.lastClickedTile = me;
+    $(me).css({ zIndex: 100 });
+    $('.changeTiles .changeTilesSquare').addClass('hover');
   }
+
 
   dragMove(pointer) {
     let pageX = pointer.pageX;
@@ -371,8 +308,8 @@ export default class Game {
     for (let square of $squares) {
       let squareTop = $(square).offset().top;
       let squareLeft = $(square).offset().left;
-      let squareRight = $(square).offset().left + $(square).width();
-      let squareBottom = $(square).offset().top + $(square).height();
+      let squareRight = squareLeft + $(square).width();
+      let squareBottom = squareTop + $(square).height();
 
       if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop && !$(square).find('.tile').length) {
         $(square).addClass('hover');
@@ -380,53 +317,86 @@ export default class Game {
         $(square).removeClass('hover');
       }
     }
+    let $changeQuare = $('.changeTiles .changeTilesSquare');
+    let { top, left } = $changeQuare.offset();
+    let right = $changeQuare.width() + left;
+    let bottom = $changeQuare.height() + top;
+    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+      $changeQuare.addClass('hover');
+    } else {
+      $changeQuare.removeClass('hover');
+    }
   }
 
   dragEnd(e, pointer) {
+
     let { pageX, pageY } = pointer;
-    let me = $(e.currentTarget);  //Tile that we are currently dragging.
+
+
 
     // reset the z-index
-    me.css({ zIndex: '' });
+    this.lastClickedTile.css({ zIndex: '' });
 
-    let player = this.players[+$(me).attr('data-player')];
-    let tileIndex = +$(me).attr('data-tile');
-    let tile = player.currentTiles[tileIndex];
+    let $changeQuare = $('.changeTiles .changeTilesSquare');
+    $changeQuare.removeClass('hover');
+    let { top, left } = $changeQuare.offset();
+    let right = $changeQuare.width() + left;
+    let bottom = $changeQuare.height() + top;
+    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+      this.lastClickedTile.addClass('onChangeTilesSquare');
 
-    console.log(tileIndex, 'tileIndex');
 
-    // if you have moved a tile to a square on the board
-    // (add the square to the board, remove it from the stand)
-    let $dropZone = $('.hover');
-    if (!$dropZone.length) { this.render(); return; }
-
-    let squareIndex = $('.board > div').index($dropZone);
-
-    // convert to y and x coords in this.board
-    this.y = Math.floor(squareIndex / 15);
-    this.x = squareIndex % 15;
-
-    // put the tile on the board and re-render
-    console.log(player.currentTiles, 'player.currentTIles');
-    this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
-
-    // drag the tiles in a different order in the stands
-    let $stand = $(me).parent('.stand');
-    let { top, left } = $stand.offset();
-    let bottom = top + $stand.height();
-    let right = left + $stand.width();
-    // if dragged within the limit of the stand
-    if (pageX > left && pageX < right
-      && pageY > top && pageY < bottom) {
-      let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-      let pt = player.currentTiles;
-      // move around
-      pt.splice(tileIndex, 1, ' ');
-      pt.splice(newIndex, 0, tile);
-      //preserve the space where the tile used to be
-      while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
     }
-    this.render();
+    else {
+
+      this.lastClickedTile.removeClass('onChangeTilesSquare');
+
+
+      let player = this.players[+this.lastClickedTile.attr('data-player')];
+      let tileIndex = +this.lastClickedTile.attr('data-tile');
+      let tile = player.currentTiles[tileIndex];
+
+      console.log(tileIndex, 'tileIndex');
+      // drag the tiles in a different order in the stands
+      let $stand = this.lastClickedTile.parent('.stand');
+      console.log($stand);
+      let { top, left } = $stand.offset();
+      let bottom = top + $stand.height();
+      let right = left + $stand.width();
+      // if dragged within the limit of the stand
+      if (pageX > left && pageX < right
+        && pageY > top && pageY < bottom) {
+        let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+        let pt = player.currentTiles;
+        // move around
+        pt.splice(tileIndex, 1, ' ');
+        pt.splice(newIndex, 0, tile);
+        //preserve the space where the tile used to be
+        while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+      }
+
+      // if you have moved a tile to a square on the board
+      // (add the square to the board, remove it from the stand)
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { this.render(); return; }
+
+      let squareIndex = $('.board > div').index($dropZone);
+
+      // convert to y and x coords in this.board
+      this.y = Math.floor(squareIndex / 15);
+      this.x = squareIndex % 15;
+
+      // put the tile on the board and re-render
+      console.log(player.currentTiles, 'player.currentTIles');
+
+      this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+      console.log('tile on x and y:', this.board[this.y][this.x].tile)
+
+
+
+      this.render();
+      this.checkIfEmptyTile();
+    }
   }
 
   /*  moveTilesAroundBoard() {
@@ -436,6 +406,7 @@ export default class Game {
        .on('dragMove', () => this.dragMove())
        .on('dragEnd', () => this.dragEnd());
    } */
+
 
   currentTilePoints() {
     for (let player of this.players) {
