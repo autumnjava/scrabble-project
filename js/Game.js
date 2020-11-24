@@ -119,7 +119,7 @@ export default class Game {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
-    let changeTilesButton = $('.changeTilesButton');
+    let changeTilesButton = this.tileChanger.button;
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
@@ -130,7 +130,13 @@ export default class Game {
       that.render();
     })
 
-    changeTilesButton.click(that.tileChanger.clickOnEventHandler());
+    changeTilesButton.click(function () { 
+      that.tileChanger.clickOnEventHandler();
+      console.log(that.currentPlayer.currentTiles);
+      that.render();
+      //changePlayer();
+      
+    });
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
@@ -248,7 +254,7 @@ export default class Game {
     );
 
     $players.append(this.currentPlayer.render());
-    this.tileChanger.hideButton(7);
+    this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
@@ -271,7 +277,6 @@ export default class Game {
   dragStart(e) {
     let me = $(e.currentTarget);
     $(me).css({ zIndex: 100 });
-    this.tileChanger.squareChangeClass('hover');
     this.lastClickedTile = me;
   }
 
@@ -300,10 +305,10 @@ export default class Game {
 
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
-    
+    this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
-
+      this.tileChanger.addTileDiv(this.lastClickedTile);
     }
     else{
       this.lastClickedTile.removeClass('onChangeTilesSquare');
