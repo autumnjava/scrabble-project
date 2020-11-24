@@ -25,9 +25,11 @@ export default class TileChanger {
       let newTiles = [...playerTiles, ...this.game.getTiles(this.inSquareTiles.length)];
       this.game.currentPlayer.currentTiles = newTiles;
       this.inSquareTiles = [];
+      this.game.currentPlayer.attemptCounter += 1;
     }
     else {
       this.game.currentPlayer.currentTiles = [...this.game.getTiles(), ' '];
+      this.game.currentPlayer.attemptCounter += 1;
     }
   }
 
