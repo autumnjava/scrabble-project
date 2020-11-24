@@ -5,8 +5,7 @@ export default class Game {
 
   players = [];
   //currentPlayer = '';
-  wordToCheck = '';
-  WordChecker = new WordChecker(this);
+  WordCheckerInstance = new WordChecker(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -142,8 +141,8 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
-
-      that.checkWordWithSAOL();
+      // WordCheckerInstance.checkWordWithSAOL();
+      WordChecker.checkWordWithSAOL();
 
 
       that.checkIfEmptyTile();
@@ -325,51 +324,6 @@ export default class Game {
         let x = squareIndex % 15;
 
         console.log(y, x);
-
-        // In progress - save & check word
-        // Add property values y and x to tile object
-        tile.positionY = y;
-        tile.positionX = x;
-
-        player.tilesPlaced.push(tile);
-
-        // Makes copies of the tilesPlaced-array only showing position Y and X
-        let allPositionsY = player.tilesPlaced.map(tile => tile.positionY);
-        console.log('allPositionY: ', allPositionsY);
-        let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
-        console.log('allPositionX: ', allPositionsX);
-
-        // Check if word is horizontal or vertical - returns true or false
-        let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
-        let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
-
-        // Sort so the positions comes i order
-        if (!allYAreSame && !allXAreSame) {
-          // Should not be a valid move
-          // Should place all tiles back to stand?
-          console.log('not a valid move');
-          return;
-        }
-        else if (!allYAreSame) {
-          player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
-        }
-        else if (!allXAreSame) {
-          player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
-        }
-
-        // Loop through the sorted array, take the value of property char and 
-        // convert it into a string
-
-        for (let tile of player.tilesPlaced) {
-          for (let key in tile) {
-            let val = tile[key];
-            if (key === 'char') {
-              that.wordToCheck += val;
-            }
-          }
-        }
-        console.log('in dragevent', that.wordToCheck);
-
 
         // put the tile on the board and re-render
         //console.log(that.board[y][x].tile, 'THIS IS THE TILE'
