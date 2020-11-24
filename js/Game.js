@@ -87,38 +87,8 @@ export default class Game {
   }
 
 
-  //Check if empty tile is placed on board
-  //in process
-  checkIfEmptyTile() {
-
-    let myBool = false;
-    while (!myBool) {
-      let letter = prompt("Choose letter for the empty tile", "");
-      if (letter.length == 1 && letter != null) {
-
-        letter = letter.toUpperCase();
-        myBool = true;
-        let clickedTile = this.lastClickedTile[0];
-        let activeTileIndex = clickedTile.dataset.tile;
-        let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
-        console.log('active tile is ', activeTile);
 
 
-        activeTile.char = letter;
-
-        this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
-        console.log(this.currentPlayer.currentTiles);
-        console.log(this);
-        this.render();
-
-
-      }
-      else {
-        alert('Please write only 1 letter')
-      }
-    }
-
-  }
 
   //Sorting player array by points
   SortByPoints() {
@@ -279,6 +249,28 @@ export default class Game {
     this.addDragEvents();
   }
 
+  //Check if empty tile is placed on board
+  //in process
+  checkIfEmptyTile() {
+    if (this.board[this.y][this.x].tile.char == " ") {
+      console.log('Empty tile found')
+      let myBool = false;
+      while (!myBool) {
+
+        let letter = prompt('Please write in 1 letter for empty tile', '');
+        if (letter.length == 1 && letter != null) { //Not accepting integer value --> in process
+          letter = letter.toUpperCase();
+          myBool = true;
+          this.board[this.y][this.x].tile.char = letter;
+
+          this.render();
+          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
+        }
+      }
+    }
+  }
+
+
   addDragEvents() {
     let that = this;
 
@@ -296,19 +288,6 @@ export default class Game {
     let me = $(e.currentTarget);
     this.lastClickedTile = me;
     $(me).css({ zIndex: 100 });
-    //If the dragging tile has class "empty", give alert to choose letter
-    if (me.hasClass('empty')) {
-
-      this.checkIfEmptyTile();
-      let draggingTileIndex = $(me).attr('data-tile'); // Selecting index of changed tile
-
-      var divs = $('.stand div'); //Creating array of divs in stand class
-
-      $(divs[draggingTileIndex]).removeClass('empty') //Selecting changed tile div and removing class empty
-      console.log('changed tile is: ', divs[draggingTileIndex])
-
-    }
-
     $('.changeTiles .changeTilesSquare').addClass('hover');
   }
 
@@ -346,6 +325,7 @@ export default class Game {
     let { pageX, pageY } = pointer;
 
 
+
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
 
@@ -357,9 +337,13 @@ export default class Game {
     if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
 
+
     }
     else {
+
       this.lastClickedTile.removeClass('onChangeTilesSquare');
+
+
       let player = this.players[+this.lastClickedTile.attr('data-player')];
       let tileIndex = +this.lastClickedTile.attr('data-tile');
       let tile = player.currentTiles[tileIndex];
@@ -396,9 +380,14 @@ export default class Game {
 
       // put the tile on the board and re-render
       console.log(player.currentTiles, 'player.currentTIles');
+
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+      console.log('tile on x and y:', this.board[this.y][this.x].tile)
+
+
 
       this.render();
+      this.checkIfEmptyTile();
     }
   }
 
