@@ -135,8 +135,7 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
-      that.sortTiles(tile, x, y, player);
-      that.convertToString(player);
+      that.wordCheckerInstance.convertToString(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
 
 
@@ -393,6 +392,7 @@ export default class Game {
       console.log('tile on x and y:', this.board[this.y][this.x].tile)
 
 
+      this.wordCheckerInstance.sortTiles(tile, this.x, this.y, player);
 
       this.render();
       this.checkIfEmptyTile();

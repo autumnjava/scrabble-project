@@ -55,6 +55,7 @@ export default class WordChecker {
       }
     }
     console.log('in dragevent', this.wordToCheck);
+    this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
   }
 
   checkWordWithSAOL() {
@@ -69,6 +70,7 @@ export default class WordChecker {
       console.log('word was not a word');
       this.game.currentPlayer.attemptCounter++;
     }
+    this.wordToCheck = '';
   }
   /*
     reverseWordToCheck(reversedWord) {
