@@ -4,15 +4,21 @@ export default class GameEnder{
     this.game = game;
     this.endGame = false;
     this.reason = '';
-    this.page = $('.endPage');
+    this.page = $('<div class="endPage"></div>');
   }
 
   endTheGame() { 
     this.hideEverything();
     this.removeCurrentTilesFromPlayer();
     this.sortByPoints();
+    this.showPage();
     this.render();
       //If endGame is true sort players' points and rank them (in process)
+  }
+
+  showPage() {
+    $('header').animate({ "font-size": "40px", "padding": "10px" });
+    $('footer').animate({ "font-size": "small", "padding": "10px" });
   }
 
   hideEverything() { 
@@ -22,7 +28,6 @@ export default class GameEnder{
 
   checkGameEnd() {
     let countedPlayers = 0;
-
     for (let player of this.game.players) {
       if (player.attemptCounter >= 3) {
         countedPlayers++;
@@ -41,7 +46,6 @@ export default class GameEnder{
         this.endGame = false;
       }
     }
-
     if (this.endGame) {
       this.endTheGame();
     }
@@ -74,9 +78,19 @@ export default class GameEnder{
   }
 
   render() { 
+    let rankingDiv = $('<div class="ranking"></div>');
+    let rankingList = $('<ol></ol>');
+    for (let player of this.sortedPlayers) { 
+      let playerList = $('<li></li>');
+      playerList.append(`
+      <p><span class="rank">${player.name}</span></p>
+      `)
+      rankingList.append(playerList);
+    }
+    rankingDiv.append(rankingList);
+    this.page.append(rankingDiv);
+    this.page.append(`<p>Hello</p>`);
     $('body').append(this.page);
-    this.page.append(`
-    <p class="large">Hello</p>`)
   }
 
   showWinners() { 
