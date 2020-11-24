@@ -141,8 +141,10 @@ export default class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
-      // WordCheckerInstance.checkWordWithSAOL();
-      WordChecker.checkWordWithSAOL();
+      that.sortTiles(tile, x, y, player);
+      that.convertToString(player);
+      that.WordCheckerInstance.checkWordWithSAOL();
+
 
 
       that.checkIfEmptyTile();
@@ -299,6 +301,7 @@ export default class Game {
       .on('dragEnd', function (e, pointer) {
         let { pageX, pageY } = pointer;
         let me = $(this);
+
 
         // reset the z-index
         me.css({ zIndex: '' });
