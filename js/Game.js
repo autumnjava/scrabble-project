@@ -1,10 +1,12 @@
 import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import GameEnder from "./GameEnder.js";
 export default class Game {
 
   players = [];
   lastClickedTile;
   //currentPlayer = '';
+  gameEnder = new GameEnder(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -120,17 +122,6 @@ export default class Game {
 
   }
 
-  //Sorting player array by points
-  SortByPoints() {
-    this.sortedPlayers = this.players.slice().sort(
-      (a, b) => {
-        return a.points > b.points ? -1 : 1;
-      }
-    );
-
-    //console.log(this.sortedPlayers);
-
-  }
 
 
 
@@ -145,7 +136,7 @@ export default class Game {
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
       that.currentPlayer.attemptCounter++;
-      that.checkGameEnd();
+      that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
     })
@@ -167,7 +158,7 @@ export default class Game {
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
-      that.checkGameEnd();
+      that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
     })
@@ -179,37 +170,6 @@ export default class Game {
       else that.currentPlayer = that.players[0];
     }
 
-  }
-
-  checkGameEnd() {
-
-    this.endGame = '';
-    let countedPlayers = 0;
-
-    for (let player of this.players) {
-      if (player.attemptCounter >= 3) {
-        countedPlayers++;
-      }
-      // If all players attemptCounters are >= 3 the game will end
-      if (countedPlayers === this.players.length) {
-        this.endGame = true;
-        break;
-      }
-      if (player.currentTiles.length == 0 && this.tiles.length == 0) {
-        this.endGame = true;
-        break;
-      }
-      else {
-        this.endGame = false;
-      }
-    }
-
-    if (this.endGame) {
-      this.currentTilePoints();
-      this.SortByPoints(); //Sorting players' array by points
-      //If endGame is true sort players' points and rank them (in process)
-    }
-    //return this.endGame; --> return boolean value if necessary 
   }
 
 
@@ -409,25 +369,6 @@ export default class Game {
        .on('dragMove', () => this.dragMove())
        .on('dragEnd', () => this.dragEnd());
    } */
-
-
-  currentTilePoints() {
-    for (let player of this.players) {
-      for (let tile of player.currentTiles) {
-        for (let key in tile) {
-          let val = tile[key];
-          if (key === 'points') {
-            player.tilePoints = (player.tilePoints + val);
-          }
-        }
-      }
-      // This will remove all tiles left in players array of tiles when game ends
-      player.currentTiles.splice(0, player.currentTiles.length);
-      // The sum of players tiles left will be decreased from players points
-      player.points = (player.points - player.tilePoints);
-    }
-  }
-
 
 }
 
