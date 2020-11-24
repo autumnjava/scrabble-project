@@ -88,6 +88,7 @@ export default class WordChecker {
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
     this.wordToCheck = '';
+    this.tilePointsOfWord = 0;
   }
 
 
