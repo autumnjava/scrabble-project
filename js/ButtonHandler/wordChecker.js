@@ -58,11 +58,14 @@ export default class WordChecker {
     this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
   }
 
-  checkWordWithSAOL() {
+  async checkWordWithSAOL() {
 
     console.log(this.wordToCheck);
 
-    if (SAOLchecker.scrabbleOk(this.wordToCheck)) {
+    let isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
+
+    console.log(isWordCorrect);
+    if (isWordCorrect) {
       console.log(this.wordToCheck);
       console.log('word was a word!');
     }
