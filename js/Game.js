@@ -123,7 +123,6 @@ export default class Game {
 
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
-      that.currentPlayer.attemptCounter++;
       that.checkGameEnd();
       changePlayer();
       that.render();
