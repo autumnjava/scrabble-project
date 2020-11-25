@@ -6,6 +6,7 @@ export default class WordChecker {
     this.game = game;
     this.wordToCheck = '';
     this.tilePointsOfWord = 0;
+    this.isWordCorrect = false;
   }
 
   sortTiles(tile, x, y, player) {
@@ -71,10 +72,10 @@ export default class WordChecker {
     console.log('To String', this.wordToCheck);
   }
   async checkWordWithSAOL() {
-    let isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
+    this.isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
 
-    console.log(isWordCorrect);
-    if (isWordCorrect) {
+    console.log(this.isWordCorrect);
+    if (this.isWordCorrect) {
       console.log(this.wordToCheck);
       console.log('word was a word!');
 
@@ -83,11 +84,12 @@ export default class WordChecker {
       this.game.currentPlayer.points += this.tilePointsOfWord;
       console.log(this.game.currentPlayer.points);
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+      this.game.changePlayer();
+      this.game.render();
     }
     else {
       console.log('word was not a word');
-
-      this.game.currentPlayer.attemptCounter++;
+      this.game.currentPlayer.correctWordCounter++;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
     //resetting for next move
