@@ -306,6 +306,6 @@ class Game {
   }
 }
 
-import dragEvents from './Game-dragEvents.js';
+import dragEvents from './GameDragEvents.js';
 Object.assign(Game.prototype, dragEvents);
 export default Game;
