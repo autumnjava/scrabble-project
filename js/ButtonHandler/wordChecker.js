@@ -83,6 +83,8 @@ export default class WordChecker {
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.tilePointsOfWord;
       console.log(this.game.currentPlayer.points);
+      //this.game.currentPlayer.currentTiles += this.game.getTiles(this.game.currentPlayer.tilesPlaced.length);
+
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
       this.game.render();
