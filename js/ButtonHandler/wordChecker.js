@@ -93,9 +93,14 @@ export default class WordChecker {
     else {
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
+      // push back tiles to players currentTiles, 
+      for (let tile of this.game.currentPlayer.tilesPlaced) {
+        this.game.currentPlayer.currentTiles.push(tile);
+        //console.log(this.game.board[tile.positionX][tile.positionY], ' tile ');
+      }
 
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-
+      this.game.render();
     }
     //resetting for next move
     this.wordToCheck = '';
