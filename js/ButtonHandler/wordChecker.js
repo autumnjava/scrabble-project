@@ -41,11 +41,11 @@ export default class WordChecker {
     }
 
     console.log(player.tilesPlaced);
-    // Loop through the sorted array, take the value of property char and 
-    // convert it into a string
 
   }
   calculatePoints(player) {
+    //method for calcuating how many point a player should
+    //get from a correct placed word
     for (let tile of player.tilesPlaced) {
       for (let key in tile) {
         let val = tile[key];
@@ -58,6 +58,8 @@ export default class WordChecker {
   }
 
   convertToString(player) {
+    // Loop through the sorted array, take the value of property char and 
+    // convert it into a string
     for (let tile of player.tilesPlaced) {
       for (let key in tile) {
         let val = tile[key];
@@ -69,24 +71,26 @@ export default class WordChecker {
     console.log('To String', this.wordToCheck);
   }
   async checkWordWithSAOL() {
-
-    console.log(this.wordToCheck);
-
     let isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
 
     console.log(isWordCorrect);
     if (isWordCorrect) {
       console.log(this.wordToCheck);
       console.log('word was a word!');
+
+      //give player points for correct word
+      //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.tilePointsOfWord;
       console.log(this.game.currentPlayer.points);
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
     else {
       console.log('word was not a word');
+
       this.game.currentPlayer.attemptCounter++;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
     }
+    //resetting for next move
     this.wordToCheck = '';
     this.tilePointsOfWord = 0;
   }
