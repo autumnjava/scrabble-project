@@ -246,7 +246,7 @@ class Game {
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
         data-player="${that.players.indexOf(that.currentPlayer)}"
         data-tile="${i}"
-        ${x.tile.possibleToMove === true ? 'data-possibleToMove' : ''}
+        ${x.tile.possibleToMove === true ? 'data-possibletomove' : ''}
         > ${x.tile.char}
           <span>${x.tile.points || ''}</span>
           </div>` : ''} 
