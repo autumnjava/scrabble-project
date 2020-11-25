@@ -123,9 +123,10 @@ export default class Game {
 
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
-      console.log(that.currentPlayer.currentTiles);
+      that.currentPlayer.attemptCounter++;
+      that.checkGameEnd();
+      changePlayer();
       that.render();
-      //changePlayer();
 
     });
 
@@ -319,15 +320,6 @@ export default class Game {
         $(square).removeClass('hover');
       }
     }
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-    let { top, left } = $changeQuare.offset();
-    let right = $changeQuare.width() + left;
-    let bottom = $changeQuare.height() + top;
-    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
-      $changeQuare.addClass('hover');
-    } else {
-      $changeQuare.removeClass('hover');
-    }
     this.tileChanger.pointerInSquare(pageX, pageY);
   }
 
@@ -342,14 +334,10 @@ export default class Game {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
-
-
       this.tileChanger.addTileDiv(this.lastClickedTile);
     }
     else {
-
       this.lastClickedTile.removeClass('onChangeTilesSquare');
-
 
       let player = this.players[+this.lastClickedTile.attr('data-player')];
       let tileIndex = +this.lastClickedTile.attr('data-tile');
