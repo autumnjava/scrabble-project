@@ -1,9 +1,11 @@
 import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import TileChanger from "./ButtonHandler/TileChanger.js"
 export default class Game {
 
   players = [];
   lastClickedTile;
+  tileChanger = new TileChanger(this);
   //currentPlayer = '';
 
   async start() {
@@ -104,12 +106,11 @@ export default class Game {
 
 
 
-
-
   addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
+    let changeTilesButton = this.tileChanger.button;
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
@@ -119,6 +120,14 @@ export default class Game {
       changePlayer();
       that.render();
     })
+
+    changeTilesButton.click(function () {
+      that.tileChanger.clickOnEventHandler();
+      console.log(that.currentPlayer.currentTiles);
+      that.render();
+      //changePlayer();
+
+    });
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
@@ -238,9 +247,7 @@ export default class Game {
     );
 
     $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) {
-      $('.changeTilesButton').hide();
-    }
+    this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
@@ -291,6 +298,7 @@ export default class Game {
     this.lastClickedTile = me;
     $(me).css({ zIndex: 100 });
     $('.changeTiles .changeTilesSquare').addClass('hover');
+    this.lastClickedTile = me;
   }
 
 
@@ -320,6 +328,7 @@ export default class Game {
     } else {
       $changeQuare.removeClass('hover');
     }
+    this.tileChanger.pointerInSquare(pageX, pageY);
   }
 
   dragEnd(e, pointer) {
@@ -330,16 +339,12 @@ export default class Game {
 
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
-
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-    $changeQuare.removeClass('hover');
-    let { top, left } = $changeQuare.offset();
-    let right = $changeQuare.width() + left;
-    let bottom = $changeQuare.height() + top;
-    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+    this.tileChanger.squareChangeClass('hover', true);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
 
 
+      this.tileChanger.addTileDiv(this.lastClickedTile);
     }
     else {
 
