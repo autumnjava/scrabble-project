@@ -258,7 +258,9 @@ export default class Game {
       while (!myBool) {
 
         let letter = prompt('Please write in 1 letter for empty tile', '');
-        if (letter.length == 1 && letter != null) { //Not accepting integer value --> in process
+
+        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
+        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
           letter = letter.toUpperCase();
           myBool = true;
           this.board[this.y][this.x].tile.char = letter;
