@@ -6,3 +6,41 @@
 .endPage .large {
   margin-top: 50vh;
 }
+
+.ranking {
+  margin: 20vh 30vh;
+}
+
+.ranking li.rank1 span{
+
+}
+
+.ranking li.rank1{
+  font-size: calc(12px + 1vh + 3vw);
+  color: 	#cf816a;
+  background-color: #e5d4c2;
+}
+
+.ranking li.rank1::marker{
+  color: 	#cf816a;
+}
+
+.ranking ol {
+  display: block;
+  margin: 10px auto;
+
+  color: #213951;
+}
+
+.ranking li {
+  margin: 10px 0;
+  font-size: calc(12px + 0.5vh + 1.5vw);
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+.ranking li span{
+  background-color: #98aab4;
+  border-radius: 2px;
+  color:  #213951;
+}

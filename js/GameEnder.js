@@ -79,22 +79,21 @@ export default class GameEnder{
 
   render() { 
     let rankingDiv = $('<div class="ranking"></div>');
+    let rankingListTitle = $('<p>Ranking<p>');
     let rankingList = $('<ol></ol>');
+    let rankingNumber = 1;
     for (let player of this.sortedPlayers) { 
-      let playerList = $('<li></li>');
+      let playerList = $(`<li class="rank${rankingNumber}"></li>`);
       playerList.append(`
-      <p><span class="rank">${player.name}</span></p>
+      <p><span class="rank rank${rankingNumber}">${player.name}</span> ${player.points}</p>
       `)
+      rankingNumber++;
       rankingList.append(playerList);
     }
+    rankingDiv.append(rankingListTitle)
     rankingDiv.append(rankingList);
     this.page.append(rankingDiv);
-    this.page.append(`<p>Hello</p>`);
     $('body').append(this.page);
-  }
-
-  showWinners() { 
-
   }
 
 }
