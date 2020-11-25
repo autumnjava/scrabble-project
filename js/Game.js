@@ -119,7 +119,7 @@ export default class Game {
     skipButton.click(function () {
       that.currentPlayer.attemptCounter++;
       that.checkGameEnd();
-      changePlayer();
+      that.changePlayer();
       that.render();
     })
 
@@ -141,22 +141,21 @@ export default class Game {
 
 
 
-
-      if (that.currentPlayer.checkWordButton >= 3) {
-        that.currentPlayer.attemptCounter++;
-      }
       that.checkGameEnd();
-      changePlayer();
+      if (that.currentPlayer.correctWordCounter >= 2) {
+        that.currentPlayer.attemptCounter++;
+        that.changePlayer();
+      }
       that.render();
     })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
 
+  }
+  changePlayer() {
+    if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
+      this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+    }
+    else this.currentPlayer = this.players[0];
   }
 
   checkGameEnd() {
