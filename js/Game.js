@@ -1,10 +1,12 @@
 import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
+import TileChanger from "./ButtonHandler/TileChanger.js"
 export default class Game {
 
   players = [];
   lastClickedTile;
+  tileChanger = new TileChanger(this);
   //currentPlayer = '';
   gameEnder = new GameEnder(this);
 
@@ -90,44 +92,15 @@ export default class Game {
   }
 
 
-  //Check if empty tile is placed on board
-  //in process
-  checkIfEmptyTile() {
-
-    let myBool = false;
-    while (!myBool) {
-      let letter = prompt("Choose letter for the empty tile", "");
-      if (letter.length == 1 && letter != null) {
-
-        letter = letter.toUpperCase();
-        myBool = true;
-        let clickedTile = this.lastClickedTile[0];
-        let activeTileIndex = clickedTile.dataset.tile;
-        let activeTile = Object.assign({}, this.currentPlayer.currentTiles[activeTileIndex]);
-        console.log('active tile is ', activeTile);
 
 
-        activeTile.char = letter;
-
-        this.currentPlayer.currentTiles[activeTileIndex] = activeTile;
-        console.log(this.currentPlayer.currentTiles);
-        console.log(this);
-        this.render();
-
-
-      }
-      else {
-        alert('Please write only 1 letter')
-      }
-    }
-
-  }
 
   
   addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
+    let changeTilesButton = this.tileChanger.button;
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
@@ -137,6 +110,14 @@ export default class Game {
       changePlayer();
       that.render();
     })
+
+    changeTilesButton.click(function () {
+      that.tileChanger.clickOnEventHandler();
+      that.checkGameEnd();
+      changePlayer();
+      that.render();
+
+    });
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
@@ -225,9 +206,7 @@ export default class Game {
     );
 
     $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) {
-      $('.changeTilesButton').hide();
-    }
+    this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
@@ -235,6 +214,30 @@ export default class Game {
 
     this.addDragEvents();
   }
+
+  //Check if empty tile is placed on board
+  //in process
+  checkIfEmptyTile() {
+    if (this.board[this.y][this.x].tile.char == " ") {
+      console.log('Empty tile found')
+      let myBool = false;
+      while (!myBool) {
+
+        let letter = prompt('Please write in 1 letter for empty tile', '');
+
+        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
+        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
+          letter = letter.toUpperCase();
+          myBool = true;
+          this.board[this.y][this.x].tile.char = letter;
+
+          this.render();
+          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
+        }
+      }
+    }
+  }
+
 
   addDragEvents() {
     let that = this;
@@ -253,20 +256,8 @@ export default class Game {
     let me = $(e.currentTarget);
     this.lastClickedTile = me;
     $(me).css({ zIndex: 100 });
-    //If the dragging tile has class "empty", give alert to choose letter
-    if (me.hasClass('empty')) {
-
-      this.checkIfEmptyTile();
-      let draggingTileIndex = $(me).attr('data-tile'); // Selecting index of changed tile
-
-      var divs = $('.stand div'); //Creating array of divs in stand class
-
-      $(divs[draggingTileIndex]).removeClass('empty') //Selecting changed tile div and removing class empty
-      console.log('changed tile is: ', divs[draggingTileIndex])
-
-    }
-
     $('.changeTiles .changeTilesSquare').addClass('hover');
+    this.lastClickedTile = me;
   }
 
 
@@ -287,15 +278,7 @@ export default class Game {
         $(square).removeClass('hover');
       }
     }
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-    let { top, left } = $changeQuare.offset();
-    let right = $changeQuare.width() + left;
-    let bottom = $changeQuare.height() + top;
-    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
-      $changeQuare.addClass('hover');
-    } else {
-      $changeQuare.removeClass('hover');
-    }
+    this.tileChanger.pointerInSquare(pageX, pageY);
   }
 
   dragEnd(e, pointer) {
@@ -303,20 +286,17 @@ export default class Game {
     let { pageX, pageY } = pointer;
 
 
+
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
-
-    let $changeQuare = $('.changeTiles .changeTilesSquare');
-    $changeQuare.removeClass('hover');
-    let { top, left } = $changeQuare.offset();
-    let right = $changeQuare.width() + left;
-    let bottom = $changeQuare.height() + top;
-    if (pageX > left && pageX < right && pageY < bottom && pageY > top) {
+    this.tileChanger.squareChangeClass('hover', true);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
-
+      this.tileChanger.addTileDiv(this.lastClickedTile);
     }
     else {
       this.lastClickedTile.removeClass('onChangeTilesSquare');
+
       let player = this.players[+this.lastClickedTile.attr('data-player')];
       let tileIndex = +this.lastClickedTile.attr('data-tile');
       let tile = player.currentTiles[tileIndex];
@@ -353,9 +333,14 @@ export default class Game {
 
       // put the tile on the board and re-render
       console.log(player.currentTiles, 'player.currentTIles');
+
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+      console.log('tile on x and y:', this.board[this.y][this.x].tile)
+
+
 
       this.render();
+      this.checkIfEmptyTile();
     }
   }
 

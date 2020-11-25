@@ -19,7 +19,7 @@ export default class Player {
 
     return `<div class="stand">
       ${this.currentTiles.map((x, i) => `<div 
-          class="tile ${x.char ? '' : 'none'} ${x.points == 0 ? 'empty' : ''}"
+          class="tile ${x.char ? '' : 'none'}"
           data-player="${this.myGame.players.indexOf(this)}"
           data-tile="${i}"
         >
