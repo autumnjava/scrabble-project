@@ -61,7 +61,13 @@ export default class GameEnder{
   }
 
   removeCurrentTilesFromPlayer() {
+    let totalTilePoints = 0;
+    let playersWithNoTiles = [];
     for (let player of this.game.players) {
+      if (player.currentTiles.length === 0) {
+        playersWithNoTiles.push(player);
+        continue;
+      }
       for (let tile of player.currentTiles) {
         for (let key in tile) {
           let val = tile[key];
@@ -74,6 +80,10 @@ export default class GameEnder{
       player.currentTiles.splice(0, player.currentTiles.length);
       // The sum of players tiles left will be decreased from players points
       player.points = (player.points - player.tilePoints);
+      totalTilePoints += player.tilePoints;
+    }
+    for (let player of playersWithNoTiles) { 
+      player.points = player.points + totalTilePoints;
     }
   }
 
