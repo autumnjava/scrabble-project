@@ -20,8 +20,6 @@ export default class TileChanger {
           this.game.currentPlayer.currentTiles.splice(tileToRemoveIndex, 1);
         }
       }
-      console.log("tile removed");
-      console.log(this.inSquareTiles);
       let newTiles = [...playerTiles, ...this.game.getTiles(this.inSquareTiles.length)];
       this.game.currentPlayer.currentTiles = newTiles;
       this.inSquareTiles = [];
