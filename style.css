@@ -270,7 +270,7 @@ background-color: #b77b57;
 
 .board .tile {
   position: absolute;
-  margin: 1px;
+  margin: -1px;
 }
 
 .tile span {
