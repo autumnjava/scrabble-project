@@ -19,14 +19,14 @@ export default class WordChecker {
 
     // Makes copies of the tilesPlaced-array only showing position Y and X
     let allPositionsY = player.tilesPlaced.map(tile => tile.positionY);
-    console.log('allPositionY: ', allPositionsY);
     let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
-    console.log('allPositionX: ', allPositionsX);
 
     // Check if word is horizontal or vertical - returns true or false
     let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
     let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
 
+    let allPositionsYSorted = [];
+    let allPositionsXSorted = [];
     // Sort so the positions comes i order
     if (!allYAreSame && !allXAreSame) {
       // Should not be a valid move
@@ -35,15 +35,48 @@ export default class WordChecker {
       return;
     }
     else if (!allYAreSame) {
-      player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
+      allPositionsYSorted = player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
     }
     else if (!allXAreSame) {
-      player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
+      allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
+    }
+    /*
+    let gaps = true;
+    if (allXAreSame) {
+      gaps = !allPositionsYSorted.every((y, i) => i === 0 || y - 1 === allPositionsYSorted[i - 1]);
+      console.log(gaps, 'kontroll');
+      if (!gaps) {
+        console.log(this.game.board[y][x].tile);
+        let missingTile = this.game.board[y - 1][x].tile;
+
+        console.log(missingTile, ' the missing tile? ');
+      }
+    }
+    else if (allYAreSame) {
+      gaps = !allPositionsXSorted.every((x, i) =>
+        i === 0 || x - 1 === allPositionsXSorted[i - 1]
+      );
+    }
+    */
+    // Get the tiles around the tile placed on board by player
+    this.tileAbove = this.game.board[tile.positionY - 1][tile.positionX];
+    this.tileRight = this.game.board[tile.positionY][tile.positionX + 1];
+    this.tileLeft = this.game.board[tile.positionY][tile.positionX - 1];
+    this.tileBelow = this.game.board[tile.positionY + 1][tile.positionX];
+
+    // If the specific tile has property tile, write the tiles property char to the console
+    if (this.tileAbove.hasOwnProperty('tile')) {
+      console.log(this.tileAbove.tile.char, 'tile char');
     }
 
     console.log(player.tilesPlaced);
 
   }
+
+  missingTiles() {
+
+  }
+
   calculatePoints(player) {
     //method for calcuating how many point a player should
     //get from a correct placed word
@@ -75,7 +108,6 @@ export default class WordChecker {
     this.isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
     let playerTiles = this.game.currentPlayer.currentTiles;
 
-    console.log(this.isWordCorrect);
     if (this.isWordCorrect) {
       console.log(this.wordToCheck);
       console.log('word was a word!');
@@ -83,7 +115,7 @@ export default class WordChecker {
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.tilePointsOfWord;
-      console.log(this.game.currentPlayer.points);
+      console.log('correct word points: ', this.game.currentPlayer.points);
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
