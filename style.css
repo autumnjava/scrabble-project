@@ -73,21 +73,19 @@ body button:hover{
   text-transform:uppercase;
   font-weight: 100%;
   transition: all 300ms ease-in-out;
+ 
+  /*display: inline-block;
+   /*position: absolute;
+   bottom: 5rem;
+  right: 10rem;*/
+  
+}
+
+
+.buttons {
   position: absolute;
-  right: 18rem;
-  bottom: 8rem;
-}
-
-.gamePage .buttons {
-  right: 10rem;
-}
-
-.skipButton button{
-  right: 10rem;
-}
-.breakButton button{
-  opacity: 0.5;
-  right: 5rem;
+  bottom: 5vh;
+  right: 5vh; 
 }
 
 #breakButton:hover{
@@ -97,15 +95,13 @@ body button:hover{
   color: white;
 }
 
-.checkWordButton button{
-  right: 18rem;
-}
+
 
 .changeTiles {
   position: absolute;
   top: 24vh;
   right: 10vw;
-  height: 40vh;
+  min-height: 40vh;
   width: 70vh;
 }
 
@@ -175,6 +171,11 @@ background-color: #ccb0a2;
   display: block;
   text-align: center;
   font-size: 3vh;
+}
+
+.in-game-buttons > .buttons > div {
+  float: left;
+  padding-left: 10px;
 }
 
 .board > div.special-dl{
@@ -248,7 +249,7 @@ background-color: #b77b57;
   float: left;
   background-color:rgb(33, 57, 81);
   padding: 10px;
-  width: 53vh;
+  min-width: 53vh;
   border-radius: 5px;
   position: relative;
 }
