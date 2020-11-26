@@ -75,7 +75,7 @@ class Game {
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
   }
-  
+
 
   async tilesFromFile() {
     this.tiles = [];
@@ -104,7 +104,7 @@ class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      changePossibleToMoveToFalse();
+      // changePossibleToMoveToFalse();
       that.currentPlayer.attemptCounter++;
       that.changePlayer();
       that.gameEnder.checkGameEnd();
