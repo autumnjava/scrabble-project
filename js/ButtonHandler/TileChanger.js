@@ -73,4 +73,9 @@ export default class TileChanger {
     }
   }
 
+  isTilesOnBoard() { 
+    console.log("isTileOnBoard");
+    console.log($('.board .tile').filter("[data-possibletomove]"));
+  }
+
 }

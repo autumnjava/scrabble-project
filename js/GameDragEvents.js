@@ -41,9 +41,11 @@ export default {
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
+    this.tileChanger.isTilesOnBoard();
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
       this.tileChanger.addTileDiv(this.lastClickedTile);
+      this.tileChanger.isTilesOnBoard();
     }
     else {
       this.lastClickedTile.removeClass('onChangeTilesSquare');
@@ -125,17 +127,24 @@ export default {
       delete oldSquare.tile; //delete property tile from oldSquare
     }
 
-    // if you have moved a tile to a square on the board
-    let $dropZone = $('.hover');
-    if (!$dropZone.length) { this.render(); return; }
-    let squareIndex = $('.board > div').index($dropZone);
+    //if dragged to changeTileSquare
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
+      console.log("Tile is in square");
+    }
+    else {
+    
+      // if you have moved a tile to a square on the board
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { this.render(); return; }
+      let squareIndex = $('.board > div').index($dropZone);
 
-    // convert to y and x coords in this.board
-    let newY = Math.floor(squareIndex / 15);
-    let newX = squareIndex % 15;
+      // convert to y and x coords in this.board
+      let newY = Math.floor(squareIndex / 15);
+      let newX = squareIndex % 15;
 
-    delete oldSquare.tile;
-    this.board[newY][newX].tile = oldObject;
+      delete oldSquare.tile;
+      this.board[newY][newX].tile = oldObject;
+    }
     this.render();
   }
 
