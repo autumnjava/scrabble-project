@@ -82,6 +82,7 @@ export default {
       // put the tile on the board and re-render
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
       this.board[this.y][this.x].tile.possibleToMove = true;
+      this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
       this.checkIfEmptyTile();
     }

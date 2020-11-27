@@ -1,4 +1,6 @@
 import Player from "./Player.js";
+import SAOLchecker from "./SAOLchecker.js";
+import WordChecker from "./ButtonHandler/WordChecker.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
@@ -8,6 +10,7 @@ class Game {
   lastClickedTile;
   tileChanger = new TileChanger(this);
   //currentPlayer = '';
+  wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
 
   async start() {
@@ -101,17 +104,17 @@ class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      changePossibleToMoveToFalse();
+      // changePossibleToMoveToFalse();
       that.currentPlayer.attemptCounter++;
+      that.changePlayer();
       that.gameEnder.checkGameEnd();
-      changePlayer();
       that.render();
     })
 
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
-      changePlayer();
+      that.changePlayer();
       that.render();
 
     });
@@ -128,32 +131,29 @@ class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
+      that.wordCheckerInstance.convertToString(that.currentPlayer);
+      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+      that.wordCheckerInstance.checkWordWithSAOL();
 
 
-      if (that.currentPlayer.checkWordButton >= 3) {
-        that.currentPlayer.attemptCounter++;
-      }
+
       that.gameEnder.checkGameEnd();
-      changePlayer();
+      if (that.currentPlayer.correctWordCounter >= 2) {
+        that.currentPlayer.attemptCounter++;
+        that.changePlayer();
+      }
       that.render();
     })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
-
-    function changePossibleToMoveToFalse() {
-      that.board.flat().map((x) => {
-        if (x.tile) { // same as if(typeof x.tile !== "undefined")
-          x.tile.possibleToMove = false;
-        }
-      });
-    }
 
   }
+  changePlayer() {
+    if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
+      this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+    }
+    else this.currentPlayer = this.players[0];
+  }
+
 
 
   createBoard() {
