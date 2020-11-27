@@ -1,26 +1,29 @@
 import Player from "./Player.js";
-export default class Game {
+import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import GameEnder from "./GameEnder.js";
+import TileChanger from "./ButtonHandler/TileChanger.js"
+class Game {
+
+  players = [];
+  lastClickedTile;
+  tileChanger = new TileChanger(this);
+  //currentPlayer = '';
+  gameEnder = new GameEnder(this);
 
   async start() {
-    // show the start page first
-    this.showFormInStartPage();
-
-
-    //Create board
-    this.createBoard();
-    console.log(this.board);
-    this.renderGamePage();
-
-
-    console.log(this.board);
-
-
-    // Click the button "start game" to start playing
-    this.buttonWork();
+    this.createFormAndShowInStartPage();
+    this.startGameButtonListener();
+    this.addButtonEvents();
     await this.tilesFromFile();
   }
 
-  showFormInStartPage() {
+  startGame() {
+    this.createBoard();
+    this.currentPlayer = this.players[0];
+    this.render();
+  }
+
+  createFormAndShowInStartPage() {
     let formToFills = [
       { label: 'Player 1', id: 'playername1', required: true },
       { label: 'Player 2', id: 'playername2', required: true },
@@ -28,69 +31,46 @@ export default class Game {
       { label: 'Player 4', id: 'playername4', required: false }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
-    let formTag = $('<form></form>');
+    let formTag = $('<form id="form"></form>');
     for (let formToFill of formToFills) {
       formTag.append(`
         <div>
-        <label for="username">${formToFill.label}</lable>
-        <input type="text" id="${formToFill.id}" placeholder="Write name here..." ${formToFill.required ? 'required' : ''}>
+        <label for="username"><span>${formToFill.label}</span></lable>
+        <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
         </div>
       `)
     }
-    formTag.append(`<button type="submit" class="formButton" name="submitbutton">Submit here</button>`);
-    //formTag.append(`<button class="formButton">Submit form Button</button>`);
+    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">start game here</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
-
-
-    //this.createBoard();
-    //await this.tilesFromFile();
-    // console.table is a nice way
-    // to log arrays and objects
-    //console.log(this.board);
-    //onsole.table(this.tiles);
-    // create players
-    //this.players = [
-
-    //Create players according to desired amount of players, and their names
-    //maybe a for loop to create players? Smth like if player wants to create 3 players and entered their names, then for loop to create 3 players
-    //new Player(this, 'Player 1'),
-    //new Player(this, 'Player 2')
-
-    //];
-    //console.table(this.players);
-    // render the board + players
-    //this.render();
-
-
-
-  }
-  createBoard() {
-    this.board = [...new Array(15)].map(x => new Array(15).fill({
-      specialValue: 'default',
-      tile: undefined
-    }));
-
   }
 
+  startGameButtonListener() {
+    let that = this;
+    function submitForm(event) {
+      event.preventDefault();
+      let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
+      for (let playerId of playerIds) {
+        let playerName = document.getElementById(playerId).value;
+        if (playerName.length <= 0) {
+          if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
+            that.players = [];
+            return;
+          }
+          continue;
+        }
+        else that.players.push(new Player(playerName, that));
+      }
+      $('.startPage').addClass("not-show");
+      $('.gamePage').removeClass("not-show");
+      $('.board').show();
+      $('header').animate({ "font-size": "15px", "padding": "5px" });
+      $('footer').animate({ "font-size": "10px", "padding": "3px" });
+      that.startGame();
+    }
 
-  renderGamePage() {
-    // Create the board and players divs
-    $('.board, .players').remove();
-    let $board = $('<div class="board"/>').appendTo($('.gamePage'));
-    let $players = $('<div class="players"/>').appendTo($('.gamePage'));
-    // Render the board
-    // (will be more code when we know how to represent 
-    //  the special squares)
-    this.board.flat().forEach(x => $board.append('<div/>'));
-    // Render the players
-    /*this.players.forEach(player =>
-      $players.append(player.render()));
-    this.addDragEvents();*/
-  }
-
-  startButtonListener() {
-    $('.button-start-game').click(() => alert('Here i will actually call the start() method'));
+    let form = document.getElementById('form');
+    form.addEventListener('submit', submitForm);
   }
 
 
@@ -112,32 +92,181 @@ export default class Game {
   }
 
 
-  buttonWork() {
-    let startButton = $('#startGameButton');
+  addButtonEvents() {
+    let that = this;
     let skipButton = $('#skipButton');
-
-    //Click on "start game" button and it will dissappear
-    //OBS! start page also dissappears
-    startButton.click(function () {
-      startButton.toggle();
-      $('.startPage').toggle();
-      $('.not-show').css("display", "flex");
-
-    })
-
+    let breakButton = $('#breakButton');
+    let changeTilesButton = this.tileChanger.button;
+    let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+      changePossibleToMoveToFalse();
+      that.currentPlayer.attemptCounter++;
+      that.gameEnder.checkGameEnd();
+      changePlayer();
+      that.render();
+    })
+
+    changeTilesButton.click(function () {
+      that.tileChanger.clickOnEventHandler();
+      that.gameEnder.checkGameEnd();
+      changePlayer();
+      that.render();
+
+    });
+
+    //Click on "Break button" too exit the game (in process)
+    breakButton.click(function () {
+
 
     })
 
+    checkWordButton.click(function () {
+
+      // in process
+      //if (scrabbleOk) {
+      //  that.currentPlayer.attemptCounter = 0;
+      //}
+
+
+      if (that.currentPlayer.checkWordButton >= 3) {
+        that.currentPlayer.attemptCounter++;
+      }
+      that.gameEnder.checkGameEnd();
+      changePlayer();
+      that.render();
+    })
+
+    function changePlayer() {
+      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
+        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
+      }
+      else that.currentPlayer = that.players[0];
+    }
+
+    function changePossibleToMoveToFalse() {
+      that.board.flat().map((x) => {
+        if (x.tile) { // same as if(typeof x.tile !== "undefined")
+          x.tile.possibleToMove = false;
+        }
+      });
+    }
 
   }
 
 
+  createBoard() {
+    // Two dimensional array with object and correct property values
+    this.board = [...new Array(15)]
+      .map(x => [...new Array(15)].map(x => ({})));
+    [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tw',
+          this.board[y][x].tileValue = 3
+      });
+    [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10],
+    [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
+    [13, 13]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dw',
+          this.board[y][x].tileValue = 2
+      });
+    [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
+    [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dl',
+          this.board[y][x].tileValue = 2
+      });
+    [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
+    [9, 9], [9, 13], [13, 5], [13, 9]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tl',
+          this.board[y][x].tileValue = 3
+      });
+    [[7, 7]].forEach(([y, x]) => {
+      this.board[y][x].specialValue = 'start',
+        this.board[y][x].tileValue = 2
+    });
+  }
 
-  //$('.formButton') --> button for submitting the form
+  getTiles(howMany = 7) {
+    return this.tiles.splice(0, howMany);
+  }
 
+  render() { //render board and player divs
+    let that = this;
+    $('.board, .players').remove();
+    let $players = $('<div class="players"/>').appendTo('.gamePage');
+    let $board = $('<div class="board"/>').appendTo('.gamePage');
+    this.board.flat().forEach(x => $board.append('<div/>'));
+    $('.board').html(
+      this.board.flat().map((x, i) => `
+        <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
+        data-player="${that.players.indexOf(that.currentPlayer)}"
+        data-tile="${i}"
+        ${x.tile.possibleToMove === true ? 'data-possibletomove' : ''}
+        > ${x.tile.char}
+          <span>${x.tile.points || ''}</span>
+          </div>` : ''} 
+        </div>
+      `).join('')
+    );
 
+    $players.append(this.currentPlayer.render());
+    this.tileChanger.hideChangeTiles(7);
+
+    $('.tiles').html(
+      this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    );
+
+    this.addDragEvents();
+    this.moveTilesAroundBoard();
+  }
+
+  //Check if empty tile is placed on board
+  //in process
+  checkIfEmptyTile() {
+    if (this.board[this.y][this.x].tile.char == " ") {
+      console.log('Empty tile found')
+      let myBool = false;
+      while (!myBool) {
+
+        let letter = prompt('Please write in 1 letter for empty tile', '');
+
+        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
+        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
+          letter = letter.toUpperCase();
+          myBool = true;
+          this.board[this.y][this.x].tile.char = letter;
+
+          this.render();
+          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
+        }
+      }
+    }
+  }
+
+  currentTilePoints() {
+    for (let player of this.players) {
+      for (let tile of player.currentTiles) {
+        for (let key in tile) {
+          let val = tile[key];
+          if (key === 'points') {
+            player.tilePoints = (player.tilePoints + val);
+          }
+        }
+      }
+      // This will remove all tiles left in players array of tiles when game ends
+      player.currentTiles.splice(0, player.currentTiles.length);
+      // The sum of players tiles left will be decreased from players points
+      player.points = (player.points - player.tilePoints);
+    }
+  }
 }
 
+import dragEvents from './GameDragEvents.js';
+Object.assign(Game.prototype, dragEvents);
+export default Game;

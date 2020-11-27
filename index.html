@@ -5,45 +5,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrabble game</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <!--Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styleBase.css">
+  <link rel="stylesheet" href="styleEndPage.css">
 </head>
 
 <body>
 
-
-
-
-
+  <header>
+    <p>Scrabble game</p>
+  </header>
 
   <!--Div for start page-->
-  <div class="startPage" id="startPage">
-    <!--container for all buttons in the game-->
-    <div class="buttons">
-      <div class="button-start-new-game">
-        <button>Start New Game</button>
-      </div>
-
-      <!--Start game button-->
-      <div class="button-start-game">
-        <button id="startGameButton">Start Game</button>
-      </div>
-    </div>
-
-
-
-  </div>
-
-
+  <div class="startPage" id="startPage"></div>
 
   <!---Div for game page-->
   <div class="gamePage not-show" id="gamePage">
 
+    <div class="board"></div>
+
+    <div class="changeTiles">
+      <div class="changeTilesSquare">
+        <p>Change tiles<br>square</p>
+      </div>
+      <button class="changeTilesButton" id="changeTilesButton">Change tiles</button>
+    </div>
+
     <!--container for buttons in actual game-->
     <div class="in-game-buttons">
 
-      <!--skip button-->
-      <div class="skipButton">
-        <button id="skipButton">Skip turn</button>
+      <div class="buttons">
+
+        <!--skip button-->
+        <div class="skipButton">
+          <button id="skipButton">Skip turn</button>
+        </div>
+
+        <!--Check word button-->
+        <div class="checkWordButton">
+          <button id="checkWordButton">Check Word</button>
+        </div>
+
+        <!--Exit game button-->
+        <div class="breakButton">
+          <button id="breakButton">Exit</button>
+        </div>
       </div>
 
       <!---"Change tiles" button gonna be here-->
@@ -54,6 +67,10 @@
     </div>
   </div>
   <!--Game page div ends here-->
+
+  <footer class="copyright">
+    <p>Copyright 2020, School project created by Group 1</p>
+  </footer>
 
 
   <!--jQuery--->

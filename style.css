@@ -1,120 +1,247 @@
-
-
 /*Styling for buttons*/
 
-html {
-  height: 100%;
+.not-show{
+  display:none;
 }
-body {
-  min-height: 100%;
-  background-color: rgb(195, 236, 233);
+
+.startPage {
+  margin: 90px auto;
 }
-.button-start-game button{
- 
-   display: inline-block;
-  
+
+.gamePage {
+  margin-top: 37px;
+  margin-bottom: 19.5px;
+  font-family: Arial;
+  min-width: 180vh;
+  position: relative;
+}
+
+.startPage form{
+  display: relative;
+  margin: 0 auto;
+  margin-top: 20vh;
+  text-align: center;
+}
+
+.startPage form div{
+  margin: 3vh 10vw;
+  font-family: Arial;
+}
+
+.startPage form label span{
+  font-size: 2.3vh;
+  font-weight: bold;
+  padding: 2px 1em;
+  background-color: #98aab4;
+  border-radius: 2px;
+  color:  #213951;
+}
+
+.startPage form input {
+  font-size: 2.3vh;
+}
+
+.startPage button{
+  display: inline-block;
   color: white;
-  background-color:  black;
+  background-color: #cf816b;/*#f5b880;*/
   cursor: pointer;
-  border: 1px solid black;
-  padding: 1.2rem 3rem;
-  font-size: 1.6rem;
-  text-transform:uppercase;
-  font-weight: 500%;
+  border: 5px solid white;
+  border-radius: 50px;
+  margin: 10vh 10vh 0 10vh;
+  padding: 1.2em 3em;
+  font-size: 4vh;
+  text-transform: uppercase;
+  font-weight: bold;
   transition: all 300ms ease-in-out;
-  position: absolute;
-  right: 40rem;
-  top: 35rem;
-
-
-  
- 
+  /*position: absolute;*/
 }
 
-.button-start-game button:hover{
-
+body button:hover{
   background-color:transparent;
-  color: black;
+  color: rgb(31, 30, 30);
 }
 
-.skipButton button{
-
-   color: white;
-   background-color: black;
+.gamePage button {
+  color: white;
+  background-color: black;
   cursor: pointer;
   border: 1px solid black;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+  border-radius: 5px;
+  padding: 0.5vw 1vw;
+  font-size: 1vw;
   text-transform:uppercase;
   font-weight: 100%;
   transition: all 300ms ease-in-out;
-  position: absolute;
-  right: 10rem;
-  bottom: 3rem;
  
+  /*display: inline-block;
+   /*position: absolute;
+   bottom: 5rem;
+  right: 10rem;*/
   
-  
-  
-
-}
-
-.skipButton button:hover{
-
-  background-color: transparent;
-  color: black;
 }
 
 
+.buttons {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh; 
+}
 
-*, *:before, *:after {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
+#breakButton:hover{
+  opacity: 1;
+  background-color:red;
+  border: 1px solid red;
+  color: white;
+}
+
+.changeTiles {
+  position: absolute;
+  display: inline;
+  margin: 2vh;
+  top: 24vh;
+  right: 10vw;
+  width: 70vh;
+}
+
+.changeTiles .changeTilesSquare{
+  height: 30vh;
+  width: 30vh;
+  border: 0.3em dashed #e5d4c2;
+  border-radius: 10px;
+  background-color: #cf816a;
+}
+
+.changeTiles .changeTilesSquare p {
+  text-align: center;
+  color: #e5d4c2;
+  font-size: 5vh;
+  width: 80%;
+  height: 60%;
+} 
+
+.changeTiles button {
+  margin: 1vh;
 }
 
 .board {
-  border: 10px  solid #c385c9;
-  border-radius: 3px;
+  border: 10px solid #b77b57; 
+  margin-top: 1vh;
+  margin-left: 20px;
+  border-radius: 5px;
   display: inline-block;
-  position: absolute;
-  bottom: 3rem;
-  left: 2rem;
-  
 }
 
 .board > div {
-  border: 1px solid #53746e;
-  width: 6.2vh;
+  border: 1px solid rgb(39, 37, 37);
+  margin: 0.5px;
+  background-color: rgb(255, 255, 255);
+  width: 5.2vh;
   height: 5.2vh;
-  background-color: #a1c2dd;
   float: left;
-  
-}
-
-.board > div:hover{
-  background-color: black;
+  border-radius: 2px;
 }
 
 .board > div:nth-child(15n+1){
   clear: both;
 }
 
-.board > div::after {
-  display:block;
+.board > div::after{
+  display: block;
+}
+
+.board > div.special-tw{
+background-color: #ccb0a2;
+}
+
+.board .special-tw::after{
+  content: 'TW';
+  color: #fff;
+  font-style: bold;
+  display: block;
   text-align: center;
+  font-size: 3vh;
+}
+
+.in-game-buttons > .buttons > div {
+  float: left;
+  padding-left: 10px;
+}
+
+.board > div.special-dl{
+background-color: #d6e1e7;
+}
+
+.board .special-dl::after{
+  content: 'DL';
+  color: #FFF;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 3vh;
+}
+
+.board > div.special-dw{
+background-color: #98aab4;
+}
+
+.board .special-dw::after{
+  content: 'DW';
+  color: #FFF;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 3vh;
+}
+
+.board > div.special-tl{
+background-color: #e5d4c2;
+
+}
+
+.board .special-tl::after{
+  content: 'TL';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 3vh;
+}
+
+.board > div.special-start{
+background-color: #b77b57;
+}
+
+.board .special-start::after{
+  content: 'START';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  padding-top: 1.7vh;
 }
 
 .players {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 10vh;
+  right: 10vw;
+}
+
+.player-icon{
+  float: left;
+  text-align:center;
+  vertical-align:middle;
 }
 
 .stand {
-  background-color: rgb(94, 34, 34);
-  padding: 10px;
-  width: 53vh;
+  float: left;
+  background-color:rgb(33, 57, 81);
+  padding: 20px;
+  min-width: 53vh;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
 }
 
 .stand::after {
@@ -134,7 +261,7 @@ body {
   width: 5.6vh;
   height: 5.6vh;
   float: left;
-  background-color: #fff; 
+  background-color: rgb(229, 212, 194); 
   border: 1px solid #000;
   border-radius: 3px;
   margin: 0 2px;
@@ -143,7 +270,8 @@ body {
 
 .board .tile {
   position: absolute;
-  margin: 1px;
+  background-color: rgb(243, 206, 165);
+  margin: -1px;
 }
 
 .tile span {
@@ -158,10 +286,15 @@ body {
   background-color: transparent;
 }
 
-.pname {
-  margin-bottom: 20px;
+.fas{
+  color: rgb(33, 57, 81);
+
 }
 
-.not-show{
-  display:none;
+.board > div.hover {
+  background-color: orange;
+}
+
+.changeTiles .changeTilesSquare.hover {
+  background-color: rgb(33, 57, 81);
 }
