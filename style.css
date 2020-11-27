@@ -4,8 +4,22 @@
   display:none;
 }
 
+.startPage {
+  margin: 90px auto;
+}
+
+.gamePage {
+  margin-top: 37px;
+  margin-bottom: 19.5px;
+  font-family: Arial;
+  min-width: 180vh;
+  position: relative;
+}
+
 .startPage form{
-  margin: 20vh 20vh 0 20vh;
+  display: relative;
+  margin: 0 auto;
+  margin-top: 20vh;
   text-align: center;
 }
 
@@ -37,7 +51,7 @@
   margin: 10vh 10vh 0 10vh;
   padding: 1.2em 3em;
   font-size: 4vh;
-  text-transform:uppercase;
+  text-transform: uppercase;
   font-weight: bold;
   transition: all 300ms ease-in-out;
   /*position: absolute;*/
@@ -48,55 +62,71 @@ body button:hover{
   color: rgb(31, 30, 30);
 }
 
-.skipButton button{
+.gamePage button {
   color: white;
   background-color: black;
   cursor: pointer;
   border: 1px solid black;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+  border-radius: 5px;
+  padding: 0.5vw 1vw;
+  font-size: 1vw;
   text-transform:uppercase;
   font-weight: 100%;
   transition: all 300ms ease-in-out;
-  position: absolute;
-  right: 10rem;
-  bottom: 8rem;
-
+ 
+  /*display: inline-block;
+   /*position: absolute;
+   bottom: 5rem;
+  right: 10rem;*/
+  
 }
-.breakButton button{
+
+
+.buttons {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh; 
+}
+
+#breakButton:hover{
+  opacity: 1;
+  background-color:red;
+  border: 1px solid red;
   color: white;
-  background-color: black;
-  cursor: pointer;
-  border: 1px solid black;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  text-transform:uppercase;
-  font-weight: 100%;
-  transition: all 300ms ease-in-out;
-  position: absolute;
-  right: 5rem;
-  bottom: 8rem;
 }
 
-.checkWordButton button{
-  color: white;
-  background-color: black;
-  cursor: pointer;
-  border: 1px solid black;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  text-transform:uppercase;
-  font-weight: 100%;
-  transition: all 300ms ease-in-out;
+.changeTiles {
   position: absolute;
-  right: 18rem;
-  bottom: 8rem;
+  display: inline;
+  margin: 2vh;
+  top: 24vh;
+  right: 10vw;
+  width: 70vh;
 }
 
+.changeTiles .changeTilesSquare{
+  height: 30vh;
+  width: 30vh;
+  border: 0.3em dashed #e5d4c2;
+  border-radius: 10px;
+  background-color: #cf816a;
+}
+
+.changeTiles .changeTilesSquare p {
+  text-align: center;
+  color: #e5d4c2;
+  font-size: 5vh;
+  width: 80%;
+  height: 60%;
+} 
+
+.changeTiles button {
+  margin: 1vh;
+}
 
 .board {
   border: 10px solid #b77b57; 
-  margin-top: 7vh;
+  margin-top: 1vh;
   margin-left: 20px;
   border-radius: 5px;
   display: inline-block;
@@ -110,10 +140,6 @@ body button:hover{
   height: 5.2vh;
   float: left;
   border-radius: 2px;
-}
-
-.hover {
-  background-color: brown;
 }
 
 .board > div:nth-child(15n+1){
@@ -135,6 +161,11 @@ background-color: #ccb0a2;
   display: block;
   text-align: center;
   font-size: 3vh;
+}
+
+.in-game-buttons > .buttons > div {
+  float: left;
+  padding-left: 10px;
 }
 
 .board > div.special-dl{
@@ -161,8 +192,8 @@ background-color: #98aab4;
   display: block;
   text-align: center;
   font-size: 3vh;
-  padding-top:1,7vh;
 }
+
 .board > div.special-tl{
 background-color: #e5d4c2;
 
@@ -177,16 +208,40 @@ background-color: #e5d4c2;
   font-size: 3vh;
 }
 
+.board > div.special-start{
+background-color: #b77b57;
+}
+
+.board .special-start::after{
+  content: 'START';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  padding-top: 1.7vh;
+}
+
 .players {
   position: absolute;
-  top: 50px;
-  right: 5px;
+  top: 10vh;
+  right: 10vw;
+}
+
+.player-icon{
+  float: left;
+  text-align:center;
+  vertical-align:middle;
 }
 
 .stand {
+  float: left;
   background-color:rgb(33, 57, 81);
-  padding: 10px;
-  width: 53vh;
+  padding: 20px;
+  min-width: 53vh;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
 }
 
 .stand::after {
@@ -215,7 +270,8 @@ background-color: #e5d4c2;
 
 .board .tile {
   position: absolute;
-  margin: 1px;
+  background-color: rgb(243, 206, 165);
+  margin: -1px;
 }
 
 .tile span {
@@ -230,6 +286,15 @@ background-color: #e5d4c2;
   background-color: transparent;
 }
 
-.pname {
-  margin-bottom: 20px;
+.fas{
+  color: rgb(33, 57, 81);
+
+}
+
+.board > div.hover {
+  background-color: orange;
+}
+
+.changeTiles .changeTilesSquare.hover {
+  background-color: rgb(33, 57, 81);
 }

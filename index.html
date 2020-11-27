@@ -9,13 +9,19 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&display=swap"
     rel="stylesheet">
+  <!--Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-base.css">
+  <link rel="stylesheet" href="styleBase.css">
+  <link rel="stylesheet" href="styleEndPage.css">
 </head>
 
 <body>
 
-  <header><p>Scrabble game</p></header>
+  <header>
+    <p>Scrabble game</p>
+  </header>
 
   <!--Div for start page-->
   <div class="startPage" id="startPage"></div>
@@ -25,22 +31,32 @@
 
     <div class="board"></div>
 
+    <div class="changeTiles">
+      <div class="changeTilesSquare">
+        <p>Change tiles<br>square</p>
+      </div>
+      <button class="changeTilesButton" id="changeTilesButton">Change tiles</button>
+    </div>
+
     <!--container for buttons in actual game-->
     <div class="in-game-buttons">
 
-      <!--skip button-->
-      <div class="skipButton">
-        <button id="skipButton">Skip turn</button>
-      </div>
+      <div class="buttons">
 
-      <!--Exit game button-->
-      <div class="breakButton">
-        <button id="breakButton">Exit</button>
-      </div>
+        <!--skip button-->
+        <div class="skipButton">
+          <button id="skipButton">Skip turn</button>
+        </div>
 
-      <!--Check word button-->
-      <div class="checkWordButton">
-        <button id="checkWordButton">Check Word</button>
+        <!--Check word button-->
+        <div class="checkWordButton">
+          <button id="checkWordButton">Check Word</button>
+        </div>
+
+        <!--Exit game button-->
+        <div class="breakButton">
+          <button id="breakButton">Exit</button>
+        </div>
       </div>
 
       <!---"Change tiles" button gonna be here-->
@@ -52,7 +68,9 @@
   </div>
   <!--Game page div ends here-->
 
-  <footer class="copyright"><p>Copyright 2020, School project created by Group 1</p></footer>
+  <footer class="copyright">
+    <p>Copyright 2020, School project created by Group 1</p>
+  </footer>
 
 
   <!--jQuery--->

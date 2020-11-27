@@ -1,13 +1,19 @@
 import Player from "./Player.js";
-export default class Game {
+import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import GameEnder from "./GameEnder.js";
+import TileChanger from "./ButtonHandler/TileChanger.js"
+class Game {
 
   players = [];
-  currentPlayer = '';
+  lastClickedTile;
+  tileChanger = new TileChanger(this);
+  //currentPlayer = '';
+  gameEnder = new GameEnder(this);
 
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
-    this.buttonWork();
+    this.addButtonEvents();
     await this.tilesFromFile();
   }
 
@@ -86,166 +92,181 @@ export default class Game {
   }
 
 
-  buttonWork() {
+  addButtonEvents() {
     let that = this;
     let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
+    let changeTilesButton = this.tileChanger.button;
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
+      changePossibleToMoveToFalse();
+      that.currentPlayer.attemptCounter++;
+      that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
     })
 
+    changeTilesButton.click(function () {
+      that.tileChanger.clickOnEventHandler();
+      that.gameEnder.checkGameEnd();
+      changePlayer();
+      that.render();
+
+    });
+
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
+
 
     })
 
     checkWordButton.click(function () {
 
+      // in process
+      //if (scrabbleOk) {
+      //  that.currentPlayer.attemptCounter = 0;
+      //}
+
+
+      if (that.currentPlayer.checkWordButton >= 3) {
+        that.currentPlayer.attemptCounter++;
+      }
+      that.gameEnder.checkGameEnd();
+      changePlayer();
+      that.render();
     })
+
     function changePlayer() {
       if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
         that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
       }
       else that.currentPlayer = that.players[0];
     }
+
+    function changePossibleToMoveToFalse() {
+      that.board.flat().map((x) => {
+        if (x.tile) { // same as if(typeof x.tile !== "undefined")
+          x.tile.possibleToMove = false;
+        }
+      });
+    }
+
   }
+
 
   createBoard() {
     // Two dimensional array with object and correct property values
     this.board = [...new Array(15)]
       .map(x => [...new Array(15)].map(x => ({})));
     [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'tw');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tw',
+          this.board[y][x].tileValue = 3
+      });
     [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10],
-    [7, 7], [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
+    [10, 4], [10, 10], [11, 3], [11, 11], [12, 2], [12, 12], [13, 1],
     [13, 13]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'dw');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dw',
+          this.board[y][x].tileValue = 2
+      });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'dl');
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'dl',
+          this.board[y][x].tileValue = 2
+      });
     [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5],
     [9, 9], [9, 13], [13, 5], [13, 9]]
-      .forEach(([y, x]) => this.board[y][x].specialValue = 'tl');
+      .forEach(([y, x]) => {
+        this.board[y][x].specialValue = 'tl',
+          this.board[y][x].tileValue = 3
+      });
+    [[7, 7]].forEach(([y, x]) => {
+      this.board[y][x].specialValue = 'start',
+        this.board[y][x].tileValue = 2
+    });
   }
 
-
   getTiles(howMany = 7) {
-    // Return a number of tiles (and remove from this.tiles)
     return this.tiles.splice(0, howMany);
   }
 
-  render() {
-    // render board and player divs
+  render() { //render board and player divs
+    let that = this;
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
-      this.board.flat().map(x => `
-        <div class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+      this.board.flat().map((x, i) => `
+        <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
+        ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
+        data-player="${that.players.indexOf(that.currentPlayer)}"
+        data-tile="${i}"
+        ${x.tile.possibleToMove === true ? 'data-possibletomove' : ''}
+        > ${x.tile.char}
+          <span>${x.tile.points || ''}</span>
+          </div>` : ''} 
         </div>
       `).join('')
     );
-    //render all the players
-    /*
-    this.players.forEach(player =>
-      $players.append(player.render()));
-      */
-    // render currentPlayer
+
     $players.append(this.currentPlayer.render());
+    this.tileChanger.hideChangeTiles(7);
+
+    $('.tiles').html(
+      this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    );
+
     this.addDragEvents();
+    this.moveTilesAroundBoard();
   }
 
+  //Check if empty tile is placed on board
+  //in process
+  checkIfEmptyTile() {
+    if (this.board[this.y][this.x].tile.char == " ") {
+      console.log('Empty tile found')
+      let myBool = false;
+      while (!myBool) {
 
-  addDragEvents() {
-    let that = this;
-    // let tile in the stands be draggable
-    $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-      .on('dragStart', function () {
-        // set a high z-index so that the tile being drag
-        // is on top of everything  
-        $(this).css({ zIndex: 100 });
-      })
-      .on('dragMove', function (e, pointer) {
-        //$(this).css('background-color', 'blue');
+        let letter = prompt('Please write in 1 letter for empty tile', '');
 
-        //let { pageX, pageY } = pointer;
-        let pageX = pointer.pageX;
-        let pageY = pointer.pageY;
+        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
+        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
+          letter = letter.toUpperCase();
+          myBool = true;
+          this.board[this.y][this.x].tile.char = letter;
 
-        let $squares = $('.board > div');
-        for (let square of $squares) {
-          let squareTop = $(square).offset().top;
-          let squareLeft = $(square).offset().left;
-          let squareRight = $(square).offset().left + $(square).width();
-          let squareBottom = $(square).offset().top + $(square).height();
+          this.render();
+          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
+        }
+      }
+    }
+  }
 
-          if (pageX > squareLeft && pageX < squareRight && pageY < squareBottom && pageY > squareTop) {
-            $(square).css('background-color', 'orange');
-          } else {
-            $(square).css('background-color', '');
+  currentTilePoints() {
+    for (let player of this.players) {
+      for (let tile of player.currentTiles) {
+        for (let key in tile) {
+          let val = tile[key];
+          if (key === 'points') {
+            player.tilePoints = (player.tilePoints + val);
           }
         }
-
-
-        /* //This works very fine until you drag a tile at the same time...
-                $('.board').children().each(function () {
-                  $(this).hover(function () {
-                    $(this).css('background-color', 'orange');
-                  }, function () {
-                    $(this).css('background-color', '');
-                  });
-                }); */
-
-        // we will need code that reacts
-        // if you have moved a tile to a square on the board
-        // (light it up so the player knows where the tile will drop)
-        // but that code is not written yet ;)
-
-      })
-      .on('dragEnd', function (e, pointer) {
-        let { pageX, pageY } = pointer;
-        let me = $(this);
-
-        // reset the z-index
-        me.css({ zIndex: '' });
-
-        //THIS PART NEEDS TO BE FIXED: 
-
-        let player = that.players[+$(this).attr('data-player')];
-        let tileIndex = +$(this).attr('data-tile');
-        console.log(player, tileIndex, player.tiles);
-        let tile = player.currentTiles[tileIndex];
-
-        // we will need code that reacts
-        // if you have moved a tile to a square on the board
-        // (add the square to the board, remove it from the stand)
-        // but that code is not written yet ;)
-
-        // but we do have the code that let you
-        // drag the tiles in a different order in the stands
-        let $stand = $(this).parent('.stand');
-        let { top, left } = $stand.offset();
-        let bottom = top + $stand.height();
-        let right = left + $stand.width();
-        // if dragged within the limit of the stand
-        if (pageX > left && pageX < right
-          && pageY > top && pageY < bottom) {
-          let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-          let pt = player.currentTiles;
-          // move around
-          pt.splice(tileIndex, 1, ' ');
-          pt.splice(newIndex, 0, tile);
-          //preserve the space where the tile used to be
-          while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-        }
-        that.render();
-      });
+      }
+      // This will remove all tiles left in players array of tiles when game ends
+      player.currentTiles.splice(0, player.currentTiles.length);
+      // The sum of players tiles left will be decreased from players points
+      player.points = (player.points - player.tilePoints);
+    }
   }
 }
 
+import dragEvents from './GameDragEvents.js';
+Object.assign(Game.prototype, dragEvents);
+export default Game;
