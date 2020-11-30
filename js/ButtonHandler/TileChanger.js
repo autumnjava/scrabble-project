@@ -71,7 +71,6 @@ export default class TileChanger {
   addTileDiv(tileDiv) {
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
-    /*
     if (!tile) {
       //if tile is being dragged from the board i.e 'tile is undefined'
       let oldY = Math.floor(tileIndex / 15);
@@ -79,7 +78,6 @@ export default class TileChanger {
       tile = this.game.board[oldY][oldX].tile;
       delete this.game.board[oldY][oldX].tile; //delete .tile from the board
     }
-    */
 
     if (!this.inSquareTiles.includes(tile)) {
       this.inSquareTiles.push(tile);
@@ -91,9 +89,10 @@ export default class TileChanger {
   }
 
   convertTileToPlayer(tileDiv) { 
-    let tilePlayerIndex = getTileDivDatasetAsObject(tileDiv).player;
-    let tileInfo = getTileDivInnerTextAsObject(tileDiv);
-    //let tile = {char: }
+    let tileInfo = getTileDivInnerTextAsObject(tileDiv).split('');
+    tileInfo = [tileInfo[0], tileInfo[2]];
+    let tile = { char: tileInfo[0], points: +tileInfo[1] }
+    this.game.currentPlayer.currentTiles.push(tile);
   }
 
 }

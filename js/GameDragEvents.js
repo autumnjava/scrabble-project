@@ -111,7 +111,7 @@ export default {
     this.lastClickedTile.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.tileChanger.convertTileToPlayer(this.lastClickedTile);
+      this.tileChanger.convertTileToPlayer(this.lastClickedTile); // add tile back to player (still on board)
       this.lastClickedTile.addClass('onChangeTilesSquare');
       this.tileChanger.addTileDiv(this.lastClickedTile);
     }
