@@ -1,4 +1,7 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
+import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
+import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
+
 
 export default class TileChanger {
 
@@ -68,6 +71,7 @@ export default class TileChanger {
   addTileDiv(tileDiv) {
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
+    /*
     if (!tile) {
       //if tile is being dragged from the board i.e 'tile is undefined'
       let oldY = Math.floor(tileIndex / 15);
@@ -75,15 +79,21 @@ export default class TileChanger {
       tile = this.game.board[oldY][oldX].tile;
       delete this.game.board[oldY][oldX].tile; //delete .tile from the board
     }
+    */
 
     if (!this.inSquareTiles.includes(tile)) {
       this.inSquareTiles.push(tile);
     }
   }
 
-  isTilesOnBoard() { 
+  isTilesOnBoard(tileDiv) { 
     console.log("isTileOnBoard");
-    console.log($('.board .tile').filter("[data-possibletomove]"));
+  }
+
+  convertTileToPlayer(tileDiv) { 
+    let tilePlayerIndex = getTileDivDatasetAsObject(tileDiv).player;
+    let tileInfo = getTileDivInnerTextAsObject(tileDiv);
+    //let tile = {char: }
   }
 
 }

@@ -37,10 +37,10 @@ export default {
   dragEnd(e, pointer) {
     let { pageX, pageY } = pointer;
     let me = $(e.currentTarget);
+    this.lastClickedTile = me;
     // reset the z-index
     this.lastClickedTile.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
-    this.tileChanger.isTilesOnBoard();
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.lastClickedTile.addClass('onChangeTilesSquare');
       this.tileChanger.addTileDiv(this.lastClickedTile);
@@ -100,6 +100,7 @@ export default {
     let { pageX, pageY } = pointer;
     let that = this;
     let me = $(e.currentTarget);
+    this.lastClickedTile = me;
     let oldIndex = +$(me).attr('data-tile');
     let oldY = Math.floor(oldIndex / 15);
     let oldX = oldIndex % 15;
@@ -110,6 +111,7 @@ export default {
     this.lastClickedTile.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
+      this.tileChanger.convertTileToPlayer(this.lastClickedTile);
       this.lastClickedTile.addClass('onChangeTilesSquare');
       this.tileChanger.addTileDiv(this.lastClickedTile);
     }
