@@ -1,8 +1,8 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
 
-export default class TileChanger { 
+export default class TileChanger {
 
-  constructor(game) { 
+  constructor(game) {
     this.game = game;
     this.changeTilesDiv = $('.changeTiles');
     this.button = $('.changeTilesButton');
@@ -11,7 +11,7 @@ export default class TileChanger {
   }
 
 
-  clickOnEventHandler() { 
+  clickOnEventHandler() {
     let playerTiles = this.game.currentPlayer.currentTiles;
     if (this.inSquareTiles.length > 0) {
       for (let tileToRemove of this.inSquareTiles) {
@@ -44,7 +44,7 @@ export default class TileChanger {
     }
   }
 
-  hideButton(minTilesToShow) { 
+  hideButton(minTilesToShow) {
     if (this.game.tiles.length < minTilesToShow) {
       this.button.hide();
     }
@@ -68,7 +68,15 @@ export default class TileChanger {
   addTileDiv(tileDiv) {
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
-    if (!this.inSquareTiles.includes(tile)) { 
+    if (!tile) {
+      //if tile is being dragged from the board i.e 'tile is undefined'
+      let oldY = Math.floor(tileIndex / 15);
+      let oldX = tileIndex % 15;
+      tile = this.game.board[oldY][oldX].tile;
+      delete this.game.board[oldY][oldX].tile; //delete .tile from the board
+    }
+
+    if (!this.inSquareTiles.includes(tile)) {
       this.inSquareTiles.push(tile);
     }
   }

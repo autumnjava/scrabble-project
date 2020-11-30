@@ -12,6 +12,8 @@
   margin-top: 37px;
   margin-bottom: 19.5px;
   font-family: Arial;
+  min-width: 180vh;
+  position: relative;
 }
 
 .startPage form{
@@ -71,21 +73,19 @@ body button:hover{
   text-transform:uppercase;
   font-weight: 100%;
   transition: all 300ms ease-in-out;
+ 
+  /*display: inline-block;
+   /*position: absolute;
+   bottom: 5rem;
+  right: 10rem;*/
+  
+}
+
+
+.buttons {
   position: absolute;
-  right: 18rem;
-  bottom: 8rem;
-}
-
-.gamePage .buttons {
-  right: 10rem;
-}
-
-.skipButton button{
-  right: 10rem;
-}
-.breakButton button{
-  opacity: 0.5;
-  right: 5rem;
+  bottom: 5vh;
+  right: 5vh; 
 }
 
 #breakButton:hover{
@@ -95,45 +95,33 @@ body button:hover{
   color: white;
 }
 
-.checkWordButton button{
-  right: 18rem;
-}
-
 .changeTiles {
   position: absolute;
+  display: inline;
+  margin: 2vh;
   top: 24vh;
   right: 10vw;
-  height: 40vh;
   width: 70vh;
 }
 
 .changeTiles .changeTilesSquare{
-  float: left;
-  position: relative;
   height: 30vh;
   width: 30vh;
-  margin: 4vh;
   border: 0.3em dashed #e5d4c2;
   border-radius: 10px;
   background-color: #cf816a;
 }
 
 .changeTiles .changeTilesSquare p {
-  position: relative;
   text-align: center;
   color: #e5d4c2;
   font-size: 5vh;
-  margin: 0 auto;
   width: 80%;
   height: 60%;
-  top: 20%;
 } 
 
 .changeTiles button {
-  float: left;
-  position: relative;
-  top: 1em;
-  left: 1em;
+  margin: 1vh;
 }
 
 .board {
@@ -173,6 +161,11 @@ background-color: #ccb0a2;
   display: block;
   text-align: center;
   font-size: 3vh;
+}
+
+.in-game-buttons > .buttons > div {
+  float: left;
+  padding-left: 10px;
 }
 
 .board > div.special-dl{
@@ -239,15 +232,15 @@ background-color: #b77b57;
   float: left;
   text-align:center;
   vertical-align:middle;
-  position: relative;
 }
 
 .stand {
   float: left;
   background-color:rgb(33, 57, 81);
-  padding: 10px;
-  width: 53vh;
+  padding: 20px;
+  min-width: 53vh;
   border-radius: 5px;
+  margin-right: 10px;
   position: relative;
 }
 
@@ -277,7 +270,8 @@ background-color: #b77b57;
 
 .board .tile {
   position: absolute;
-  margin: 1px;
+  background-color: rgb(243, 206, 165);
+  margin: -1px;
 }
 
 .tile span {
