@@ -88,11 +88,18 @@ export default class TileChanger {
     console.log("isTileOnBoard");
   }
 
-  convertTileToPlayer(tileDiv) { 
+  returnTileToPlayer(tileDiv) { 
     let tileInfo = getTileDivInnerTextAsObject(tileDiv).split('');
     tileInfo = [tileInfo[0], tileInfo[2]];
-    let tile = { char: tileInfo[0], points: +tileInfo[1] }
+    let tile = {char: tileInfo[0], points: +tileInfo[1]}
     this.game.currentPlayer.currentTiles.push(tile);
+    console.log(this.game.currentPlayer.currentTiles);
+    console.log('before', this.inSquareTiles);
+    if (this.inSquareTiles.includes(tile)) {
+      this.inSquareTiles = this.inSquareTiles.split(this.inSquareTiles.indexOf(tile), 1);
+    }
+    console.log('after', this.inSquareTiles);
+
   }
 
 }
