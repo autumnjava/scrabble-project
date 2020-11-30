@@ -1,6 +1,9 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
+import { getTileDivAsATileObject } from "../Helpers/TileHelper.js";
+
+
 
 
 export default class TileChanger {
@@ -68,7 +71,8 @@ export default class TileChanger {
     }
   }
 
-  addTileDiv(tileDiv) {
+  addTileDivInSquare(tileDiv) {
+    tileDiv.removeClass('onChangeTilesSquare');
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
     if (!tile) {
@@ -77,29 +81,49 @@ export default class TileChanger {
       let oldX = tileIndex % 15;
       tile = this.game.board[oldY][oldX].tile;
       delete this.game.board[oldY][oldX].tile; //delete .tile from the board
-    }
 
-    if (!this.inSquareTiles.includes(tile)) {
-      this.inSquareTiles.push(tile);
+      let tileInfo = getTileDivInnerTextAsObject(tileDiv).split('');
+      tileInfo = [tileInfo[0], (tileInfo[2] === NaN ? 0 : tileInfo[2])];
+      let newtile = { char: tileInfo[0], points: +tileInfo[1] };
+      console.log('new tile', newtile);
+
+      this.returnTileToPlayer(tileDiv);
+
     }
+    else {
+      if (!this.inSquareTiles.includes(tile)) {
+        console.log('pushed');
+        this.inSquareTiles.push(tile);
+      }
+    }
+  
   }
 
   isTilesOnBoard(tileDiv) { 
     console.log("isTileOnBoard");
   }
 
-  returnTileToPlayer(tileDiv) { 
-    let tileInfo = getTileDivInnerTextAsObject(tileDiv).split('');
-    tileInfo = [tileInfo[0], tileInfo[2]];
-    let tile = {char: tileInfo[0], points: +tileInfo[1]}
-    this.game.currentPlayer.currentTiles.push(tile);
-    console.log(this.game.currentPlayer.currentTiles);
-    console.log('before', this.inSquareTiles);
-    if (this.inSquareTiles.includes(tile)) {
-      this.inSquareTiles = this.inSquareTiles.split(this.inSquareTiles.indexOf(tile), 1);
+  isTileInSquareTiles(tile) { 
+    if (!tile) {
+      for (let t of this.inSquareTiles) {
+        if (t.char === tile.char && t.points === tile.points) {
+          return t;
+        }
+      }
     }
-    console.log('after', this.inSquareTiles);
-
+    return '';
   }
 
+  removeAllTilesInSquare(tile) {
+    this.inSquareTiles = [];
+  }
+
+  returnTileToPlayer(tileDiv) {
+    let tile = getTileDivDatasetAsObject(tileDiv);
+    console.log('tikle', tile);
+    console.log('lenght', this.isTileInSquareTiles(tile).length);
+    if (this.isTileInSquareTiles(tile).length <= 0) {
+      this.game.currentPlayer.currentTiles.push(tile);
+    }
+  }
 }
