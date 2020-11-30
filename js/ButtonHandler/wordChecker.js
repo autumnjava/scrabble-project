@@ -10,6 +10,7 @@ export default class WordChecker {
   }
 
   sortTiles(tile, x, y, player) {
+
     // In progress - save & check word
     // Add property values y and x to tile object
     tile.positionY = y;
@@ -24,6 +25,7 @@ export default class WordChecker {
     // Check if word is horizontal or vertical - returns true or false
     let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
     let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
+    this.allXAreSame = allXAreSame;
 
     let allPositionsYSorted = [];
     let allPositionsXSorted = [];
@@ -36,6 +38,7 @@ export default class WordChecker {
     }
     else if (!allYAreSame) {
       allPositionsYSorted = player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
+
     }
     else if (!allXAreSame) {
       allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
@@ -63,6 +66,7 @@ export default class WordChecker {
     this.tileRight = this.game.board[tile.positionY][tile.positionX + 1];
     this.tileLeft = this.game.board[tile.positionY][tile.positionX - 1];
     this.tileBelow = this.game.board[tile.positionY + 1][tile.positionX];
+
 
     // If the specific tile has property tile, write the tiles property char to the console
     if (this.tileAbove.hasOwnProperty('tile')) {
@@ -92,18 +96,46 @@ export default class WordChecker {
   }
 
   convertToString(player) {
+
     // Loop through the sorted array, take the value of property char and 
     // convert it into a string
     for (let tile of player.tilesPlaced) {
+
+
+      if (this.allXAreSame) {
+        let divBelow = this.game.board[tile.positionY + 1][tile.positionX]; //Position of tile below the last placed tile
+        this.myBool = false; //Boolean that shows if below tile is not current player's tile
+
+        //If div below the last placed tile contains tile that is not current player's tile
+        // Select char of the below tile and make boolean true
+        if (divBelow.tile != undefined && !player.tilesPlaced.includes(divBelow.tile)) {
+
+          this.anotherPlayerTileCharBelow = divBelow.tile.char;
+          console.log('another player tile is', this.anotherPlayerTileCharBelow)
+          this.myBool = true;
+        }
+
+      }
+
       for (let key in tile) {
         let val = tile[key];
         if (key === 'char') {
-          this.wordToCheck += val;
+          //If other player's tile found below current player's tile add last added tile's char and another playe's char
+          if (this.myBool == true) {
+            this.wordToCheck += val;
+            this.wordToCheck += this.anotherPlayerTileCharBelow;
+          }
+          //Otherwise add only the last added tile's char
+          else {
+            this.wordToCheck += val;
+          }
         }
       }
     }
-    console.log('To String', this.wordToCheck);
+    console.log('To String', this.wordToCheck); //writing a whole word that will be checked
   }
+
+
   async checkWordWithSAOL() {
     this.isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
     let playerTiles = this.game.currentPlayer.currentTiles;
@@ -118,7 +150,10 @@ export default class WordChecker {
       console.log('correct word points: ', this.game.currentPlayer.points);
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
+      console.log('tilesplaced', this.game.currentPlayer.tilesPlaced);
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+
+      console.log('tilesplaced', this.game.currentPlayer.tilesPlaced);
       this.game.changePlayer();
       this.game.render();
     }
