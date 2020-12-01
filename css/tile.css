@@ -1,0 +1,19 @@
+.tile {
+  text-align:center;
+  width: 5.6vh;
+  height: 5.6vh;
+  background-color: rgb(229, 212, 194); 
+  border: 1px solid #000;
+  border-radius: 3px;
+  font-size: 3.5vh;
+}
+
+.tile span {
+  right: 3px;
+  bottom: 3px;
+}
+
+tile .empty {
+  border: 0;
+  background-color: transparent;
+}

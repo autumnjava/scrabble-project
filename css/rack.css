@@ -1,11 +1,22 @@
 rack {
-  display: block;
-  background-color:rgb(33, 57, 81);
-  padding: 10px;
+  display: inline-block;
+  padding: 2vh;
+  background-color: rgb(33, 57, 81);
   border-radius: 1vh;
-  margin: 2vh;
+  margin: 0 1vh;
 }
 
-rack .tile {
-  cursor: pointer;
+rack tile {
+  display: inline-block;
+  width: 5vh;
+  height: 5vh;
+  text-align:center;
+  background-color: rgb(229, 212, 194); 
+  border: 1vh solid #000;
+  border-radius: 1vh;
+  font-size: 2vh;
+}
+
+rack .empty {
+  background-color: rgba(0,0,0,0.5);
 }

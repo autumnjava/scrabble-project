@@ -1,7 +1,7 @@
 export default class TileChanger {
   render() {
-    let pointer = $('game right player');
+    let pointer = $('game right ');
     pointer.append(`
-      <changer>Change tiles</changer>`);
+      <changer><surface>Change tiles</surface></changer>`);
   }
 }

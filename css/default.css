@@ -3,6 +3,7 @@
 @import 'board.css';
 @import 'player.css';
 @import 'rack.css';
+@import 'tile.css';
 @import 'changer.css';
 @import 'menu.css';
 
@@ -61,35 +62,4 @@ footer {
   text-align:center;
   vertical-align:middle;
   position: relative;
-}
-
-.tile {
-  z-index: 1;
-  position: relative;
-  text-align:center;
-  width: 5.6vh;
-  height: 5.6vh;
-  float: left;
-  background-color: rgb(229, 212, 194); 
-  border: 1px solid #000;
-  border-radius: 3px;
-  margin: 0 2px;
-  font-size: 3.5vh;
-}
-
-.tile span {
-  position: absolute;
-  font-size: 1.5vh;
-  right: 3px;
-  bottom: 3px;
-}
-
-.tile.none {
-  border: 0;
-  background-color: transparent;
-}
-
-.fas{
-  color: rgb(33, 57, 81);
-
 }

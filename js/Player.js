@@ -1,4 +1,5 @@
 import Rack from "./Rack.js";
+import Tile from "./Tile.js";
 
 export default class Player {
   rack = new Rack();
@@ -13,9 +14,19 @@ export default class Player {
   }
 
   render() {
+    $('player').remove();
     let player = $(`<player></player>`);
-    player.hide();
-    this.rack.render(player);
+    let panel = $(`<panel></panel>`);
+
+    this.rack.render(panel);
+    panel.append(`
+      <name>Player: ${this.name}</name>
+      <points>Points: ${this.points}</points>
+    `);
+
+    player.append(panel);
+
+
     /*
     return `<div class="stand">
       ${this.currentTiles.map((x, i) => `<div 

@@ -1,10 +1,11 @@
-import Tile from "./Tile";
+import Tile from "./Tile.js";
 
 export default class TileBag {
-  tiles = [];
-
   constructor() {
     this.tiles = this.createTiles();
+    this.tiles.forEach(tile => {
+      console.log(tile);
+    });
   }
 
   createTiles() {
@@ -18,8 +19,8 @@ export default class TileBag {
           let char = x[0];
           let points = +x[1];
           let tile = new Tile(char, points);
-          console.log();
-          tiles.push({ char: x[0], points: +x[1] })
+
+          tiles.push(tile);
         }
       });
     });
