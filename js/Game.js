@@ -127,7 +127,6 @@ class Game {
 
     checkWordButton.click(function () {
 
-      that.wordCheckerInstance.convertToString(that.currentPlayer);
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
 
@@ -187,6 +186,7 @@ class Game {
 
   render() { //render board and player divs
     let that = this;
+
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
