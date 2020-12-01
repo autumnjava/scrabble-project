@@ -11,6 +11,7 @@ export default class Player {
     this.attemptCounter = 0;
     this.tilePoints = 0;
     this.tilesPlaced = [];
+
   }
 
 
