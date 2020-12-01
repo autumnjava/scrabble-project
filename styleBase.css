@@ -6,8 +6,21 @@
   user-select: none;
 }
 
+/* Sticky footer
+   see https://java19l.lms.nodehill.se/article/sticky-footer */
 body {
-  min-height: 100%;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.gamePage, .startPage {
+  flex: 1;
+}
+/* End sticky footer */
+
+body {
+  
   background-color: #d6e1e7;
 }
 
@@ -17,7 +30,7 @@ header {
   padding: 10px;
   text-align: center;
   position: absolute;
-  width: 100%;
+  width: 98.8%;
   top: 0;
   left: 0;
   z-index: 1;
@@ -26,14 +39,11 @@ header {
 }
 
 footer {
-  position: fixed;
   color: white;
   background-color:  #213951;
   padding: 10px;
   text-align: center;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
+  width: 98.8%;
   font-family: 'Open Sans', sans-serif;
   font-size: small;
 }

@@ -193,7 +193,7 @@ class Game {
     this.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.board.flat().map((x, i) => `
-        <div id="boardSquare" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+        <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
         data-player="${that.players.indexOf(that.currentPlayer)}"
         data-tile="${i}"
