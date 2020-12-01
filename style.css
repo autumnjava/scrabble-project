@@ -254,7 +254,7 @@ background-color: #b77b57;
   cursor: pointer;
 }
 
-.tile {
+body .tile {
   z-index: 1;
   position: relative;
   text-align:center;

@@ -43,7 +43,6 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.tileChanger.addTileDivInSquare(me);
-      console.log('changeable tiles from stand',this.tileChanger.inSquareTiles);
     }
     else {
       let player = this.players[+$(me).attr('data-player')];
@@ -112,7 +111,6 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
       this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
-      console.log('tiles from board', this.tileChanger.inSquareTiles);
       this.lastClickedTile = me;
       return;
     }

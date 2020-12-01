@@ -19,6 +19,7 @@ export default class TileChanger {
 
   clickOnEventHandler() {
     let playerTiles = this.game.currentPlayer.currentTiles;
+    console.log('before',this.game.currentPlayer.currentTiles);
     if (this.inSquareTiles.length > 0) {
       for (let tileToRemove of this.inSquareTiles) {
         if (playerTiles.includes(tileToRemove)) {
@@ -35,6 +36,7 @@ export default class TileChanger {
       this.game.currentPlayer.currentTiles = [...this.game.getTiles(), ' '];
       this.game.currentPlayer.attemptCounter += 1;
     }
+    console.log('after', this.game.currentPlayer.currentTiles);
   }
 
   squareChangeClass(className, remove = false) {
@@ -76,7 +78,6 @@ export default class TileChanger {
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
 
     if (!tileDiv.hasClass('onChangeTilesSquare')) {
-      console.log('pushed');
       this.inSquareTiles.push(tile);
       tileDiv.addClass('onChangeTilesSquare');
     }
@@ -85,7 +86,6 @@ export default class TileChanger {
   addTileDivInSquareFromBoard(tileDiv) { // assume tile is moved from board
     let newTile = getTileDivAsATileObject(tileDiv);
     if(!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
-      console.log('pushed');
       this.inSquareTiles.push(newTile);
       tileDiv.addClass('onChangeTilesSquare');
     }
@@ -108,15 +108,6 @@ export default class TileChanger {
 
   removeAllTilesInSquare(tile) {
     this.inSquareTiles = [];
-  }
-
-  returnTileDivToPlayer(tileDiv) {
-    let tile = getTileDivDatasetAsObject(tileDiv);
-    console.log('tikle', tile);
-    console.log('lenght', this.isTileInSquareTiles(tile).length);
-    if (this.isTileInSquareTiles(tile).length <= 0) {
-      this.game.currentPlayer.currentTiles.push(tile);
-    }
   }
 
   returnTileToPlayer(tile) { 
