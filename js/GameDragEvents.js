@@ -43,7 +43,7 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.tileChanger.addTileDivInSquare(me);
-      console.log('changeable tiles',this.tileChanger.inSquareTiles);
+      console.log('changeable tiles from stand',this.tileChanger.inSquareTiles);
     }
     else {
       let player = this.players[+$(me).attr('data-player')];
@@ -51,7 +51,7 @@ export default {
       let tile = player.currentTiles[tileIndex];
 
       me.removeClass('onChangeTilesSquare');
-      this.tileChanger.removeAllTilesInSquare();
+      this.tileChanger.removeAllTilesInSquare(); //  because of render()
 
       // drag the tiles in a different order in the stands
       let $stand = $('.stand');
@@ -110,10 +110,11 @@ export default {
     // reset the z-index
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
-    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.tileChanger.addTileDivInSquare(me); // add tile back to player (still on board)
-      console.log('tiles', this.tileChanger.inSquareTiles);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
+      console.log('tiles from board', this.tileChanger.inSquareTiles);
       this.lastClickedTile = me;
+      return;
     }
     else {
 
