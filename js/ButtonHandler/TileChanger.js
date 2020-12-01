@@ -19,7 +19,6 @@ export default class TileChanger {
 
   clickOnEventHandler() {
     let playerTiles = this.game.currentPlayer.currentTiles;
-    console.log('before',this.game.currentPlayer.currentTiles);
     if (this.inSquareTiles.length > 0) {
       for (let tileToRemove of this.inSquareTiles) {
         if (playerTiles.includes(tileToRemove)) {
@@ -36,7 +35,6 @@ export default class TileChanger {
       this.game.currentPlayer.currentTiles = [...this.game.getTiles(), ' '];
       this.game.currentPlayer.attemptCounter += 1;
     }
-    console.log('after', this.game.currentPlayer.currentTiles);
   }
 
   squareChangeClass(className, remove = false) {
@@ -87,6 +85,7 @@ export default class TileChanger {
     let newTile = getTileDivAsATileObject(tileDiv);
     if(!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
       this.inSquareTiles.push(newTile);
+      this.returnTileToPlayer(newTile);
       tileDiv.addClass('onChangeTilesSquare');
     }
   }

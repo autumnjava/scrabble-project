@@ -1,4 +1,5 @@
 import Player from "./Player.js";
+
 import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 

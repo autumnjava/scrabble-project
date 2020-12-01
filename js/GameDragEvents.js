@@ -1,3 +1,7 @@
+import { removeTilesFromBoard } from "./Helpers/BoardHelper.js";
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
+
+
 export default {
   addDragEvents() {
     let that = this;
@@ -43,6 +47,11 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.tileChanger.addTileDivInSquare(me);
+      if (tilesWithPossibleToMove(this.board).length > 0) {
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+        this.render();
+      }
     }
     else {
       let player = this.players[+$(me).attr('data-player')];

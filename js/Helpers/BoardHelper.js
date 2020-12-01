@@ -9,3 +9,15 @@ export const tilesWithPossibleToMove = (board) => {
   })
   return tiles;
 }
+
+export const removeTilesFromBoard = (board) => {
+  let newBoard = board;
+  newBoard.flat().forEach(square => {
+    if (square.tile !== undefined) {
+      if (square.tile.possibleToMove) {
+        delete square.tile;
+      }
+    }
+  })
+  return newBoard;
+}
