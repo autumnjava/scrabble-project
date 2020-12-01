@@ -46,12 +46,16 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.tileChanger.addTileDivInSquare(me);
-      if (tilesWithPossibleToMove(this.board).length > 0) {
+      let tilesOnBoard = tilesWithPossibleToMove(this.board);
+      if (tilesOnBoard.length > 0) {
+        this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
+        console.log(this.currentPlayer.currentTiles);
         // if there are tiles on the board already
         removeTilesFromBoard(this.board);
         this.render();
+        return;
       }
+      this.tileChanger.addTileDivInSquare(me);
     }
     else {
       let player = this.players[+$(me).attr('data-player')];
@@ -119,6 +123,11 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      if (tilesWithPossibleToMove(this.board).length > 0) {
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+        this.render();
+      }
       this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
       this.lastClickedTile = me;
       return;
