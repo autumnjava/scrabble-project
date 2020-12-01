@@ -1,11 +1,10 @@
+import Rack from "./Rack.js";
+
 export default class Player {
+  rack = new Rack();
 
-
-  //Constructor for player class
-  constructor(name, myGame) {
+  constructor(name) {
     this.name = name;
-    this.myGame = myGame;
-    this.currentTiles = [...this.myGame.getTiles(), ' '];
     this.points = 0;
     this.correctWordCounter = 0;
     this.attemptCounter = 0;
@@ -13,10 +12,11 @@ export default class Player {
     this.tilesPlaced = [];
   }
 
-
-  //Method to write information about player and tiles
   render() {
-
+    let player = $(`<player></player>`);
+    player.hide();
+    this.rack.render(player);
+    /*
     return `<div class="stand">
       ${this.currentTiles.map((x, i) => `<div 
           class="tile ${x.char ? '' : 'none'}"
@@ -36,6 +36,10 @@ export default class Player {
       </div>
      
       `;
+      */
+    $('game right').append(player);
+    player.fadeIn(1000);
   }
 
+  getName() { return this.name; }
 }

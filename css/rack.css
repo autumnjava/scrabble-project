@@ -1,0 +1,11 @@
+rack {
+  display: block;
+  background-color:rgb(33, 57, 81);
+  padding: 10px;
+  border-radius: 1vh;
+  margin: 2vh;
+}
+
+rack .tile {
+  cursor: pointer;
+}
