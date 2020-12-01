@@ -127,21 +127,11 @@ class Game {
 
     checkWordButton.click(function () {
 
-      // in process
-      //if (scrabbleOk) {
-      //  that.currentPlayer.attemptCounter = 0;
-      //}
       that.wordCheckerInstance.convertToString(that.currentPlayer);
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
 
-
-
       that.gameEnder.checkGameEnd();
-      if (that.currentPlayer.correctWordCounter >= 2) {
-        that.currentPlayer.attemptCounter++;
-        that.changePlayer();
-      }
       that.render();
     })
 
