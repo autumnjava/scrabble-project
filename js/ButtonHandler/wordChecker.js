@@ -40,24 +40,19 @@ export default class WordChecker {
     else if (!allXAreSame) {
       allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
     }
-    /*
+
     let gaps = true;
     if (allXAreSame) {
       gaps = !allPositionsYSorted.every((y, i) => i === 0 || y - 1 === allPositionsYSorted[i - 1]);
       console.log(gaps, 'kontroll');
-      if (!gaps) {
-        console.log(this.game.board[y][x].tile);
-        let missingTile = this.game.board[y - 1][x].tile;
 
-        console.log(missingTile, ' the missing tile? ');
-      }
     }
     else if (allYAreSame) {
       gaps = !allPositionsXSorted.every((x, i) =>
         i === 0 || x - 1 === allPositionsXSorted[i - 1]
       );
     }
-    */
+
     // Get the tiles around the tile placed on board by player
     this.tileAbove = this.game.board[tile.positionY - 1][tile.positionX];
     this.tileRight = this.game.board[tile.positionY][tile.positionX + 1];
@@ -115,6 +110,8 @@ export default class WordChecker {
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.tilePointsOfWord;
+      this.game.currentPlayer.attemptCounter = 0; // Reset when correct
+      this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       console.log('correct word points: ', this.game.currentPlayer.points);
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
@@ -125,13 +122,22 @@ export default class WordChecker {
     else {
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
-      // push back tiles to players currentTiles, 
+
+      // push back tiles to players currentTiles,
       for (let tile of this.game.currentPlayer.tilesPlaced) {
         this.game.currentPlayer.currentTiles.push(tile);
-        //console.log(this.game.board[tile.positionX][tile.positionY], ' tile ');
+        // This is where the function that puts tiles back to stand should be added
       }
-
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+
+      // If player has tried to check a word 3 times unsuccessfully, 
+      // attemptCounter will increase, correctWordCounter will reset 0 & change player
+      if (this.game.currentPlayer.correctWordCounter === 3) {
+        this.game.currentPlayer.attemptCounter++;
+        this.game.currentPlayer.correctWordCounter = 0;
+        this.game.changePlayer();
+        this.game.render();
+      }
       this.game.render();
     }
     //resetting for next move
