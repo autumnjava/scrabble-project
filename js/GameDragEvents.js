@@ -126,7 +126,6 @@ export default {
       if (tilesWithPossibleToMove(this.board).length > 0) {
         // if there are tiles on the board already
         removeTilesFromBoard(this.board);
-        this.render();
       }
       this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
       this.lastClickedTile = me;

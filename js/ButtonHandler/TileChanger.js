@@ -3,9 +3,6 @@ import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivAsATileObject } from "../Helpers/TileHelper.js";
 
-
-
-
 export default class TileChanger {
 
   constructor(game) {
@@ -111,6 +108,5 @@ export default class TileChanger {
 
   returnTileToPlayer(tile) { 
     this.game.currentPlayer.currentTiles.push(tile);
-    console.log(this.game.currentPlayer.currentTiles);
   }
 }
