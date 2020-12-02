@@ -137,8 +137,6 @@ export default {
         // move around
         pt.splice(newIndex, 0, oldObject); //add back to stand
         this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player);
-        console.log(this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player), ' logg ');
-
         delete oldSquare.tile; //delete property tile from oldSquare
       }
 

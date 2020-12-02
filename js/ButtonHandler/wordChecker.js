@@ -50,7 +50,11 @@ export default class WordChecker {
   }
 
   removeFromPlayerTilesPlaced(oldObject, player) {
-    return player.tilesPlaced.splice(oldObject, 1);
+    for (let i = 0; i < player.tilesPlaced.length; i++) {
+      if (player.tilesPlaced[i] === oldObject) {
+        player.tilesPlaced.splice(i, 1);
+      }
+    }
   }
 
   isBoardEmpty() {
