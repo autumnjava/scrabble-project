@@ -103,11 +103,9 @@ class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      changePossibleToMoveToFalse();
       that.turnSkipper.clickOnEventHandler();
-      that.currentPlayer.attemptCounter++;
-      that.gameEnder.checkGameEnd();
       changePlayer();
+      changePossibleToMoveToFalse();
       that.render();
     })
 
