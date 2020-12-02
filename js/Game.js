@@ -28,10 +28,10 @@ class Game {
 
   createFormAndShowInStartPage() {
     let formToFills = [
-      { label: 'Player 1', id: 'playername1', required: true },
-      { label: 'Player 2', id: 'playername2', required: true },
-      { label: 'Player 3', id: 'playername3', required: false },
-      { label: 'Player 4', id: 'playername4', required: false }
+      { label: 'Spelare 1', id: 'playername1', required: true },
+      { label: 'Spelare 1', id: 'playername2', required: true },
+      { label: 'Spelare 1', id: 'playername3', required: false },
+      { label: 'Spelare 1', id: 'playername4', required: false }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form id="form"></form>');
@@ -39,11 +39,11 @@ class Game {
       formTag.append(`
         <div>
         <label for="username"><span>${formToFill.label}</span></lable>
-        <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
+        <input type="text" id="${formToFill.id}" placeholder="Skriv ditt namn här.." minlength="2" ${formToFill.required ? 'required' : ''}>
         </div>
       `)
     }
-    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">start game here</button>`);
+    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">Starta</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }

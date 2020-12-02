@@ -1,19 +1,19 @@
-export default class GameEnder{
+export default class GameEnder {
 
-  constructor(game) { 
+  constructor(game) {
     this.game = game;
     this.endGame = false;
     this.reason = '';
     this.page = $('<div class="endPage"></div>');
   }
 
-  endTheGame() { 
+  endTheGame() {
     this.hideEverything();
     this.removeCurrentTilesFromPlayer();
     this.sortByPoints();
     this.showPage();
     this.render();
-      //If endGame is true sort players' points and rank them (in process)
+    //If endGame is true sort players' points and rank them (in process)
   }
 
   showPage() {
@@ -21,7 +21,7 @@ export default class GameEnder{
     $('footer').animate({ "font-size": "small", "padding": "10px" });
   }
 
-  hideEverything() { 
+  hideEverything() {
     $('.startPage').hide();
     $('.gamePage').hide();
   }
@@ -34,12 +34,12 @@ export default class GameEnder{
       }
       if (countedPlayers === this.game.players.length) {
         this.endGame = true;
-        this.reason = 'All players attempt over 3';
+        this.reason = 'Alla spelare har försökt minst 3 gånger';
         break;
       }
       if (player.currentTiles.length == 0 && this.game.tiles.length == 0) {
         this.endGame = true;
-        this.reason = 'Ran out of tiles';
+        this.reason = 'Inga brickor kvar';
         break;
       }
       else {
@@ -82,17 +82,17 @@ export default class GameEnder{
       player.points = (player.points - player.tilePoints);
       totalTilePoints += player.tilePoints;
     }
-    for (let player of playersWithNoTiles) { 
+    for (let player of playersWithNoTiles) {
       player.points = player.points + totalTilePoints;
     }
   }
 
-  render() { 
+  render() {
     let rankingDiv = $('<div class="ranking"></div>');
-    let rankingListTitle = $('<p>Ranking<p>');
+    let rankingListTitle = $('<p class="topPlayers">Topp spelare:<p>');
     let rankingList = $('<ol></ol>');
     let rankingNumber = 1;
-    for (let player of this.sortedPlayers) { 
+    for (let player of this.sortedPlayers) {
       let playerList = $(`<li class="rank${rankingNumber}"></li>`);
       playerList.append(`
       <p><span class="rank rank${rankingNumber}">${player.name}</span> ${player.points}</p>

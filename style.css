@@ -309,3 +309,9 @@ background-color: #b77b57;
   font-family: 'Open Sans', sans-serif;
   font-size: small;
 }
+
+.topPlayers{
+    font-family: 'Open Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
