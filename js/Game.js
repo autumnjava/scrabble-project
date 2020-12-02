@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
@@ -96,20 +97,18 @@ class Game {
 
   addButtonEvents() {
     let that = this;
-    let skipButton = $('#skipButton');
     let breakButton = $('#breakButton');
-    let changeTilesButton = this.tileChanger.button;
     let checkWordButton = $('#checkWordButton');
 
     //Click on "skip turn" button and player skips turn (in process)
-    skipButton.click(function () {
+    this.turnSkipper.button.click(function () {
       that.turnSkipper.clickOnEventHandler();
       changePlayer();
-      changePossibleToMoveToFalse();
+      that.board = changePossibleToMoveToFalse(that.board);
       that.render();
     })
 
-    changeTilesButton.click(function () {
+    this.tileChanger.button.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
       changePlayer();
@@ -146,13 +145,6 @@ class Game {
       else that.currentPlayer = that.players[0];
     }
 
-    function changePossibleToMoveToFalse() {
-      that.board.flat().map((x) => {
-        if (x.tile) { // same as if(typeof x.tile !== "undefined")
-          x.tile.possibleToMove = false;
-        }
-      });
-    }
 
   }
 
