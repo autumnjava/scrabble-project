@@ -104,15 +104,44 @@ export default class WordChecker {
   calculatePoints(player) {
     //method for calcuating how many point a player should
     //get from a correct placed word
+    let dw = false;
+    let tw = false;
+    //at the moment this method does not count points for the letters that have been placed BEFORE.
     for (let tile of player.tilesPlaced) {
+      let special = this.game.board[tile.positionY][tile.positionX].specialValue;
       for (let key in tile) {
         let val = tile[key];
-        if (key === 'points') {
+        if (special !== 'dw' || special !== 'tw') {
+          if (key === 'points' && special === 'dl') { //double letter square
+            this.tilePointsOfWord += val * 2;
+          } else if (key === 'points' && special === 'start') { //letter in start square
+            this.tilePointsOfWord += val * 2;
+          } else if (key === 'points' && special === 'tl') { //triple letter square
+            this.tilePointsOfWord += val * 3;
+          } else if (key === 'points' && special === undefined) { //regular square, no specialvalue
+            this.tilePointsOfWord += val;
+          }
+        }
+
+        if (key === 'points' && special === 'dw') { //double word square
           this.tilePointsOfWord += val;
+          dw = true;
+        } else if (key === 'points' && special === 'tw') { //triple word square
+          this.tilePointsOfWord += val;
+          tw = true;
         }
       }
     }
-    console.log('points of tiles', this.tilePointsOfWord);
+
+    if (dw) {
+      this.tilePointsOfWord = this.tilePointsOfWord * 2;
+      console.log('points of tiles DW situation', this.tilePointsOfWord);
+    } else if (tw) {
+      this.tilePointsOfWord = this.tilePointsOfWord * 3;
+      console.log('points of tiles TW situation', this.tilePointsOfWord);
+    } else {
+      console.log('points of tiles (not in DW or TW situation)', this.tilePointsOfWord);
+    }
   }
 
   removeTilesFromBoard(player) {
