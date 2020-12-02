@@ -55,6 +55,8 @@ export default class WordChecker {
   removeFromPlayerTilesPlaced(oldObject, player) {
     for (let i = 0; i < player.tilesPlaced.length; i++) {
       if (player.tilesPlaced[i] === oldObject) {
+        // if the object in the index position matches the oldObject,
+        // remove it from players tilesPlaced
         player.tilesPlaced.splice(i, 1);
       }
     }
@@ -67,29 +69,31 @@ export default class WordChecker {
 
   collectWords() {
     let words = [];
+    // Loop through the rows
     for (let row = 0; row < 15; row++) {
       let chars = '';
       for (let col = 0; col < 15; col++) {
         if (this.game.board[row][col].tile) {
-          chars += this.game.board[row][col].tile.char;
+          chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push(chars);
+            words.push(chars); // push the string chars into the array of words
           }
           chars = '';
         }
       }
     }
+    // Loop through the columns
     for (let col = 0; col < 15; col++) {
       let chars = '';
       for (let row = 0; row < 15; row++) {
         if (this.game.board[row][col].tile) {
-          chars += this.game.board[row][col].tile.char;
+          chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push(chars);
+            words.push(chars); // Push the string chars into the array of words
           }
           chars = '';
         }
@@ -99,15 +103,16 @@ export default class WordChecker {
   }
 
   newWordsToCheck() {
-    let words = this.collectWords();
+    let words = this.collectWords();  // Get all the words collected from board and save in variable words
     console.log(words, ' words');
     console.log(this.oldWords, ' old words');
 
-    let newWords = words.slice();
+    let newWords = words.slice(); // Create a copy
     while (this.oldWords.length) {
       let index = newWords.indexOf(this.oldWords.shift());
+      console.log(index, ' index');
       if (index >= 0) {
-        newWords.splice(index, 1);
+        newWords.splice(index, 1); // Remove old words from the copy, so only new words are left
       }
     }
 
@@ -167,12 +172,11 @@ export default class WordChecker {
 
   async checkWordWithSAOL() {
     let checkedWithSAOL = [];
+    // Loop through all words and check with SAOL if they are true or false
     for (let word of this.newWordsToCheck()) {
       checkedWithSAOL.push(await SAOLchecker.scrabbleOk(word));
     }
-    console.log(checkedWithSAOL, 'check with saol');
     this.allOk = checkedWithSAOL.every(x => x);
-    console.log(this.allOk, 'all Ok')
     this.wordsTrueOrFalse(this.allOk);
   }
 
