@@ -1,5 +1,5 @@
 import SAOLchecker from "../SAOLchecker.js";
-import { changePossibleToMoveToFalse } from "../Helpers/BoardHelper.js";
+import { changePossibleToMoveToFalse, removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
 
 export default class WordChecker {
@@ -33,8 +33,11 @@ export default class WordChecker {
     let allPositionsXSorted = [];
     // Sort so the positions comes i order
     if (!allYAreSame && !allXAreSame) {
-      // Should not be a valid move
-      // Should place all tiles back to stand?
+      for (let tile of this.game.currentPlayer.tilesPlaced) {
+        this.game.currentPlayer.currentTiles.push(tile);
+      }
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+      removeTilesFromBoard(this.game.board);
       console.log('not a valid move');
       return;
     }
@@ -55,6 +58,7 @@ export default class WordChecker {
         player.tilesPlaced.splice(i, 1);
       }
     }
+    console.log(player.tilesPlaced, ' after splice');
   }
 
   isBoardEmpty() {
