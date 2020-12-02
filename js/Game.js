@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
+import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 class Game {
 
   players = [];
@@ -9,6 +10,7 @@ class Game {
   tileChanger = new TileChanger(this);
   //currentPlayer = '';
   gameEnder = new GameEnder(this);
+  turnSkipper = new TurnSkipper(this)
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -102,6 +104,7 @@ class Game {
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
       changePossibleToMoveToFalse();
+      that.turnSkipper.clickOnEventHandler();
       that.currentPlayer.attemptCounter++;
       that.gameEnder.checkGameEnd();
       changePlayer();
