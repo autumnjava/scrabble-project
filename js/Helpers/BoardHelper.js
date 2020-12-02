@@ -21,3 +21,13 @@ export const removeTilesFromBoard = (board) => {
   })
   return newBoard;
 }
+
+export const changePossibleToMoveToFalse = (board) => {
+  let newBoard = board;
+  newBoard.flat().map((x) => {
+    if (x.tile) { // same as if(typeof x.tile !== "undefined")
+      x.tile.possibleToMove = false;
+    }
+  });
+  return newBoard;
+}

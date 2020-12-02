@@ -5,6 +5,7 @@ import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
+import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 class Game {
 
   players = [];
@@ -108,7 +109,7 @@ class Game {
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
       that.changePlayer();
-      changePossibleToMoveToFalse();
+      changePossibleToMoveToFalse(that.board);
       that.render();
     })
 
@@ -135,13 +136,6 @@ class Game {
       that.render();
     })
 
-    function changePossibleToMoveToFalse() {
-      that.board.flat().map((x) => {
-        if (x.tile) { // same as if(typeof x.tile !== "undefined")
-          x.tile.possibleToMove = false;
-        }
-      });
-    }
 
   }
 
