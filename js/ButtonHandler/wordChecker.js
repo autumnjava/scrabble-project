@@ -155,9 +155,11 @@ export default class WordChecker {
     if (this.allXAreSame) {
       this.tileBelowBool = false; //If another player's tile is under current player's tile
       this.tileAboveBool = false; //If another player's tile is above current player's tile
+      this.myWord = '';
 
       //This loop checks if there is any other player's tile under each of current player's tile
       for (let tile of this.game.currentPlayer.tilesPlaced) {
+        this.myWord += tile.char;
         this.divBelow = this.game.board[tile.positionY + 1][tile.positionX];
         if (this.divBelow.tile != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow.tile) && this.game.currentPlayer.tilesPlaced.length > 1) {
           this.tileBelowBool = true;
@@ -201,6 +203,7 @@ export default class WordChecker {
 
       if (!this.tileBelowBool) {
         for (let tile of this.game.currentPlayer.tilesPlaced) {
+
           this.divAbove = this.game.board[tile.positionY - 1][tile.positionX];
           if (this.divAbove.tile != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove.tile) && this.game.currentPlayer.tilesPlaced.length > 1) {
             this.tileAboveBool = true;
@@ -242,6 +245,11 @@ export default class WordChecker {
           }
         }
       }
+
+      console.log('word without other players char is : ', this.myWord);
+      console.log('Other players word is :', this.otherPlayersWord);
+      console.log('my word is :', this.myWords);
+
     }
 
 
@@ -250,6 +258,7 @@ export default class WordChecker {
   wordsTrueOrFalse() {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
+    this.checkIfRightAngle();
 
     if (this.checkWordWithSAOL()) {
       console.log('word was a word!');
