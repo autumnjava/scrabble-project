@@ -128,7 +128,7 @@ class Game {
     checkWordButton.click(function () {
 
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
-      that.wordCheckerInstance.checkWordWithSAOL();
+      that.wordCheckerInstance.wordsTrueOrFalse();
 
       that.gameEnder.checkGameEnd();
       that.render();

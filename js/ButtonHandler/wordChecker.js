@@ -120,13 +120,22 @@ export default class WordChecker {
   }
 
   async checkWordWithSAOL() {
-    this.isWordCorrect = this.newWordsToCheck().forEach(async word => {
-      await SAOLchecker.scrabbleOk(word)
-    });
-    //this.isWordCorrect = await SAOLchecker.scrabbleOk(this.newWordsToCheck().forEach());
+    let checkedWithSAOL = [];
+    for (let word of this.newWordsToCheck()) {
+      checkedWithSAOL.push(await SAOLchecker.scrabbleOk(word));
+    }
+    let allOk = checkedWithSAOL.every(x => x);
+    console.log(checkedWithSAOL, 'checked with saol', allOk, 'all ok');
+
+  }
+
+  wordsTrueOrFalse() {
+
     let playerTiles = this.game.currentPlayer.currentTiles;
 
-    if (this.isWordCorrect) {
+
+
+    if (this.checkWordWithSAOL()) {
       console.log('word was a word!');
 
       //give player points for correct word
@@ -134,7 +143,6 @@ export default class WordChecker {
       this.game.currentPlayer.points += this.tilePointsOfWord;
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
-      console.log('correct word points: ', this.game.currentPlayer.points);
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
