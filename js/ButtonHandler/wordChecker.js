@@ -108,6 +108,9 @@ export default class WordChecker {
     // convert it into a string
     for (let tile of player.tilesPlaced) {
 
+      this.wordToCheck += tile.char;
+      currentWordWithoutOtherPlayersChar = this.wordToCheck;
+
       //If all letters have same x position
 
       if (this.allXAreSame) {
@@ -120,6 +123,8 @@ export default class WordChecker {
         //If div below the last placed tile contains tile that is not current player's placed tiles
         // Select char of the below tile and make boolean true
         if (this.divBelow.tile != undefined && !player.tilesPlaced.includes(this.divBelow.tile) && player.tilesPlaced.length > 1) {
+
+          this.indexOfTilePlaced = player.tilesPlaced.indexOf(tile);
 
 
 
@@ -161,6 +166,7 @@ export default class WordChecker {
 
 
 
+
         }
 
 
@@ -168,27 +174,36 @@ export default class WordChecker {
       }
 
 
-      for (let key in tile) {
-        let val = tile[key];
-        if (key === 'char') {
-          //If other player's tile found below current player's tile add last added tile's char and another playe's char
-          if (this.myBoolTileBelow) {
-            this.wordToCheck += val;
-            this.wordToCheck += this.anotherPlayerTileCharBelow; //PROBLEM: adderar bokstav 2 ggr eller mer
 
 
-            currentWordWithoutOtherPlayersChar.push(val);
+      /* for (let key in tile) {
+         let val = tile[key];
+         if (key === 'char') {
+           //If other player's tile found below current player's tile add last added tile's char and another playe's char
+ 
+           console.log('val is', val)
+           this.wordToCheck += val;
+           //this.wordToCheck += this.anotherPlayerTileCharBelow; //PROBLEM: adderar bokstav 2 ggr eller mer
+ 
+ 
+           currentWordWithoutOtherPlayersChar.push(val);
+ 
+ 
+ 
+ 
+ 
+           //Otherwise add only the last added tile's char
+           /*else {
+             this.wordToCheck += val;
+             currentWordWithoutOtherPlayersChar.push(val);
+           }
+         }
+       }*/
 
 
-          }
-          //Otherwise add only the last added tile's char
-          /*else {
-            this.wordToCheck += val;
-            currentWordWithoutOtherPlayersChar.push(val);
-          }*/
-        }
-      }
+
     }
+
 
 
     if (!this.myBoolTileBelow) {
@@ -231,34 +246,34 @@ export default class WordChecker {
               j++;
             }
             while (myDivLeft != undefined)
-            console.log('other players word is', this.otherPlayersWord);
+
 
           }
 
         }
 
 
-        for (let key in tile) {
-          let val = tile[key];
-          if (key === 'char') {
-            //If other player's tile found below current player's tile add last added tile's char and another playe's char
-            if (this.myBoolTileAbove) {
-              //this.wordToCheck += this.anotherPlayerTileCharAbove;
-              this.wordToCheck += val;
-
-
-              currentWordWithoutOtherPlayersChar.push(val);
-
-
-            }
-
-            //Otherwise add only the last added tile's char
-            else {
-              this.wordToCheck += val;
-              currentWordWithoutOtherPlayersChar.push(val);
-            }
-          }
-        }
+        /* for (let key in tile) {
+           let val = tile[key];
+           if (key === 'char') {
+             //If other player's tile found below current player's tile add last added tile's char and another playe's char
+             if (this.myBoolTileAbove) {
+               //this.wordToCheck += this.anotherPlayerTileCharAbove;
+               this.wordToCheck += val;
+ 
+ 
+               //currentWordWithoutOtherPlayersChar.push(val);
+ 
+ 
+             }
+ 
+             //Otherwise add only the last added tile's char
+             else {
+               this.wordToCheck += val;
+               //currentWordWithoutOtherPlayersChar.push(val);
+             }
+           }
+         }*/
       }
 
     }
@@ -266,9 +281,20 @@ export default class WordChecker {
 
 
 
-    console.log('To String', this.wordToCheck); //writing a whole word that will be checked
+    //console.log('To String', this.wordToCheck); //writing a whole word that will be checked
+
+
+    if (this.myBoolTileBelow) {
+      this.wordToCheck = this.wordToCheck.slice(0, this.indexOfTilePlaced + 1) + this.anotherPlayerTileCharBelow + this.wordToCheck.slice(this.indexOfTilePlaced + 1);
+    }
+    else if (this.myBoolTileAbove) {
+
+      this.wordToCheck = this.anotherPlayerTileCharAbove + this.wordToCheck.slice(0);
+    }
     console.log('current word without other players char is', currentWordWithoutOtherPlayersChar);  //Current player's word without another player's char
     console.log('other players word is', this.otherPlayersWord);
+    console.log('To String', this.wordToCheck); //writing a whole word that will be checked
+
     if (this.otherPlayersWord != undefined) {
       for (let letter of currentWordWithoutOtherPlayersChar) {
         if (this.otherPlayersWord.some(x => x == letter)) {
