@@ -99,26 +99,27 @@ class Game {
     let that = this;
     let breakButton = $('#breakButton');
     let checkWordButton = $('#checkWordButton');
+    let skipButton = $('#skipButton');
+    let changeTilesButton = $('#changeTilesButton');
 
-    //Click on "skip turn" button and player skips turn (in process)
-    this.turnSkipper.button.click(function () {
+    //Click on "skip" to skip the round
+    skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
       changePlayer();
       that.board = changePossibleToMoveToFalse(that.board);
       that.render();
-    })
+    });
 
-    this.tileChanger.button.click(function () {
+    //Click on "change tiles" to change tiles
+    changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
-
     });
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
-
 
     })
 
@@ -128,7 +129,6 @@ class Game {
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
       //}
-
 
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
@@ -144,8 +144,6 @@ class Game {
       }
       else that.currentPlayer = that.players[0];
     }
-
-
   }
 
 
