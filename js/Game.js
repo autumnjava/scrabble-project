@@ -135,8 +135,16 @@ class Game {
       that.render();
     })
 
+    function changePossibleToMoveToFalse() {
+      that.board.flat().map((x) => {
+        if (x.tile) { // same as if(typeof x.tile !== "undefined")
+          x.tile.possibleToMove = false;
+        }
+      });
+    }
 
   }
+
   changePlayer() {
     if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
       this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];

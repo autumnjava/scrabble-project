@@ -132,7 +132,7 @@ export default class WordChecker {
   wordsTrueOrFalse() {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
-
+    console.log(this.game.currentPlayer.tilesPlaced, ' tiles placed ');
 
 
     if (this.checkWordWithSAOL()) {
