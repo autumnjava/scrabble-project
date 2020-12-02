@@ -4,6 +4,7 @@ import WordChecker from "./ButtonHandler/WordChecker.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
+import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 class Game {
 
   players = [];
@@ -12,6 +13,7 @@ class Game {
   //currentPlayer = '';
   wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
+  turnSkipper = new TurnSkipper(this)
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -104,10 +106,9 @@ class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      // changePossibleToMoveToFalse();
-      that.currentPlayer.attemptCounter++;
+      that.turnSkipper.clickOnEventHandler();
       that.changePlayer();
-      that.gameEnder.checkGameEnd();
+      changePossibleToMoveToFalse();
       that.render();
     })
 
@@ -128,14 +129,22 @@ class Game {
     checkWordButton.click(function () {
 
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
-      that.wordCheckerInstance.checkWordWithSAOL();
+      that.wordCheckerInstance.wordsTrueOrFalse();
 
       that.gameEnder.checkGameEnd();
       that.render();
     })
 
+    function changePossibleToMoveToFalse() {
+      that.board.flat().map((x) => {
+        if (x.tile) { // same as if(typeof x.tile !== "undefined")
+          x.tile.possibleToMove = false;
+        }
+      });
+    }
 
   }
+
   changePlayer() {
     if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
       this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
