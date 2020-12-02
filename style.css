@@ -298,3 +298,14 @@ body .tile {
 .changeTiles .changeTilesSquare.hover {
   background-color: rgb(33, 57, 81);
 }
+
+.pname {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ppoints{
+  font-family: 'Open Sans', sans-serif;
+  font-size: small;
+}
