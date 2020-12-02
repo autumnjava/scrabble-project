@@ -1,4 +1,7 @@
 import SAOLchecker from "../SAOLchecker.js";
+import { changePossibleToMoveToFalse } from "../Helpers/BoardHelper.js";
+import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
+
 export default class WordChecker {
 
 
@@ -247,15 +250,12 @@ export default class WordChecker {
   wordsTrueOrFalse() {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
-    console.log(this.game.currentPlayer.tilesPlaced, ' tiles placed ');
-
-    //this.checkIfRightAngle();
-
-
-
 
     if (this.checkWordWithSAOL()) {
       console.log('word was a word!');
+
+      this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
+      this.game.board = changePossibleToMoveToFalse(this.game.board);
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
