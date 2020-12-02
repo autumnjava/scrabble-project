@@ -127,16 +127,17 @@ export default class WordChecker {
     for (let word of this.newWordsToCheck()) {
       checkedWithSAOL.push(await SAOLchecker.scrabbleOk(word));
     }
-    let allOk = checkedWithSAOL.every(x => x);
-    console.log(checkedWithSAOL, 'checked with saol', allOk, 'all ok');
-
+    console.log(checkedWithSAOL, 'check with saol');
+    this.allOk = checkedWithSAOL.every(x => x);
+    console.log(this.allOk, 'all Ok')
+    this.wordsTrueOrFalse(this.allOk);
   }
 
-  wordsTrueOrFalse() {
+  wordsTrueOrFalse(words) {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
-    if (this.checkWordWithSAOL()) {
+    if (words) {
       console.log('word was a word!');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
@@ -152,6 +153,8 @@ export default class WordChecker {
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
       this.game.render();
+
+      console.log('hejsan');
     }
     else {
       console.log('word was not a word');
