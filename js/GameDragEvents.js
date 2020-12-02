@@ -12,7 +12,6 @@ export default {
   dragStart(e) {
     let me = $(e.currentTarget); //Tile that we are currently dragging.
     $(me).css({ zIndex: 2 });
-    this.lastClickedTile = me;
     $('.changeTiles .changeTilesSquare').addClass('hover');
     this.lastClickedTile = me;
   },
@@ -38,19 +37,21 @@ export default {
   dragEnd(e, pointer) {
     let { pageX, pageY } = pointer;
     let me = $(e.currentTarget);
+
     // reset the z-index
-    this.lastClickedTile.css({ zIndex: '' });
+    me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.lastClickedTile.addClass('onChangeTilesSquare');
-      this.tileChanger.addTileDiv(this.lastClickedTile);
+      this.tileChanger.addTileDivInSquare(me);
+      console.log('changeable tiles from stand',this.tileChanger.inSquareTiles);
     }
     else {
-      this.lastClickedTile.removeClass('onChangeTilesSquare');
-
       let player = this.players[+$(me).attr('data-player')];
       let tileIndex = +$(me).attr('data-tile');
       let tile = player.currentTiles[tileIndex];
+
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare(); //  because of render()
 
       // drag the tiles in a different order in the stands
       let $stand = $('.stand');
@@ -86,6 +87,7 @@ export default {
       this.render();
       this.checkIfEmptyTile();
     }
+    this.lastClickedTile = me;
   },
 
   moveTilesAroundBoard() {
@@ -108,36 +110,49 @@ export default {
 
     // reset the z-index
     me.css({ zIndex: '' });
-
-    //IF USER WANTS TO PUT IT BACK TO THE STAND:
-    let $stand = $('.stand');
-    let { top, left } = $stand.offset();
-    let bottom = top + $stand.height();
-    let right = left + $stand.width();
-    let player = that.players[+$(me).attr('data-player')];
-    // if dragged within the limit of the stand
-    // NOTE: Later maybe need to check if the stand is not full. at the moment not needed
-    if (pageX > left && pageX < right
-      && pageY > top && pageY < bottom) {
-      let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-      let pt = player.currentTiles;
-      // move around
-      pt.splice(newIndex, 0, oldObject); //add back to stand
-      delete oldSquare.tile; //delete property tile from oldSquare
+    this.tileChanger.squareChangeClass('hover', true);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
+      console.log('tiles from board', this.tileChanger.inSquareTiles);
+      this.lastClickedTile = me;
+      return;
     }
+    else {
 
-    // if you have moved a tile to a square on the board
-    let $dropZone = $('.hover');
-    if (!$dropZone.length) { this.render(); return; }
-    let squareIndex = $('.board > div').index($dropZone);
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare();
 
-    // convert to y and x coords in this.board
-    let newY = Math.floor(squareIndex / 15);
-    let newX = squareIndex % 15;
+      //IF USER WANTS TO PUT IT BACK TO THE STAND:
+      let $stand = $('.stand');
+      let { top, left } = $stand.offset();
+      let bottom = top + $stand.height();
+      let right = left + $stand.width();
+      let player = that.players[+$(me).attr('data-player')];
+      // if dragged within the limit of the stand
+      // NOTE: Later maybe need to check if the stand is not full. at the moment not needed
+      if (pageX > left && pageX < right
+        && pageY > top && pageY < bottom) {
+        let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+        let pt = player.currentTiles;
+        // move around
+        pt.splice(newIndex, 0, oldObject); //add back to stand
+        delete oldSquare.tile; //delete property tile from oldSquare
+      }
 
-    delete oldSquare.tile;
-    this.board[newY][newX].tile = oldObject;
-    this.render();
+      // if you have moved a tile to a square on the board
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { this.render(); return; }
+      let squareIndex = $('.board > div').index($dropZone);
+
+      // convert to y and x coords in this.board
+      let newY = Math.floor(squareIndex / 15);
+      let newX = squareIndex % 15;
+
+      delete oldSquare.tile;
+      this.board[newY][newX].tile = oldObject;
+      this.lastClickedTile = me;
+      this.render();
+    }
   }
 
 } //end of export default

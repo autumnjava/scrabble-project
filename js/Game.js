@@ -127,21 +127,10 @@ class Game {
 
     checkWordButton.click(function () {
 
-      // in process
-      //if (scrabbleOk) {
-      //  that.currentPlayer.attemptCounter = 0;
-      //}
-      that.wordCheckerInstance.convertToString(that.currentPlayer);
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
 
-
-
       that.gameEnder.checkGameEnd();
-      if (that.currentPlayer.correctWordCounter >= 2) {
-        that.currentPlayer.attemptCounter++;
-        that.changePlayer();
-      }
       that.render();
     })
 
@@ -197,6 +186,7 @@ class Game {
 
   render() { //render board and player divs
     let that = this;
+
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');

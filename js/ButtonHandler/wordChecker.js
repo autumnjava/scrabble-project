@@ -7,6 +7,7 @@ export default class WordChecker {
     this.wordToCheck = '';
     this.tilePointsOfWord = 0;
     this.isWordCorrect = false;
+    this.oldWords = [];
   }
 
   sortTiles(tile, x, y, player) {
@@ -43,42 +44,61 @@ export default class WordChecker {
     else if (!allXAreSame) {
       allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
     }
-    /*
-    let gaps = true;
-    if (allXAreSame) {
-      gaps = !allPositionsYSorted.every((y, i) => i === 0 || y - 1 === allPositionsYSorted[i - 1]);
-      console.log(gaps, 'kontroll');
-      if (!gaps) {
-        console.log(this.game.board[y][x].tile);
-        let missingTile = this.game.board[y - 1][x].tile;
-
-        console.log(missingTile, ' the missing tile? ');
-      }
-    }
-    else if (allYAreSame) {
-      gaps = !allPositionsXSorted.every((x, i) =>
-        i === 0 || x - 1 === allPositionsXSorted[i - 1]
-      );
-    }
-    */
-    // Get the tiles around the tile placed on board by player
-    this.tileAbove = this.game.board[tile.positionY - 1][tile.positionX];
-    this.tileRight = this.game.board[tile.positionY][tile.positionX + 1];
-    this.tileLeft = this.game.board[tile.positionY][tile.positionX - 1];
-    this.tileBelow = this.game.board[tile.positionY + 1][tile.positionX];
-
-
-    // If the specific tile has property tile, write the tiles property char to the console
-    if (this.tileAbove.hasOwnProperty('tile')) {
-      //console.log(this.tileAbove.tile.char, 'tile char');
-    }
-
-    console.log(player.tilesPlaced);
 
   }
 
-  missingTiles() {
+  isBoardEmpty() {
+    return this.game.board.flat().every(x => !x.tile);
+  }
 
+  collectWords() {
+    let words = [];
+    for (let row = 0; row < 15; row++) {
+      let chars = '';
+      for (let col = 0; col < 15; col++) {
+        if (this.game.board[row][col].tile) {
+          chars += this.game.board[row][col].tile.char;
+        }
+        else if (chars) {
+          if (this.isBoardEmpty() || chars.length > 1) {
+            words.push(chars);
+          }
+          chars = '';
+        }
+      }
+    }
+    for (let col = 0; col < 15; col++) {
+      let chars = '';
+      for (let row = 0; row < 15; row++) {
+        if (this.game.board[row][col].tile) {
+          chars += this.game.board[row][col].tile.char;
+        }
+        else if (chars) {
+          if (this.isBoardEmpty() || chars.length > 1) {
+            words.push(chars);
+          }
+          chars = '';
+        }
+      }
+    }
+    return words;
+  }
+
+  newWordsToCheck() {
+    let words = this.collectWords();
+    console.log(words, ' words');
+    console.log(this.oldWords, ' old words');
+
+    let newWords = words.slice();
+    while (this.oldWords.length) {
+      let index = newWords.indexOf(this.oldWords.shift());
+      if (index >= 0) {
+        newWords.splice(index, 1);
+      }
+    }
+
+    this.oldWords = words;
+    return newWords;
   }
 
   calculatePoints(player) {
@@ -95,262 +115,56 @@ export default class WordChecker {
     console.log('points of tiles', this.tilePointsOfWord);
   }
 
-
-  convertToString(player) {
-
-
-
-    let currentWordWithoutOtherPlayersChar = [];
-    this.checkLetterBool = false;
-    this.myBoolTileBelow = false; //Boolean that shows if word is placed in right angle with other word
-
-    // Loop through the sorted array, take the value of property char and 
-    // convert it into a string
+  removeTilesFromBoard(player) {
     for (let tile of player.tilesPlaced) {
-
-      this.wordToCheck += tile.char;
-      currentWordWithoutOtherPlayersChar = this.wordToCheck;
-
-      //If all letters have same x position
-
-      if (this.allXAreSame) {
-        this.divBelow = this.game.board[tile.positionY + 1][tile.positionX]; //Position of tile below the last placed tile
-
-
-
-
-
-        //If div below the last placed tile contains tile that is not current player's placed tiles
-        // Select char of the below tile and make boolean true
-        if (this.divBelow.tile != undefined && !player.tilesPlaced.includes(this.divBelow.tile) && player.tilesPlaced.length > 1) {
-
-          this.indexOfTilePlaced = player.tilesPlaced.indexOf(tile);
-
-
-
-          this.myBoolTileBelow = true;
-          let i = 0;
-          let j = 1;
-          let myDivRight = '';
-          let myDivLeft = '';
-          this.otherPlayersWord = [];
-
-
-          this.anotherPlayerTileCharBelow = this.divBelow.tile.char; //First char below my char
-
-
-
-
-          //Both of these do while loops loop through same x axis and build up another player's word
-          do {
-            myDivRight = this.game.board[tile.positionY + 1][tile.positionX + i].tile;
-            if (myDivRight != undefined) {
-              this.otherPlayersWord.push(myDivRight.char);
-
-            }
-            i++;
-          }
-          while (myDivRight != undefined)
-
-          do {
-            myDivLeft = this.game.board[tile.positionY + 1][tile.positionX - j].tile;
-            if (myDivLeft != undefined) {
-
-              this.otherPlayersWord.splice(0, 0, myDivLeft.char);
-
-            }
-            j++;
-          }
-          while (myDivLeft != undefined)
-
-
-
-
-
-        }
-
-
-
-      }
-
-
-
-
-      /* for (let key in tile) {
-         let val = tile[key];
-         if (key === 'char') {
-           //If other player's tile found below current player's tile add last added tile's char and another playe's char
- 
-           console.log('val is', val)
-           this.wordToCheck += val;
-           //this.wordToCheck += this.anotherPlayerTileCharBelow; //PROBLEM: adderar bokstav 2 ggr eller mer
- 
- 
-           currentWordWithoutOtherPlayersChar.push(val);
- 
- 
- 
- 
- 
-           //Otherwise add only the last added tile's char
-           /*else {
-             this.wordToCheck += val;
-             currentWordWithoutOtherPlayersChar.push(val);
-           }
-         }
-       }*/
-
-
-
-    }
-
-
-
-    if (!this.myBoolTileBelow) {
-
-
-      this.myBoolTileAbove = false;
-      for (let tile of player.tilesPlaced) {
-
-        if (this.allXAreSame) {
-
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX];
-
-          if (this.divAbove.tile != undefined && !player.tilesPlaced.includes(this.divAbove.tile) && player.tilesPlaced.length > 1) {
-            this.myBoolTileAbove = true;
-            let i = 0;
-            let j = 1;
-            let myDivRight = '';
-            let myDivLeft = '';
-            this.otherPlayersWord = [];
-
-            this.anotherPlayerTileCharAbove = this.divAbove.tile.char;
-
-            do {
-              myDivRight = this.game.board[tile.positionY - 1][tile.positionX + i].tile;
-              if (myDivRight != undefined) {
-                this.otherPlayersWord.push(myDivRight.char);
-
-              }
-              i++;
-            }
-            while (myDivRight != undefined)
-
-            do {
-              myDivLeft = this.game.board[tile.positionY + 1][tile.positionX - j].tile;
-              if (myDivLeft != undefined) {
-
-                this.otherPlayersWord.splice(0, 0, myDivLeft.char);
-
-              }
-              j++;
-            }
-            while (myDivLeft != undefined)
-
-
-          }
-
-        }
-
-
-        /* for (let key in tile) {
-           let val = tile[key];
-           if (key === 'char') {
-             //If other player's tile found below current player's tile add last added tile's char and another playe's char
-             if (this.myBoolTileAbove) {
-               //this.wordToCheck += this.anotherPlayerTileCharAbove;
-               this.wordToCheck += val;
- 
- 
-               //currentWordWithoutOtherPlayersChar.push(val);
- 
- 
-             }
- 
-             //Otherwise add only the last added tile's char
-             else {
-               this.wordToCheck += val;
-               //currentWordWithoutOtherPlayersChar.push(val);
-             }
-           }
-         }*/
-      }
-
-    }
-
-
-
-
-    //console.log('To String', this.wordToCheck); //writing a whole word that will be checked
-
-
-    if (this.myBoolTileBelow) {
-      this.wordToCheck = this.wordToCheck.slice(0, this.indexOfTilePlaced + 1) + this.anotherPlayerTileCharBelow + this.wordToCheck.slice(this.indexOfTilePlaced + 1);
-    }
-    else if (this.myBoolTileAbove) {
-
-      this.wordToCheck = this.anotherPlayerTileCharAbove + this.wordToCheck.slice(0);
-    }
-    console.log('current word without other players char is', currentWordWithoutOtherPlayersChar);  //Current player's word without another player's char
-    console.log('other players word is', this.otherPlayersWord);
-    console.log('To String', this.wordToCheck); //writing a whole word that will be checked
-
-    if (this.otherPlayersWord != undefined) {
-      for (let letter of currentWordWithoutOtherPlayersChar) {
-        if (this.otherPlayersWord.some(x => x == letter)) {
-          console.log('found matching letter');
-          this.checkLetterBool = false; //Returns false if matching letter is foud and everything is correct
-          break;
-        }
-        else {
-          this.checkLetterBool = true;  // Returns true if matching letter is not found
-        }
-      }
+      let square = this.game.board[tile.positionY][tile.positionX];
+      delete square.tile;
     }
   }
 
-
   async checkWordWithSAOL() {
-    this.isWordCorrect = await SAOLchecker.scrabbleOk(this.wordToCheck);
+    this.isWordCorrect = this.newWordsToCheck().forEach(async word => {
+      await SAOLchecker.scrabbleOk(word)
+    });
+    //this.isWordCorrect = await SAOLchecker.scrabbleOk(this.newWordsToCheck().forEach());
     let playerTiles = this.game.currentPlayer.currentTiles;
 
+    if (this.isWordCorrect) {
+      console.log('word was a word!');
 
-    if (this.checkLetterBool) {
-      alert('Du saknar minst ett bokstav från en annan spelarens ord');
+      //give player points for correct word
+      //also empty the tilesplaced array for next round of currentplayer
+      this.game.currentPlayer.points += this.tilePointsOfWord;
+      this.game.currentPlayer.attemptCounter = 0; // Reset when correct
+      this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
+      console.log('correct word points: ', this.game.currentPlayer.points);
+      let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
+      this.game.currentPlayer.currentTiles = newTiles;
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+      this.game.changePlayer();
+      this.game.render();
     }
     else {
-      if (this.isWordCorrect) {
+      console.log('word was not a word');
+      this.game.currentPlayer.correctWordCounter++;
+      this.removeTilesFromBoard(this.game.currentPlayer);
 
+      // push back tiles to players currentTiles,
+      for (let tile of this.game.currentPlayer.tilesPlaced) {
+        this.game.currentPlayer.currentTiles.push(tile);
+        // This is where the function that puts tiles back to stand should be added
+      }
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
 
-        console.log(this.wordToCheck);
-        console.log('word was a word!');
-
-        //give player points for correct word
-        //also empty the tilesplaced array for next round of currentplayer
-        this.game.currentPlayer.points += this.tilePointsOfWord;
-        console.log('correct word points: ', this.game.currentPlayer.points);
-        let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
-        this.game.currentPlayer.currentTiles = newTiles;
-        console.log('tilesplaced', this.game.currentPlayer.tilesPlaced);
-        this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-
-        console.log('tilesplaced', this.game.currentPlayer.tilesPlaced);
+      // If player has tried to check a word 3 times unsuccessfully, 
+      // attemptCounter will increase, correctWordCounter will reset 0 & change player
+      if (this.game.currentPlayer.correctWordCounter === 3) {
+        this.game.currentPlayer.attemptCounter++;
+        this.game.currentPlayer.correctWordCounter = 0;
         this.game.changePlayer();
         this.game.render();
-
       }
-      else {
-        console.log('word was not a word');
-        this.game.currentPlayer.correctWordCounter++;
-        // push back tiles to players currentTiles, 
-        for (let tile of this.game.currentPlayer.tilesPlaced) {
-          this.game.currentPlayer.currentTiles.push(tile);
-          //console.log(this.game.board[tile.positionX][tile.positionY], ' tile ');
-        }
-
-        this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-        this.game.render();
-      }
+      this.game.render();
     }
     //resetting for next move
     this.wordToCheck = '';
