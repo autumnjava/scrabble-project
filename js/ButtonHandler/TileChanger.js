@@ -1,4 +1,6 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
+import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
+import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 
 export default class TileChanger {
 
@@ -12,6 +14,8 @@ export default class TileChanger {
 
 
   clickOnEventHandler() {
+    this.moveTilesOnBoardToPlayer();
+
     let playerTiles = this.game.currentPlayer.currentTiles;
     if (this.inSquareTiles.length > 0) {
       for (let tileToRemove of this.inSquareTiles) {
@@ -78,6 +82,14 @@ export default class TileChanger {
 
     if (!this.inSquareTiles.includes(tile)) {
       this.inSquareTiles.push(tile);
+    }
+  }
+
+  moveTilesOnBoardToPlayer() {
+    let tilesOnBoard = tilesWithPossibleToMove(this.game.board);
+    if (tilesOnBoard.length > 0) {
+      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesOnBoard];
     }
   }
 
