@@ -4,6 +4,7 @@ import WordChecker from "./ButtonHandler/WordChecker.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
+import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 class Game {
 
   players = [];
@@ -12,6 +13,7 @@ class Game {
   //currentPlayer = '';
   wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
+  turnSkipper = new TurnSkipper(this)
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -104,10 +106,9 @@ class Game {
 
     //Click on "skip turn" button and player skips turn (in process)
     skipButton.click(function () {
-      // changePossibleToMoveToFalse();
-      that.currentPlayer.attemptCounter++;
+      that.turnSkipper.clickOnEventHandler();
       that.changePlayer();
-      that.gameEnder.checkGameEnd();
+      changePossibleToMoveToFalse();
       that.render();
     })
 
