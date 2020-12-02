@@ -45,6 +45,12 @@ export default class WordChecker {
       allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
     }
 
+    console.log(player.tilesPlaced, ' tiles placed');
+
+  }
+
+  removeFromPlayerTilesPlaced(oldObject, player) {
+    return player.tilesPlaced.splice(oldObject, 1);
   }
 
   isBoardEmpty() {
@@ -168,6 +174,7 @@ export default class WordChecker {
 
     if (words) {
       console.log('word was a word!');
+      console.log(this.game.currentPlayer.points, ' spelarens poäng');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);

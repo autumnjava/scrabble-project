@@ -43,7 +43,7 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       this.tileChanger.addTileDivInSquare(me);
-      console.log('changeable tiles from stand',this.tileChanger.inSquareTiles);
+      console.log('changeable tiles from stand', this.tileChanger.inSquareTiles);
     }
     else {
       let player = this.players[+$(me).attr('data-player')];
@@ -136,6 +136,9 @@ export default {
         let pt = player.currentTiles;
         // move around
         pt.splice(newIndex, 0, oldObject); //add back to stand
+        this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player);
+        console.log(this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player), ' logg ');
+
         delete oldSquare.tile; //delete property tile from oldSquare
       }
 
