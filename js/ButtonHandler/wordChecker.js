@@ -1,5 +1,5 @@
 import SAOLchecker from "../SAOLchecker.js";
-import { changePossibleToMoveToFalse } from "../Helpers/BoardHelper.js";
+import { changePossibleToMoveToFalse, removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
 
 export default class WordChecker {
@@ -36,8 +36,11 @@ export default class WordChecker {
     let allPositionsXSorted = [];
     // Sort so the positions comes i order
     if (!allYAreSame && !allXAreSame) {
-      // Should not be a valid move
-      // Should place all tiles back to stand?
+      for (let tile of this.game.currentPlayer.tilesPlaced) {
+        this.game.currentPlayer.currentTiles.push(tile);
+      }
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+      removeTilesFromBoard(this.game.board);
       console.log('not a valid move');
       return;
     }
@@ -49,9 +52,17 @@ export default class WordChecker {
       allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
     }
 
+    console.log(player.tilesPlaced, ' tiles placed');
 
+  }
 
-
+  removeFromPlayerTilesPlaced(oldObject, player) {
+    for (let i = 0; i < player.tilesPlaced.length; i++) {
+      if (player.tilesPlaced[i] === oldObject) {
+        player.tilesPlaced.splice(i, 1);
+      }
+    }
+    console.log(player.tilesPlaced, ' after splice');
   }
 
 
@@ -122,15 +133,44 @@ export default class WordChecker {
   calculatePoints(player) {
     //method for calcuating how many point a player should
     //get from a correct placed word
+    let dw = false;
+    let tw = false;
+    //at the moment this method does not count points for the letters that have been placed BEFORE.
     for (let tile of player.tilesPlaced) {
+      let special = this.game.board[tile.positionY][tile.positionX].specialValue;
       for (let key in tile) {
         let val = tile[key];
-        if (key === 'points') {
+        if (special !== 'dw' || special !== 'tw') {
+          if (key === 'points' && special === 'dl') { //double letter square
+            this.tilePointsOfWord += val * 2;
+          } else if (key === 'points' && special === 'start') { //letter in start square
+            this.tilePointsOfWord += val * 2;
+          } else if (key === 'points' && special === 'tl') { //triple letter square
+            this.tilePointsOfWord += val * 3;
+          } else if (key === 'points' && special === undefined) { //regular square, no specialvalue
+            this.tilePointsOfWord += val;
+          }
+        }
+
+        if (key === 'points' && special === 'dw') { //double word square
           this.tilePointsOfWord += val;
+          dw = true;
+        } else if (key === 'points' && special === 'tw') { //triple word square
+          this.tilePointsOfWord += val;
+          tw = true;
         }
       }
     }
-    console.log('points of tiles', this.tilePointsOfWord);
+
+    if (dw) {
+      this.tilePointsOfWord = this.tilePointsOfWord * 2;
+      console.log('points of tiles DW situation', this.tilePointsOfWord);
+    } else if (tw) {
+      this.tilePointsOfWord = this.tilePointsOfWord * 3;
+      console.log('points of tiles TW situation', this.tilePointsOfWord);
+    } else {
+      console.log('points of tiles (not in DW or TW situation)', this.tilePointsOfWord);
+    }
   }
 
   removeTilesFromBoard(player) {
@@ -145,17 +185,20 @@ export default class WordChecker {
     for (let word of this.newWordsToCheck()) {
       checkedWithSAOL.push(await SAOLchecker.scrabbleOk(word));
     }
-    let allOk = checkedWithSAOL.every(x => x);
-    console.log(checkedWithSAOL, 'checked with saol', allOk, 'all ok');
-
+    console.log(checkedWithSAOL, 'check with saol');
+    this.allOk = checkedWithSAOL.every(x => x);
+    console.log(this.allOk, 'all Ok')
+    this.wordsTrueOrFalse(this.allOk);
   }
 
   checkIfRightAngle() {
 
+    //If all x values of tile are the same check if word creates right angle with other player's word
     if (this.allXAreSame) {
       this.tileBelowBool = false; //If another player's tile is under current player's tile
       this.tileAboveBool = false; //If another player's tile is above current player's tile
-      this.myWord = '';
+      this.testFailed = false;  //If test has been failes
+      this.myWord = '';  //Tiles that have been placed by current player
 
       //This loop checks if there is any other player's tile under each of current player's tile
       for (let tile of this.game.currentPlayer.tilesPlaced) {
@@ -171,7 +214,7 @@ export default class WordChecker {
           this.otherPlayersWord = [];
 
 
-          this.anotherPlayerTileCharBelow = this.divBelow.tile.char; //First char below my char
+          this.anotherPlayerTileCharBelow = this.divBelow.tile.char; //Char below current player's tile 
 
 
 
@@ -190,7 +233,7 @@ export default class WordChecker {
             myDivLeft = this.game.board[tile.positionY + 1][tile.positionX - j].tile;
             if (myDivLeft != undefined) {
 
-              this.otherPlayersWord.splice(0, 0, myDivLeft.char);
+              this.otherPlayersWord.splice(0, 0, myDivLeft.char); //This is the finished word of other players
 
             }
             j++;
@@ -201,6 +244,8 @@ export default class WordChecker {
         }
       }
 
+      //If no tile below has been found, check if there's tile above
+      //Doing all the same as in previous loop
       if (!this.tileBelowBool) {
         for (let tile of this.game.currentPlayer.tilesPlaced) {
 
@@ -239,29 +284,43 @@ export default class WordChecker {
             }
             while (myDivLeft != undefined)
 
-
-
-
           }
         }
       }
 
-      console.log('word without other players char is : ', this.myWord);
-      console.log('Other players word is :', this.otherPlayersWord);
-      console.log('my word is :', this.myWords);
+      console.log('word without other players char is : ', this.myWord); //Tiles that have been placed on board by current player
+      console.log('Other players word is :', this.otherPlayersWord); //Old word that already axists on the board and that creates right angle 
+      console.log('my word is :', this.myWords[this.myWords.length - 1]); //Word that is gonna be checked with SAOL
+
+      if (this.otherPlayersWord != undefined) {
+        for (let letter of this.myWord) {
+          if (this.otherPlayersWord.some(x => x == letter)) {
+            console.log('found matching letter'); //If matching letter is found
+            break;
+          }
+          else {
+            this.testFailed = true;  // Returns true if matching letter is not found
+          }
+        }
+      }
 
     }
 
 
+    return this.testFailed;  //Return value to check if current player's word contains at least 1 letter from other player's word
   }
 
-  wordsTrueOrFalse() {
+
+  wordsTrueOrFalse(words) {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
-    this.checkIfRightAngle();
+    if (this.checkIfRightAngle()) {
+      alert('there is no matching letter!') //What to do if test failed? +1 attempt? just alert?
+    }
 
-    if (this.checkWordWithSAOL()) {
+    if (words) {
       console.log('word was a word!');
+      console.log(this.game.currentPlayer.points, ' spelarens poäng');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);
@@ -276,6 +335,8 @@ export default class WordChecker {
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
       this.game.render();
+
+      //console.log('hejsan');
     }
     else {
       console.log('word was not a word');
