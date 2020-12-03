@@ -179,123 +179,51 @@ export default class WordChecker {
     this.wordsTrueOrFalse(this.allOk);
   }
 
-  checkIfRightAngle() {
+  checkIfCorrectPosition() {
 
-    //If all x values of tile are the same check if word creates right angle with other player's word
-    if (this.allXAreSame) {
-      this.tileBelowBool = false; //If another player's tile is under current player's tile
-      this.tileAboveBool = false; //If another player's tile is above current player's tile
-      this.testFailed = false;  //If test has been failes
-      this.myWord = '';  //Tiles that have been placed by current player
 
-      //This loop checks if there is any other player's tile under each of current player's tile
+    //Check if none of tiles placed are on start square
+    let allTilesNotAtStart = this.game.currentPlayer.tilesPlaced.some(x => x.positionY == 7 && x.positionX == 7);
+    console.log('true om någon tile är på start?', allTilesNotAtStart)
+
+    if (!allTilesNotAtStart) {
       for (let tile of this.game.currentPlayer.tilesPlaced) {
-        this.myWord += tile.char;
-        this.divBelow = this.game.board[tile.positionY + 1][tile.positionX];
-        if (this.divBelow.tile != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow.tile) && this.game.currentPlayer.tilesPlaced.length > 1) {
-          this.tileBelowBool = true;
-          this.indexOfTile = this.game.currentPlayer.tilesPlaced.indexOf(tile); //Index of tile after which comes other player's tile
-          let i = 0;
-          let j = 1;
-          let myDivRight = '';
-          let myDivLeft = '';
-          this.otherPlayersWord = [];
+        //Check div above, below, on right and left of every placed tile
+        this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+        this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+        this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+        this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
+        //If found other player's tile above or below test has not been failed
+        if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow) ||
+          this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          this.testFailed = false;
 
-          this.anotherPlayerTileCharBelow = this.divBelow.tile.char; //Char below current player's tile 
-
-
-
-          //Both of these do while loops loop through same x axis and build up another player's word
-          do {
-            myDivRight = this.game.board[tile.positionY + 1][tile.positionX + i].tile;
-            if (myDivRight != undefined) {
-              this.otherPlayersWord.push(myDivRight.char);
-
-            }
-            i++;
-          }
-          while (myDivRight != undefined)
-
-          do {
-            myDivLeft = this.game.board[tile.positionY + 1][tile.positionX - j].tile;
-            if (myDivLeft != undefined) {
-
-              this.otherPlayersWord.splice(0, 0, myDivLeft.char); //This is the finished word of other players
-
-            }
-            j++;
-          }
-          while (myDivLeft != undefined)
+          break;
 
 
         }
-      }
 
-      //If no tile below has been found, check if there's tile above
-      //Doing all the same as in previous loop
-      if (!this.tileBelowBool) {
-        for (let tile of this.game.currentPlayer.tilesPlaced) {
+        //Same as before when it comes to other player's tile on right and left side
+        else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight) ||
+          this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+          this.testFailed = false;
 
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX];
-          if (this.divAbove.tile != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove.tile) && this.game.currentPlayer.tilesPlaced.length > 1) {
-            this.tileAboveBool = true;
-            let i = 0;
-            let j = 1;
-            let myDivRight = '';
-            let myDivLeft = '';
-            this.otherPlayersWord = [];
+          //console.log('found Not MY DIV', this.divOnLeft, this.divOnRight)
+          break;
 
-            this.anotherPlayerTileCharAbove = this.divAbove.tile.char;
-
-            do {
-              myDivRight = this.game.board[tile.positionY - 1][tile.positionX + i].tile;
-              if (myDivRight != undefined) {
-
-                this.otherPlayersWord.push(myDivRight.char);
-
-              }
-              i++;
-            }
-            while (myDivRight != undefined)
-
-            do {
-              myDivLeft = this.game.board[tile.positionY - 1][tile.positionX - j].tile;
-              if (myDivLeft != undefined) {
-
-                this.otherPlayersWord.splice(0, 0, myDivLeft.char);
-
-
-              }
-
-              j++;
-            }
-            while (myDivLeft != undefined)
-
-          }
         }
-      }
 
-      console.log('word without other players char is : ', this.myWord); //Tiles that have been placed on board by current player
-      console.log('Other players word is :', this.otherPlayersWord); //Old word that already axists on the board and that creates right angle 
-      console.log('my word is :', this.myWords[this.myWords.length - 1]); //Word that is gonna be checked with SAOL
-
-      if (this.otherPlayersWord != undefined) {
-        for (let letter of this.myWord) {
-          if (this.otherPlayersWord.some(x => x == letter)) {
-            console.log('found matching letter'); //If matching letter is found
-            break;
-          }
-          else {
-            this.testFailed = true;  // Returns true if matching letter is not found
-          }
+        //If there is none of other player's tile around my tile, test has been failed and move is invalid
+        else {
+          this.testFailed = true;
         }
       }
 
     }
 
-
-    return this.testFailed;  //Return value to check if current player's word contains at least 1 letter from other player's word
+    console.log('test failed', this.testFailed)
+    return this.testFailed;  //Returns true if word has not correct position and false if everything is ok
   }
 
 
@@ -304,7 +232,8 @@ export default class WordChecker {
     let playerTiles = this.game.currentPlayer.currentTiles;
 
 
-    if (!words || this.invalidMove || this.checkIfRightAngle()) {
+
+    if (!words || this.invalidMove || this.checkIfCorrectPosition()) {
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
       this.removeTilesFromBoard(this.game.currentPlayer);
