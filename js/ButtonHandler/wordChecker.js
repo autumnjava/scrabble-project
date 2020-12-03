@@ -160,7 +160,11 @@ export default class WordChecker {
       console.log('points of tiles TW situation', this.tilePointsOfWord);
     } else {
       console.log('points of tiles (not in DW or TW situation)', this.tilePointsOfWord);
+      console.log(player.tilePoints, 'tile points of player')
     }
+
+    //MUST CHECK HERE IF WORD WAS CORRECT!
+    player.tilePoints += this.tilePointsOfWord;
   }
 
   removeTilesFromBoard(player) {
