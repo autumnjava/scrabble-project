@@ -1,9 +1,11 @@
 rack {
   float: left;
-  padding: 1vh;
+  padding: 1.5vh;
   background-color: rgb(33, 57, 81);
   border-radius: 1vh;
   width: 100%;
+  border: 2px solid  rgba(0,0,0,0.5);
+  box-shadow: 0 0 4px 1px #0a1126;
 }
 
 rack div {
@@ -11,6 +13,7 @@ rack div {
   padding: 1vh;
   width: 11.11%;
   background: rgba(0,0,0,0.5);
+  border-radius: 1vh;
 }
 
 rack div tile {
@@ -22,8 +25,10 @@ rack div tile {
   border-radius: 1vh;
   font-size: 200%;
   line-height: 100%;
+  border: #bd9182 solid 4px;
+  border-spacing: 0;
+  box-shadow: 0 0 4px 1px #421327;
 }
-
 rack div tile:hover {
   cursor: pointer;
 }

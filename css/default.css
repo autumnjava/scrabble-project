@@ -36,6 +36,8 @@ header {
   z-index: 1;
   font-family:'Pacifico', cursive;
   font-size: 40px;
+  border: 1px solid  rgba(0,0,0,0.5);
+  box-shadow: 0 0 4px 1px #0a1126;
 }
 
 footer {

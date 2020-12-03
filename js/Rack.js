@@ -64,6 +64,14 @@ export default class Rack {
     }
   }
 
+  getNumberOfTiles() {
+    let count = 0;
+    for (let tile of this.tiles) {
+      if (tile) { count++; }
+    }
+    return count;
+  }
+
   addDragEvents() {
     let that = this;
 
