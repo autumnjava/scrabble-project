@@ -89,7 +89,7 @@ export default class GameEnder {
 
   render() {
     let rankingDiv = $('<div class="ranking"></div>');
-    let rankingListTitle = $('<p class="topPlayers">Topp spelare:<p>');
+    let rankingListTitle = $('<p class="topPlayers">Resultat:<p>');
     let rankingList = $('<ol></ol>');
     let rankingNumber = 1;
     for (let player of this.sortedPlayers) {
