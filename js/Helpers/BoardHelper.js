@@ -6,7 +6,7 @@ export const tilesWithPossibleToMove = (board) => {
         tiles.push(square.tile);
       }
     }
-  })
+  });
   return tiles;
 }
 
@@ -17,6 +17,16 @@ export const removeTilesFromBoard = (board) => {
       if (square.tile.possibleToMove) {
         delete square.tile;
       }
+    }
+  })
+  return newBoard;
+}
+
+export const changePossibleToMoveToFalse = (board) => {
+  let newBoard = board;
+  newBoard.flat().map((x) => {
+    if (x.tile) { // same as if(typeof x.tile !== "undefined")
+      x.tile.possibleToMove = false;
     }
   })
   return newBoard;

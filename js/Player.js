@@ -32,7 +32,7 @@ export default class Player {
        <div class="player-icon">
       <div class="icon"><i class="fas fa-user fa-3x"></i></div>
        <div class="pname">${this.name} </div>
-       <div class="ppoints">${this.tilePoints} Points </div>
+       <div class="ppoints">${this.tilePoints} poäng </div>
       </div>
      
       `;
