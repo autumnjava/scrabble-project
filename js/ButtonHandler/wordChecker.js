@@ -28,8 +28,8 @@ export default class WordChecker {
     let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
 
     // Check if word is horizontal or vertical - returns true or false
-    this.allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
-    this.allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
+    let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
+    let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
 
 
     let allPositionsYSorted = [];
@@ -191,7 +191,7 @@ export default class WordChecker {
 
     //Check if none of tiles placed are on start square
     let allTilesNotAtStart = this.game.currentPlayer.tilesPlaced.some(x => x.positionY == 7 && x.positionX == 7);
-    console.log('true om någon tile är på start?', allTilesNotAtStart)
+
 
     if (!allTilesNotAtStart) {
       for (let tile of this.game.currentPlayer.tilesPlaced) {
@@ -202,7 +202,7 @@ export default class WordChecker {
         this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
         //If found other player's tile above or below test has not been failed
-        if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow) &&  ||
+        if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow) ||
           this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
           this.testFailed = false;
 
@@ -238,7 +238,7 @@ export default class WordChecker {
     this.checkIfWordIsOnStartSquare();
 
     let playerTiles = this.game.currentPlayer.currentTiles;
-    console.log(this.checkIfCorrectPosition())
+
 
 
 
