@@ -100,16 +100,8 @@ export default class Game {
   async game() {
     this.update();
     this.render();
-    this.addDragEvents();
   }
 
   getPlayers() { return this.players; }
   getPlayer(id) { return this.players[id]; }
-
-  async addDragEvents() {
-    let that = this;
-
-    console.log("hello");
-    await $('rack .draggable').draggabilly();
-  }
 }

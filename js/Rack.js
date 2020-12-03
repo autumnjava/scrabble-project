@@ -22,7 +22,7 @@ export default class Rack {
     </rack>
     `);
 
-    await pointer.append(rack);
+    await pointer.prepend(rack);
 
     let pos = 0;
     rack.children('div').each(function () {
@@ -47,6 +47,7 @@ export default class Rack {
       }
       pos++;
     });
+    this.addDragEvents();
   }
 
   addTiles(tiles) {
@@ -61,6 +62,33 @@ export default class Rack {
     if (this.tiles.length < 7) {
       this.tiles.push(tile);
     }
+  }
+
+  addDragEvents() {
+    let that = this;
+
+    $('.draggable').draggabilly({ containment: 'body' })
+      .on('dragStart', (e) => that.dragStart(e))
+      .on('dragMove', (pointer) => that.dragMove(pointer))
+      .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
+  }
+
+  dragStart(e) {
+    console.log("Picked up ...");
+  }
+
+  dragMove(pointer) {
+    let { pageX, pageY } = pointer;
+    console.log(pageX + " : " + pageY);
+  }
+
+  dragEnd(e, pointer) {
+    let that = this;
+
+    console.log("Putted down ...");
+    let me = e.currentTarget;
+    me.remove();
+    that.render($('panel'));
   }
 }
 
