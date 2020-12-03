@@ -1,3 +1,7 @@
+import { removeTilesFromBoard } from "./Helpers/BoardHelper.js";
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
+
+
 export default {
   addDragEvents() {
     let that = this;
@@ -37,19 +41,29 @@ export default {
   dragEnd(e, pointer) {
     let { pageX, pageY } = pointer;
     let me = $(e.currentTarget);
+
     // reset the z-index
-    this.lastClickedTile.css({ zIndex: '' });
+    me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.lastClickedTile.addClass('onChangeTilesSquare');
-      this.tileChanger.addTileDiv(this.lastClickedTile);
+      let tilesOnBoard = tilesWithPossibleToMove(this.board);
+      if (tilesOnBoard.length > 0) {
+        this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
+        console.log(this.currentPlayer.currentTiles);
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+        this.render();
+        return;
+      }
+      this.tileChanger.addTileDivInSquare(me);
     }
     else {
-      this.lastClickedTile.removeClass('onChangeTilesSquare');
-
       let player = this.players[+$(me).attr('data-player')];
       let tileIndex = +$(me).attr('data-tile');
       let tile = player.currentTiles[tileIndex];
+
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare(); //  because of render()
 
       // drag the tiles in a different order in the stands
       let $stand = $('.stand');
@@ -84,6 +98,7 @@ export default {
       this.render();
       this.emptyTileHandler.checkIfEmptyTile(this.board[this.y][this.x].tile);
     }
+    this.lastClickedTile = me;
   },
 
   moveTilesAroundBoard() {
@@ -105,13 +120,21 @@ export default {
     let oldSquare = this.board[oldY][oldX];
 
     // reset the z-index
-    this.lastClickedTile.css({ zIndex: '' });
+    me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
-    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.lastClickedTile.addClass('onChangeTilesSquare');
-      this.tileChanger.addTileDiv(this.lastClickedTile);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      if (tilesWithPossibleToMove(this.board).length > 0) {
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+      }
+      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
+      this.lastClickedTile = me;
+      return;
     }
     else {
+
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare();
 
       //IF USER WANTS TO PUT IT BACK TO THE STAND:
       let $stand = $('.stand');
@@ -141,6 +164,7 @@ export default {
 
       delete oldSquare.tile;
       this.board[newY][newX].tile = oldObject;
+      this.lastClickedTile = me;
       this.render();
     }
   }

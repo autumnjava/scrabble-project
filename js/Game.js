@@ -1,4 +1,6 @@
 import Player from "./Player.js";
+
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
@@ -122,7 +124,6 @@ class Game {
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
-
     })
 
     checkWordButton.click(function () {
