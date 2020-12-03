@@ -28,6 +28,6 @@ export const changePossibleToMoveToFalse = (board) => {
     if (x.tile) { // same as if(typeof x.tile !== "undefined")
       x.tile.possibleToMove = false;
     }
-  })
+  });
   return newBoard;
 }

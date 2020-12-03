@@ -1,6 +1,12 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
 import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
 import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
+import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
+import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
+import { getTileDivAsATileObject } from "../Helpers/TileHelper.js";
+
+
+
 
 export default class TileChanger {
 
@@ -69,19 +75,51 @@ export default class TileChanger {
     }
   }
 
-  addTileDiv(tileDiv) {
+  addTileDivInSquare(tileDiv) { // assume  tile is moved from stand
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
-    if (!tile) {
-      //if tile is being dragged from the board i.e 'tile is undefined'
-      let oldY = Math.floor(tileIndex / 15);
-      let oldX = tileIndex % 15;
-      tile = this.game.board[oldY][oldX].tile;
-      delete this.game.board[oldY][oldX].tile; //delete .tile from the board
-    }
 
-    if (!this.inSquareTiles.includes(tile)) {
+    if (!tileDiv.hasClass('onChangeTilesSquare')) {
+      console.log('pushed');
       this.inSquareTiles.push(tile);
+      tileDiv.addClass('onChangeTilesSquare');
+    }
+  }
+
+  addTileDivInSquareFromBoard(tileDiv) { // assume tile is moved from board
+    let newTile = getTileDivAsATileObject(tileDiv);
+    if (!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
+      console.log('pushed');
+      this.inSquareTiles.push(newTile);
+      tileDiv.addClass('onChangeTilesSquare');
+    }
+  }
+
+  isTilesOnBoard(tileDiv) {
+    console.log("isTileOnBoard");
+  }
+
+  isTileInSquareTiles(tile) {
+    if (!tile) {
+      for (let t of this.inSquareTiles) {
+        if (t.char === tile.char && t.points === tile.points) {
+          return t;
+        }
+      }
+    }
+    return '';
+  }
+
+  removeAllTilesInSquare(tile) {
+    this.inSquareTiles = [];
+  }
+
+  returnTileDivToPlayer(tileDiv) {
+    let tile = getTileDivDatasetAsObject(tileDiv);
+    console.log('tikle', tile);
+    console.log('lenght', this.isTileInSquareTiles(tile).length);
+    if (this.isTileInSquareTiles(tile).length <= 0) {
+      this.game.currentPlayer.currentTiles.push(tile);
     }
   }
 
@@ -93,4 +131,8 @@ export default class TileChanger {
     }
   }
 
+  returnTileToPlayer(tile) {
+    this.game.currentPlayer.currentTiles.push(tile);
+    console.log(this.game.currentPlayer.currentTiles);
+  }
 }

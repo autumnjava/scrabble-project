@@ -37,19 +37,21 @@ export default {
   dragEnd(e, pointer) {
     let { pageX, pageY } = pointer;
     let me = $(e.currentTarget);
+
     // reset the z-index
-    this.lastClickedTile.css({ zIndex: '' });
+    me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.lastClickedTile.addClass('onChangeTilesSquare');
-      this.tileChanger.addTileDiv(this.lastClickedTile);
+      this.tileChanger.addTileDivInSquare(me);
+      console.log('changeable tiles from stand', this.tileChanger.inSquareTiles);
     }
     else {
-      this.lastClickedTile.removeClass('onChangeTilesSquare');
-
       let player = this.players[+$(me).attr('data-player')];
       let tileIndex = +$(me).attr('data-tile');
       let tile = player.currentTiles[tileIndex];
+
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare(); //  because of render()
 
       // drag the tiles in a different order in the stands
       let $stand = $('.stand');
@@ -81,9 +83,12 @@ export default {
       // put the tile on the board and re-render
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
       this.board[this.y][this.x].tile.possibleToMove = true;
+      this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
       this.checkIfEmptyTile();
+
     }
+    this.lastClickedTile = me;
   },
 
   moveTilesAroundBoard() {
@@ -105,13 +110,18 @@ export default {
     let oldSquare = this.board[oldY][oldX];
 
     // reset the z-index
-    this.lastClickedTile.css({ zIndex: '' });
+    me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
-    if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      this.lastClickedTile.addClass('onChangeTilesSquare');
-      this.tileChanger.addTileDiv(this.lastClickedTile);
+    if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
+      console.log('tiles from board', this.tileChanger.inSquareTiles);
+      this.lastClickedTile = me;
+      return;
     }
     else {
+
+      me.removeClass('onChangeTilesSquare');
+      this.tileChanger.removeAllTilesInSquare();
 
       //IF USER WANTS TO PUT IT BACK TO THE STAND:
       let $stand = $('.stand');
@@ -127,6 +137,7 @@ export default {
         let pt = player.currentTiles;
         // move around
         pt.splice(newIndex, 0, oldObject); //add back to stand
+        this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player);
         delete oldSquare.tile; //delete property tile from oldSquare
       }
 
@@ -141,6 +152,7 @@ export default {
 
       delete oldSquare.tile;
       this.board[newY][newX].tile = oldObject;
+      this.lastClickedTile = me;
       this.render();
     }
   }

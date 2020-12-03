@@ -1,15 +1,19 @@
 import Player from "./Player.js";
+import SAOLchecker from "./SAOLchecker.js";
+import WordChecker from "./ButtonHandler/WordChecker.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
+import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 class Game {
 
   players = [];
   lastClickedTile;
   tileChanger = new TileChanger(this);
   //currentPlayer = '';
+  wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
   turnSkipper = new TurnSkipper(this)
 
@@ -105,8 +109,8 @@ class Game {
     //Click on "skip" to skip the round
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
-      changePlayer();
-      that.board = changePossibleToMoveToFalse(that.board);
+      that.changePlayer();
+      changePossibleToMoveToFalse(that.board);
       that.render();
     });
 
@@ -114,7 +118,7 @@ class Game {
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
-      changePlayer();
+      that.changePlayer();
       that.render();
     });
 
@@ -125,26 +129,22 @@ class Game {
 
     checkWordButton.click(function () {
 
-      // in process
-      //if (scrabbleOk) {
-      //  that.currentPlayer.attemptCounter = 0;
-      //}
-
-      if (that.currentPlayer.checkWordButton >= 3) {
-        that.currentPlayer.attemptCounter++;
-      }
+      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+      that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
-      changePlayer();
       that.render();
     })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
+
   }
+
+  changePlayer() {
+    if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
+      this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+    }
+    else this.currentPlayer = this.players[0];
+  }
+
 
 
   createBoard() {
@@ -165,7 +165,7 @@ class Game {
       });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
       .forEach(([y, x]) => {
         this.board[y][x].specialValue = 'dl',
           this.board[y][x].tileValue = 2
@@ -188,6 +188,7 @@ class Game {
 
   render() { //render board and player divs
     let that = this;
+
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
