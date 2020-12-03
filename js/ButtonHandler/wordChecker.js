@@ -110,7 +110,6 @@ export default class WordChecker {
     let newWords = words.slice(); // Create a copy
     while (this.oldWords.length) {
       let index = newWords.indexOf(this.oldWords.shift());
-      console.log(index, ' index');
       if (index >= 0) {
         newWords.splice(index, 1); // Remove old words from the copy, so only new words are left
       }
@@ -186,7 +185,6 @@ export default class WordChecker {
 
     if (words) {
       console.log('word was a word!');
-      console.log(this.game.currentPlayer.points, ' spelarens poäng');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);
@@ -200,9 +198,6 @@ export default class WordChecker {
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
-      this.game.render();
-
-      console.log('hejsan');
     }
     else {
       console.log('word was not a word');
@@ -221,14 +216,13 @@ export default class WordChecker {
       if (this.game.currentPlayer.correctWordCounter === 3) {
         this.game.currentPlayer.attemptCounter++;
         this.game.currentPlayer.correctWordCounter = 0;
-        this.game.changePlayer();
-        this.game.render();
+        this.game.changePlayer();;
       }
-      this.game.render();
     }
     //resetting for next move
     this.wordToCheck = '';
     this.tilePointsOfWord = 0;
+    this.game.render();
   }
 
 
