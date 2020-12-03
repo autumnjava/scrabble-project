@@ -38,6 +38,12 @@ export default class WordChecker {
 
   }
 
+  checkIfWordIsOnStartSquare() {
+    if (!this.game.board[7][7].tile) {
+      this.invalidMove = true;
+    }
+  }
+
   removeFromPlayerTilesPlaced(oldObject, player) {
     for (let i = 0; i < player.tilesPlaced.length; i++) {
       if (player.tilesPlaced[i] === oldObject) {
@@ -166,6 +172,7 @@ export default class WordChecker {
   }
 
   wordsTrueOrFalse(words) {
+    this.checkIfWordIsOnStartSquare();
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
