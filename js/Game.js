@@ -6,7 +6,8 @@ import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
-import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
+import Store from 'https://network-lite.nodehill.com/store';
+import Network from "./Network.js";
 class Game {
 
   players = [];
@@ -16,10 +17,12 @@ class Game {
   wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
   turnSkipper = new TurnSkipper(this)
+  networkInstanse = new Network(this);
 
   async start() {
     this.createFormAndShowInStartPage();
     this.startGameButtonListener();
+    this.connectToGameListener();
     this.addButtonEvents();
     await this.tilesFromFile();
   }
@@ -31,12 +34,7 @@ class Game {
   }
 
   createFormAndShowInStartPage() {
-    let formToFills = [
-      { label: 'Spelare 1', id: 'playername1', required: true },
-      { label: 'Spelare 1', id: 'playername2', required: true },
-      { label: 'Spelare 1', id: 'playername3', required: false },
-      { label: 'Spelare 1', id: 'playername4', required: false }
-    ]
+    let formToFills = [{ label: 'Spelare 1', id: 'playername1', required: true }];
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form id="form"></form>');
     for (let formToFill of formToFills) {
@@ -49,6 +47,7 @@ class Game {
     }
     formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">Starta</button>`);
     askPlayerNameFormDiv.append(formTag);
+    askPlayerNameFormDiv.append(`<button class="connectGameButton" name="connectGameButton" id="connectGameButton" type="submit">Anslut</button>`);
     $('.startPage').append(askPlayerNameFormDiv);
   }
 
@@ -56,7 +55,7 @@ class Game {
     let that = this;
     function submitForm(event) {
       event.preventDefault();
-      let playerIds = ['playername1', 'playername2', 'playername3', 'playername4'];
+      let playerIds = ['playername1'];
       for (let playerId of playerIds) {
         let playerName = document.getElementById(playerId).value;
         if (playerName.length <= 0) {
@@ -73,11 +72,21 @@ class Game {
       $('.board').show();
       $('header').animate({ "font-size": "15px", "padding": "5px" });
       $('footer').animate({ "font-size": "10px", "padding": "3px" });
+      that.networkInstanse.getNetworkKey();
       that.startGame();
     }
 
     let form = document.getElementById('form');
     form.addEventListener('submit', submitForm);
+  }
+
+  connectToGameListener() {
+    $('body').on('click', '.connectGameButton', () => {
+      //  if (!getName()) { return; }
+      this.networkKey = prompt('Enter the network key from your friend:');
+      this.networkInstanse.connectToStore();
+      this.startGame();
+    });
   }
 
 
