@@ -82,7 +82,7 @@ export default {
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
       this.board[this.y][this.x].tile.possibleToMove = true;
       this.render();
-      this.checkIfEmptyTile();
+      this.emptyTileHandler.checkIfEmptyTile();
     }
   },
 

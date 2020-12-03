@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
+import EmptyTileHandler from "./EmptyTileHandler.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 class Game {
@@ -11,7 +12,8 @@ class Game {
   tileChanger = new TileChanger(this);
   //currentPlayer = '';
   gameEnder = new GameEnder(this);
-  turnSkipper = new TurnSkipper(this)
+  turnSkipper = new TurnSkipper(this);
+  emptyTileHandler = new EmptyTileHandler(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -215,29 +217,6 @@ class Game {
 
     this.addDragEvents();
     this.moveTilesAroundBoard();
-  }
-
-  //Check if empty tile is placed on board
-  //in process
-  checkIfEmptyTile() {
-    if (this.board[this.y][this.x].tile.char == " ") {
-      console.log('Empty tile found')
-      let myBool = false;
-      while (!myBool) {
-
-        let letter = prompt('Please write in 1 letter for empty tile', '');
-
-        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
-        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
-          letter = letter.toUpperCase();
-          myBool = true;
-          this.board[this.y][this.x].tile.char = letter;
-
-          this.render();
-          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
-        }
-      }
-    }
   }
 
   currentTilePoints() {
