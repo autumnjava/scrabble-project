@@ -32,21 +32,7 @@ export default class WordChecker {
     let allPositionsYSorted = [];
     let allPositionsXSorted = [];
     // Sort so the positions comes i order
-    if (!allYAreSame && !allXAreSame) {
-      for (let tile of this.game.currentPlayer.tilesPlaced) {
-        this.game.currentPlayer.currentTiles.push(tile);
-      }
-      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-      removeTilesFromBoard(this.game.board);
-      console.log('not a valid move');
-      return;
-    }
-    else if (!allYAreSame) {
-      allPositionsYSorted = player.tilesPlaced.sort((a, b) => a.positionY < b.positionY ? -1 : 1);
-    }
-    else if (!allXAreSame) {
-      allPositionsXSorted = player.tilesPlaced.sort((a, b) => a.positionX < b.positionX ? -1 : 1);
-    }
+    this.invalidMove = (!allYAreSame && !allXAreSame)
 
     console.log(player.tilesPlaced, ' tiles placed');
 
@@ -183,23 +169,7 @@ export default class WordChecker {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
-    if (words) {
-      console.log('word was a word!');
-
-      this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
-      this.game.board = changePossibleToMoveToFalse(this.game.board);
-
-      //give player points for correct word
-      //also empty the tilesplaced array for next round of currentplayer
-      this.game.currentPlayer.points += this.tilePointsOfWord;
-      this.game.currentPlayer.attemptCounter = 0; // Reset when correct
-      this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
-      let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
-      this.game.currentPlayer.currentTiles = newTiles;
-      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-      this.game.changePlayer();
-    }
-    else {
+    if (!words || this.invalidMove) {
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
       this.removeTilesFromBoard(this.game.currentPlayer);
@@ -218,6 +188,22 @@ export default class WordChecker {
         this.game.currentPlayer.correctWordCounter = 0;
         this.game.changePlayer();;
       }
+    }
+    else if (words) {
+      console.log('word was a word!');
+
+      this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
+      this.game.board = changePossibleToMoveToFalse(this.game.board);
+
+      //give player points for correct word
+      //also empty the tilesplaced array for next round of currentplayer
+      this.game.currentPlayer.points += this.tilePointsOfWord;
+      this.game.currentPlayer.attemptCounter = 0; // Reset when correct
+      this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
+      let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
+      this.game.currentPlayer.currentTiles = newTiles;
+      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+      this.game.changePlayer();
     }
     //resetting for next move
     this.wordToCheck = '';
