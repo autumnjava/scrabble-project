@@ -86,6 +86,7 @@ export default {
       this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
       this.checkIfEmptyTile();
+
     }
     this.lastClickedTile = me;
   },

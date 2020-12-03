@@ -131,7 +131,6 @@ class Game {
 
       that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
-
       that.gameEnder.checkGameEnd();
       that.render();
     })
@@ -166,7 +165,7 @@ class Game {
       });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
       .forEach(([y, x]) => {
         this.board[y][x].specialValue = 'dl',
           this.board[y][x].tileValue = 2
