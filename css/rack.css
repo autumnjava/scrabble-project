@@ -1,22 +1,45 @@
 rack {
-  display: inline-block;
-  padding: 2vh;
+  float: left;
+  padding: 1vh;
   background-color: rgb(33, 57, 81);
   border-radius: 1vh;
-  margin: 0 1vh;
+  width: 100%;
 }
 
-rack tile {
-  display: inline-block;
-  width: 5vh;
-  height: 5vh;
-  text-align:center;
-  background-color: rgb(229, 212, 194); 
-  border: 1vh solid #000;
+rack div {
+  float: left;
+  padding: 1vh;
+  width: 11.11%;
+  background: rgba(0,0,0,0.5);
+}
+
+rack div tile {
+  float: left;
+  padding: 1vh;
+  width: 100%;
+  height: 100%;
+  background: rgb(229, 212, 194); 
   border-radius: 1vh;
-  font-size: 2vh;
+  font-size: 200%;
+  line-height: 100%;
 }
 
-rack .empty {
-  background-color: rgba(0,0,0,0.5);
+rack div tile:hover {
+  cursor: pointer;
+}
+
+rack div tile char {
+  float: left;
+  width: 100%;
+  height: 75%;
+  font-size: 100%;
+  text-align: center;
+}
+
+rack div tile points {
+  float: left;
+  width: 100%;
+  height: 25%;
+  font-size: 100%;
+  text-align: right;
 }

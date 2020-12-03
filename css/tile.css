@@ -1,5 +1,5 @@
 .tile {
-  text-align:center;
+  text-align: center;
   width: 5.6vh;
   height: 5.6vh;
   background-color: rgb(229, 212, 194); 
@@ -9,11 +9,5 @@
 }
 
 .tile span {
-  right: 3px;
-  bottom: 3px;
-}
-
-tile .empty {
-  border: 0;
-  background-color: transparent;
+  
 }

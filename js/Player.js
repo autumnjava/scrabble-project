@@ -13,20 +13,19 @@ export default class Player {
     this.tilesPlaced = [];
   }
 
-  render() {
+  async render() {
     $('player').remove();
     let player = $(`<player></player>`);
     let panel = $(`<panel></panel>`);
 
+    player.append(panel);
+
     this.rack.render(panel);
+
     panel.append(`
       <name>Player: ${this.name}</name>
       <points>Points: ${this.points}</points>
     `);
-
-    player.append(panel);
-
-
     /*
     return `<div class="stand">
       ${this.currentTiles.map((x, i) => `<div 
@@ -49,8 +48,14 @@ export default class Player {
       `;
       */
     $('game right').append(player);
-    player.fadeIn(1000);
   }
 
   getName() { return this.name; }
+
+  addTiles(tiles) {
+    if (this.rack.tiles.length + tiles.length <= 7) {
+      this.rack.addTiles(tiles);
+    }
+    this.render();
+  }
 }

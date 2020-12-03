@@ -2,7 +2,6 @@ player {
   float: left;
   width: 100%;
   font-size: 4vh;
-  font-face: 
 }
 
 player panel {
@@ -12,12 +11,12 @@ player panel {
 }
 
 player name {
-  display: inline-block;
+  float: left;
   margin: 0 1vh;
-  height: 100%;
+  height: auto;
 }
 
 player points {
-  display: inline-block;
+  float: left;
   height: 100%;
 }

@@ -3,28 +3,84 @@ import Tile from "./Tile.js";
 export default class Rack {
   tiles = [];
 
-  render(pointer) {
+  async render(pointer) {
+    let tiles = this.tiles;
+    let that = this;
+
     $('rack').remove();
     let rack = $(`
-      <rack>
-        <tile id="0">A</tile>
-        <tile id="1">B</tile>
-        <tile id="2">C</tile>
-        <tile id="3">D</tile>
-        <tile id="4">E</tile>
-        <tile id="5">F</tile>
-        <tile id="6">G</tile>
-        <tile id="7" class="empty"></tile>
-        <tile id="8" class="empty"></tile>
-      </rack>
+    <rack>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </rack>
     `);
-    pointer.append(rack);
+
+    await pointer.append(rack);
+
+    let pos = 0;
+    rack.children('div').each(function () {
+      let that = $(this);
+      that.height(that.width());
+      if (tiles[pos]) {
+        let tile = tiles[pos];
+        that.append(`<tile class="draggable"><char>${tile.char}</char><points>${tile.points}</points></tile>`);
+        that.children().each(function () {
+          let that = $(this);
+          let charSize = (parseInt(that.width(), 10) * 0.95) + 'px';
+          let pointSize = (parseInt(that.width(), 10) * 0.25) + 'px';
+          that.children('char').each(function () {
+            $(this).css('font-size', charSize);
+            $(this).css('line-height', charSize);
+          });
+          that.children('points').each(function () {
+            $(this).css('font-size', pointSize);
+            $(this).css('line-height', pointSize);
+          });
+        });
+      }
+      pos++;
+    });
+  }
+
+  addTiles(tiles) {
+    if (this.tiles.length + tiles.length <= 7) {
+      tiles.forEach(tile => {
+        this.addTile(tile);
+      });
+    }
   }
 
   addTile(tile) {
-    let tiles = this.tiles;
-    if (tiles.length <= 7) {
-      tiles.push(tile);
+    if (this.tiles.length < 7) {
+      this.tiles.push(tile);
     }
   }
 }
+
+$(window).resize(function () {
+  $('rack').children().each(function () {
+    let that = $(this);
+    let width = that.width();
+    that.height(width);
+    that.children().each(function () {
+      let that = $(this);
+      let charSize = (parseInt(that.width(), 10) * 0.95) + 'px';
+      let pointSize = (parseInt(that.width(), 10) * 0.25) + 'px';
+      that.children('char').each(function () {
+        $(this).css('font-size', charSize);
+        $(this).css('line-height', charSize);
+      });
+      that.children('points').each(function () {
+        $(this).css('font-size', pointSize);
+        $(this).css('line-height', pointSize);
+      });
+    });
+  });
+});

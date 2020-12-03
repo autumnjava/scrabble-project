@@ -14,7 +14,8 @@ export default class Game {
 
   constructor() { this.init(); }
 
-  init() {
+  async init() {
+    await this.bag.init();
     $('start').hide();
     this.start();
   }
@@ -25,10 +26,13 @@ export default class Game {
     this.currentTurn = 1;
     this.currentPlayer = this.getPlayer(0);
 
-    console.log(this.currentPlayer.getName());
+    if (this.currentRound == 1) {
+      let tilesToAdd = this.bag.getRandomTiles(7);
+      this.currentPlayer.addTiles(tilesToAdd);
+    }
   }
 
-  render() {
+  async render() {
     this.board.render();
     this.currentPlayer.render();
     this.changer.render();
@@ -47,7 +51,7 @@ export default class Game {
     */
   }
 
-  start() {
+  async start() {
     let that = this;
     let pointer = $('start');
     let inputFields = [
@@ -93,12 +97,19 @@ export default class Game {
     });
   }
 
-  game() {
+  async game() {
     this.update();
     this.render();
+    this.addDragEvents();
   }
 
-
   getPlayers() { return this.players; }
-  getPlayer(id) { return this.getPlayers()[id]; }
+  getPlayer(id) { return this.players[id]; }
+
+  async addDragEvents() {
+    let that = this;
+
+    console.log("hello");
+    await $('rack .draggable').draggabilly();
+  }
 }
