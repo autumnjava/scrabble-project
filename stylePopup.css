@@ -12,11 +12,48 @@
 }
 
 #emptyTilePopupBoxContent {
-  position: absolute;
+  background-color: #e5d4c2;
+  text-align: center;
+  border-radius: 10px;
   z-index: 1;
-  background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+
+#emptyTilePopupBox p {
+  color: #213951;
+  font-size: 3vw;
+  font-weight: bold;
+}
+
+#emptyTilePopupBox button {
+  border: 0.3em solid white;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 2vw;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+}
+
+#emptyTilePopupBox input{
+  font-size: 3vw;
+  width: 30vw;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.popupClose {
+  color: #98aab4;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.popupClose:hover, .popupClose:focus {
+  color: #213951;
+  text-decoration: none;
+  cursor: pointer;
 }

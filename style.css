@@ -63,15 +63,16 @@ body button:hover{
 }
 
 .gamePage button {
+  display: inline-block;
   color: white;
-  background-color: black;
+  background-color: #cf816b;/*#f5b880;*/
   cursor: pointer;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 0.5vw 1vw;
-  font-size: 1vw;
-  text-transform:uppercase;
-  font-weight: 100%;
+  border: 0.2em solid white;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 2.5vh;
+  text-transform: uppercase;
+  font-weight: bold;
   transition: all 300ms ease-in-out;
  
   /*display: inline-block;
@@ -105,6 +106,8 @@ body button:hover{
 }
 
 .changeTiles .changeTilesSquare{
+  margin: auto;
+  text-align: center;
   height: 30vh;
   width: 30vh;
   border: 0.3em dashed #e5d4c2;
@@ -113,6 +116,8 @@ body button:hover{
 }
 
 .changeTiles .changeTilesSquare p {
+  margin: auto;
+  margin-top: 25%;
   text-align: center;
   color: #e5d4c2;
   font-size: 5vh;
