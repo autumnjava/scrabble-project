@@ -214,8 +214,9 @@ export default class WordChecker {
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             console.log('found div below')
             this.testFailed = false;
-
             break;
+
+
 
 
           }
@@ -223,6 +224,7 @@ export default class WordChecker {
             console.log('found div above')
             this.testFailed = false;
             break;
+
           }
 
           //Same as before when it comes to other player's tile on right and left side
@@ -232,12 +234,14 @@ export default class WordChecker {
             this.testFailed = false;
             break;
 
+
           }
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
             this.testFailed = false;
             console.log('found div on left')
             break;
+
           }
 
           //If there is none of other player's tile around my tile, test has been failed and move is invalid
@@ -520,21 +524,21 @@ export default class WordChecker {
 
       let allPositionsYSorted = this.allPositionsY.sort((a, b) => a > b ? 1 : -1);
       //console.log('sorted positions are', allPositionsYSorted);
-      let gaps = true;
+      this.gaps = true;
 
       if (this.allYAreSame) {
-        gaps = !allPositionsXSorted.every((x, i) =>
+        this.gaps = !allPositionsXSorted.every((x, i) =>
           i === 0 || x - 1 === allPositionsXSorted[i - 1]
         );
       }
       else if (this.allXAreSame) {
-        gaps = !allPositionsYSorted.every((y, i) =>
+        this.gaps = !allPositionsYSorted.every((y, i) =>
           i === 0 || y - 1 === allPositionsYSorted[i - 1]
         ); //Returnerar true om position inte är rätt
       }
     }
-    console.log(gaps)
-    if (gaps) {
+    console.log(this.gaps)
+    if (this.gaps) {
       this.testFailed = true;
     }
 
