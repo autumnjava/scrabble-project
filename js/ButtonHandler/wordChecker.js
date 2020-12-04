@@ -509,6 +509,7 @@ export default class WordChecker {
       }
 
     }
+
     else {
       // let allXAreSame = true;
 
@@ -531,13 +532,14 @@ export default class WordChecker {
           i === 0 || y - 1 === allPositionsYSorted[i - 1]
         ); //Returnerar true om position inte är rätt
       }
-      console.log(gaps)
-      if (gaps) {
-        this.testFailed = true;
-      }
-
-
     }
+    console.log(gaps)
+    if (gaps) {
+      this.testFailed = true;
+    }
+
+
+
 
     console.log('test failed', this.testFailed)
     return this.testFailed;  //Returns true if word has not correct position and false if everything is ok
@@ -560,7 +562,7 @@ export default class WordChecker {
 
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
-      //this.removeTilesFromBoard(this.game.currentPlayer);
+      this.removeTilesFromBoard(this.game.currentPlayer);
 
       // push back tiles to players currentTiles,
       for (let tile of this.game.currentPlayer.tilesPlaced) {
