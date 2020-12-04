@@ -20,10 +20,8 @@ class Game {
   networkInstanse = new Network(this);
 
   async start() {
-    //this.createFormAndShowInStartPage();
     this.createStartPage();
-    this.addEvent();
-    // this.startGameButtonListener();
+    this.addEventListener();
     this.connectToGameListener();
     this.addButtonEvents();
     await this.tilesFromFile();
@@ -31,29 +29,21 @@ class Game {
 
   startGame() {
     this.createBoard();
-    this.currentPlayer = this.players[0];
+    //this.currentPlayer = this.players[0];
     this.render();
   }
-  /*
-    createFormAndShowInStartPage() {
-      let formToFills = [{ label: 'Spelare 1', id: 'playername1', required: true }];
-      let askPlayerNameFormDiv = $('<div class="form"></div>');
-      let formTag = $('<form id="form"></form>');
-      for (let formToFill of formToFills) {
-        formTag.append(`
-          <div>
-          <label for="username"><span>${formToFill.label}</span></lable>
-          <input type="text" id="${formToFill.id}" placeholder="Skriv ditt namn här.." minlength="2" ${formToFill.required ? 'required' : ''}>
-          </div>
-        `)
-      }
-      formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">Starta</button>`);
-      askPlayerNameFormDiv.append(formTag);
-      askPlayerNameFormDiv.append(`<button class="connectGameButton" name="connectGameButton" id="connectGameButton" type="submit">Anslut</button>`);
-      $('.startPage').append(askPlayerNameFormDiv);
-    }
-  */
-  addEvent() {
+
+  createPlayers() {
+    // create and save players in the game
+  }
+
+  addEventListener() {
+
+    getName = () => {
+      this.playerName = $('input[name="playerName"]').val();
+      return this.playerName;
+    };
+
     $('body').on('click', '.startGameButton', async () => {
       // if (!getName()) { return; 
       this.networkInstanse.preStart();
@@ -71,36 +61,7 @@ class Game {
       
     `);
   }
-  /*
-    startGameButtonListener() {
-      let that = this;
-      function submitForm(event) {
-        event.preventDefault();
-        let playerIds = ['playername1'];
-        for (let playerId of playerIds) {
-          let playerName = document.getElementById(playerId).value;
-          if (playerName.length <= 0) {
-            if (playerIds.indexOf(playerId) === 0 || playerIds.indexOf(playerId) === 1) {
-              that.players = [];
-              return;
-            }
-            continue;
-          }
-          else that.players.push(new Player(playerName, that));
-        }
-        $('.startPage').addClass("not-show");
-        $('.gamePage').removeClass("not-show");
-        $('.board').show();
-        $('header').animate({ "font-size": "15px", "padding": "5px" });
-        $('footer').animate({ "font-size": "10px", "padding": "3px" });
-        that.networkInstanse.preStart();
-        that.startGame();
-      }
-  
-      let form = document.getElementById('form');
-      form.addEventListener('submit', submitForm);
-    }
-  */
+
   connectToGameListener() {
     $('body').on('click', '.connectGameButton', () => {
       //  if (!getName()) { return; }

@@ -1,5 +1,6 @@
 import Game from "./Game.js";
 import Store from 'https://network-lite.nodehill.com/store';
+import Player from "./Player.js";
 
 export default class NetWork {
 
@@ -7,29 +8,9 @@ export default class NetWork {
     this.game = game;
 
   }
-
-  /*
-    async connectToStore() {
-      this.store = await Store.getNetworkStore(this.networkKey, () => this.listenForNetworkChanges());
-      console.log('connected!');
-    }
-  
-    listenForNetworkChanges() {
-      this.game.render();
-    }
-  
-    async getNetworkKey() {
-      this.networkKey = await Store.createNetworkKey();
-      $('.startPage').append('<p>Give your friend this network key: ' + this.networkKey + '</p><p>When he/she has entered it the games starts!</p>');
-      $('.startGameButton').prop('disabled', true);
-      console.log(this.networkKey, 'network Key')
-      this.connectToStore();
-    }
-    */
-  getName = () => {
-    this.playerName = $('input[name="playerName"]').val();
-    return this.playerName;
-  };
+  listenForNetworkChanges() {
+    this.game.render();
+  }
 
   async preStart() {
     let key = await this.createNetworkKey();
@@ -43,18 +24,25 @@ export default class NetWork {
     return await Store.createNetworkKey();
   }
 
-  async connectToStore(key, listener) {
-    this.networkStore = await Store.getNetworkStore(key, listener);
-    console.log(this.networkStore, 'connected to store')
+  async connectToStore(key) {
+    this.networkStore = await Store.getNetworkStore(key, () => this.listenForNetworkChanges());
+
+    let store = this.networkStore;
+    console.log(store, 'connected to store')
+
+    store.playerNames = store.playerNames || [];
+    store.board = store.board || this.game.createBoard();
+    store.currentPlayer = 0;
+    // add player names and points to the network
+
     this.start();
   }
   start() {
     console.log('start the game')
   }
 
-  addPropsToStore() {
-    let store = this.networkStore;
-    store.playerNames = store.playerNames || [];
-  }
+
+
+
 
 }
