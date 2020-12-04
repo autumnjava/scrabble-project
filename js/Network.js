@@ -26,6 +26,10 @@ export default class NetWork {
       this.connectToStore();
     }
     */
+  getName = () => {
+    this.playerName = $('input[name="playerName"]').val();
+    return this.playerName;
+  };
 
   async preStart() {
     let key = await this.createNetworkKey();
@@ -46,6 +50,11 @@ export default class NetWork {
   }
   start() {
     console.log('start the game')
+  }
+
+  addPropsToStore() {
+    let store = this.networkStore;
+    store.playerNames = store.playerNames || [];
   }
 
 }
