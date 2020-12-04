@@ -213,6 +213,8 @@ export default class WordChecker {
           //If found other player's tile above or below test has not been failed
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             console.log('found div below')
+            //this.allPositionsX.push(this.divBelow.positionX)
+            // this.allPositionsY.push(this.divBelow.positionY)
             this.testFailed = false;
             break;
 
@@ -222,6 +224,8 @@ export default class WordChecker {
           }
           else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
             console.log('found div above')
+            //this.allPositionsX.push(this.divAbove.positionX)
+            //this.allPositionsY.push(this.divAbove.positionY)
             this.testFailed = false;
             break;
 
@@ -440,6 +444,7 @@ export default class WordChecker {
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             console.log('found div below')
+
             this.testFailed = false;
 
             break;
@@ -514,44 +519,48 @@ export default class WordChecker {
 
     }
 
-    else {
-      // let allXAreSame = true;
-
-      // Sort (do not know if you need this or if they 
-      // always are sorted from small to big numbers?)
-      let allPositionsXSorted = this.allPositionsX.sort((a, b) => a > b ? 1 : -1);
-      //console.log('sorted positions are', allPositionsXSorted);
-
-      let allPositionsYSorted = this.allPositionsY.sort((a, b) => a > b ? 1 : -1);
-      //console.log('sorted positions are', allPositionsYSorted);
-      this.gaps = true;
-
-      if (this.allYAreSame) {
-        this.gaps = !allPositionsXSorted.every((x, i) =>
-          i === 0 || x - 1 === allPositionsXSorted[i - 1]
-        );
-      }
-      else if (this.allXAreSame) {
-        this.gaps = !allPositionsYSorted.every((y, i) =>
-          i === 0 || y - 1 === allPositionsYSorted[i - 1]
-        ); //Returnerar true om position inte är rätt
-      }
-    }
-    console.log(this.gaps)
-    if (this.gaps) {
-      this.testFailed = true;
-    }
-
-
-
 
     console.log('test failed', this.testFailed)
     return this.testFailed;  //Returns true if word has not correct position and false if everything is ok
   }
 
+  checkEmptySpace() {
+
+    // let allXAreSame = true;
+
+    // Sort (do not know if you need this or if they 
+    // always are sorted from small to big numbers?)
+    let allPositionsXSorted = this.allPositionsX.sort((a, b) => a > b ? 1 : -1);
+    //console.log('sorted positions are', allPositionsXSorted);
+
+    let allPositionsYSorted = this.allPositionsY.sort((a, b) => a > b ? 1 : -1);
+    //console.log('sorted positions are', allPositionsYSorted);
+    this.gaps = true;
+
+    if (this.allYAreSame) {
+      this.gaps = !allPositionsXSorted.every((x, i) =>
+        i === 0 || x - 1 === allPositionsXSorted[i - 1]
+      );
+
+    }
+    else if (this.allXAreSame) {
+
+      this.gaps = !allPositionsYSorted.every((y, i) =>
+        i === 0 || y - 1 === allPositionsYSorted[i - 1]
+      ); //Returnerar true om position inte är rätt
+    }
+
+    console.log(this.gaps)
+    if (this.gaps) {
+      this.testFailed = true;
+    }
+
+  }
+
 
   wordsTrueOrFalse(words) {
     this.checkIfWordIsOnStartSquare();
+    this.checkEmptySpace();
     if (this.checkIfCorrectPosition()) {
       this.invalidMove = true;
       this.checkIfCorrectPosition();
