@@ -65,7 +65,7 @@ body button:hover{
 .gamePage button {
   display: inline-block;
   color: white;
-  background-color: #cf816b;/*#f5b880;*/
+  background-color: #213951;/*#f5b880;*/
   cursor: pointer;
   border: 0.2em solid white;
   border-radius: 50px;
@@ -79,7 +79,6 @@ body button:hover{
    /*position: absolute;
    bottom: 5rem;
   right: 10rem;*/
-  
 }
 
 
@@ -241,7 +240,7 @@ background-color: #b77b57;
 
 .stand {
   float: left;
-  background-color:rgb(33, 57, 81);
+  background-color:#213951;
   padding: 20px;
   min-width: 53vh;
   border-radius: 5px;
