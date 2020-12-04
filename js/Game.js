@@ -28,7 +28,7 @@ class Game {
 
   startGame() {
     this.createBoard();
-    //this.currentPlayer = this.players[0];
+    this.currentPlayer = this.players[0];
     this.render();
   }
 
@@ -172,6 +172,7 @@ class Game {
       this.board[y][x].specialValue = 'start',
         this.board[y][x].tileValue = 2
     });
+
   }
 
   getTiles(howMany = 7) {
@@ -197,8 +198,10 @@ class Game {
           </div>` : ''} 
         </div>
       `).join('')
-    );
 
+    );
+    $('#gamePage').show();
+    $('#startPage').hide();
     $players.append(this.currentPlayer.render());
     this.tileChanger.hideChangeTiles(7);
 
@@ -208,6 +211,8 @@ class Game {
 
     this.addDragEvents();
     this.moveTilesAroundBoard();
+
+
   }
 
   //Check if empty tile is placed on board
