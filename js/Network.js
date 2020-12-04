@@ -35,6 +35,11 @@ export default class NetWork {
     store.currentPlayer = 0;
     // add player names and points to the network
 
+    this.game.createPlayers();
+
+    store.playerNames.push(this.game.getName());
+    console.log(store.playerNames, 'networks playernames');
+
     this.start();
   }
   start() {

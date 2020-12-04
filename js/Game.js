@@ -22,7 +22,6 @@ class Game {
   async start() {
     this.createStartPage();
     this.addEventListener();
-    this.connectToGameListener();
     this.addButtonEvents();
     await this.tilesFromFile();
   }
@@ -35,34 +34,24 @@ class Game {
 
   createPlayers() {
     // create and save players in the game
+    let player = new Player(this.getName(), this)
+    this.players.push(player)
+    console.log(this.players, 'this is the players')
+  }
+  getName() {
+    this.playerName = $('input[name="playerName"]').val();
+    return this.playerName;
   }
 
   addEventListener() {
 
-    getName = () => {
-      this.playerName = $('input[name="playerName"]').val();
-      return this.playerName;
-    };
-
     $('body').on('click', '.startGameButton', async () => {
       // if (!getName()) { return; 
+      console.log(this.getName(), 'getNAme function');
       this.networkInstanse.preStart();
       // this.startGame();
     });
-  }
-  createStartPage() {
-    $('#gamePage').hide();
-    $('#endPage').hide();
-    $('.startPage').html(/*html*/`
-    
-        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
-        <button class="startGameButton">Start</button>
-        <button class="connectGameButton">Anslut</button>
-      
-    `);
-  }
 
-  connectToGameListener() {
     $('body').on('click', '.connectGameButton', () => {
       //  if (!getName()) { return; }
       this.networkKey = prompt('Enter the network key from your friend:');
@@ -70,6 +59,18 @@ class Game {
       // this.startGame();
     });
   }
+
+  createStartPage() {
+    $('#gamePage').hide();
+    $('#endPage').hide();
+    $('.startPage').html(/*html*/`
+        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
+        <button class="startGameButton">Start</button>
+        <button class="connectGameButton">Anslut</button>
+    `);
+  }
+
+
 
 
   async tilesFromFile() {
