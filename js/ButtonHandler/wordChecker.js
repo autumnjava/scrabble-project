@@ -205,9 +205,7 @@ export default class WordChecker {
         if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow) ||
           this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
           this.testFailed = false;
-
           break;
-
 
         }
 
@@ -215,10 +213,7 @@ export default class WordChecker {
         else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight) ||
           this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
           this.testFailed = false;
-
-          //console.log('found Not MY DIV', this.divOnLeft, this.divOnRight)
           break;
-
         }
 
         //If there is none of other player's tile around my tile, test has been failed and move is invalid
