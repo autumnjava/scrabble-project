@@ -31,7 +31,7 @@ export default class NetWork {
     console.log(store, 'connected to store')
 
     store.playerNames = store.playerNames || [];
-    store.board = store.board || this.game.board;
+    store.board = store.board || this.game.createBoard();
     store.currentPlayer = 0;
 
     // add player names,the board and points to the network

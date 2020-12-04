@@ -27,16 +27,17 @@ class Game {
   }
 
   startGame() {
-    this.createBoard();
+    //do we really need this line?
+    //this.createBoard();
     this.currentPlayer = this.players[0];
     this.render();
   }
 
+
   createPlayers() {
     // create and save players in the game
     let player = new Player(this.getName(), this)
-    this.players.push(player)
-    console.log(this.players, 'this is the players')
+    this.players.push(player);
   }
   getName() {
     this.playerName = $('input[name="playerName"]').val();
@@ -47,7 +48,6 @@ class Game {
 
     $('body').on('click', '.startGameButton', async () => {
       // if (!getName()) { return; 
-      console.log(this.getName(), 'getNAme function');
       this.networkInstanse.preStart();
       // this.startGame();
     });
@@ -172,7 +172,7 @@ class Game {
       this.board[y][x].specialValue = 'start',
         this.board[y][x].tileValue = 2
     });
-
+    return this.board;
   }
 
   getTiles(howMany = 7) {
