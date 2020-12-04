@@ -12,9 +12,10 @@ export default class EmptyTileHandler {
     this.submitButton = $("#emptySubmitButton");
   }
 
-  checkIfEmptyTile(tile) { 
+  checkIfEmptyTile(tile) {
     let isEmptyTile = this.isTileEmptyTile(tile);
     if (isEmptyTile) {
+      this.emptyTile = tile;
       this.showPopup();
       this.eventHandlers();
       //this.changeTileChar(tile);
@@ -64,21 +65,42 @@ export default class EmptyTileHandler {
   }
 
   showPopup() { 
+    console.log("showing popup");
+    $('body .tile').css({ "zIndex": "3", "position": "static" });
     this.popupBox.css({ display: 'block' });
   }
 
-  eventHandlers() { 
+  hidePopup() {
+    console.log("hide popup");
+    $('body .tile').css({ "zIndex": "1", "position": "relative" });
+    $('.board .tile').css({ "position": "absolute" });
+    this.popupBox.css({ display: 'none' });
+  }
+
+  eventHandlers() {
     let that = this;
     this.closeSpan.onclick = function () {
-      that.popupBox.css({ display: 'none' });
+      that.hidePopup();
       // move tile back to player
     }
 
-    this.submitButton.click(function () { 
-      console.log("pressed");
-      let val = document.getElementById(emptyTileInput).value;
-      console.log(val,"input value");
+    this.submitButton.click(function () {
+      let input = document.getElementById("emptyTileInput").value;
+      that.checkEmptyTileInputValid(input);
     })
   }
 
+  checkEmptyTileInputValid(letter) { 
+    let isValid = letter.length === 1 && letter.match(/[a-z]/i);
+    if (isValid) {
+      console.log(letter.toUpperCase());
+    }
+    else {
+      this.tryAgain();
+    }
+  }
+
+  tryAgain() {
+    $('input[id=emptyTileInput]').val('');
+  }
 }
