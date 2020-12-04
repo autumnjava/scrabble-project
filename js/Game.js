@@ -51,6 +51,10 @@ class Game {
     $('.startPage').append(askPlayerNameFormDiv);
   }
 
+  CreateStartPage() {
+
+  }
+
   startGameButtonListener() {
     let that = this;
     function submitForm(event) {
@@ -72,7 +76,7 @@ class Game {
       $('.board').show();
       $('header').animate({ "font-size": "15px", "padding": "5px" });
       $('footer').animate({ "font-size": "10px", "padding": "3px" });
-      that.networkInstanse.getNetworkKey();
+      that.networkInstanse.preStart();
       that.startGame();
     }
 
@@ -84,8 +88,8 @@ class Game {
     $('body').on('click', '.connectGameButton', () => {
       //  if (!getName()) { return; }
       this.networkKey = prompt('Enter the network key from your friend:');
-      this.networkInstanse.connectToStore();
-      this.startGame();
+      this.networkInstanse.connectToStore(this.networkKey, this.networkInstanse.listener);
+      // this.startGame();
     });
   }
 
