@@ -12,6 +12,7 @@
 }
 
 #emptyTilePopupBoxContent {
+  position: relative;
   background-color: #e5d4c2;
   text-align: center;
   border-radius: 10px;
@@ -19,10 +20,11 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
 }
 
 #emptyTilePopupBox p {
+  padding: 1em;
   color: #213951;
   font-size: 3vw;
   font-weight: bold;
@@ -43,6 +45,8 @@
   width: 30vw;
   text-align: center;
   border-radius: 5px;
+  margin-bottom: 1em;
+
 }
 
 .popupClose {
