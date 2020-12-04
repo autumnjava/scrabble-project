@@ -26,10 +26,15 @@ export default class WordChecker {
     // Makes copies of the tilesPlaced-array only showing position Y and X
     let allPositionsY = player.tilesPlaced.map(tile => tile.positionY);
     let allPositionsX = player.tilesPlaced.map(tile => tile.positionX);
+    this.allPositionsX = allPositionsX;
+    this.allPositionsY = allPositionsY;
 
     // Check if word is horizontal or vertical - returns true or false
     let allXAreSame = allPositionsX.every(x => x === allPositionsX[0]);
     let allYAreSame = allPositionsY.every(x => x === allPositionsY[0]);
+    this.allXAreSame = allXAreSame;
+    this.allYAreSame = allYAreSame;
+
 
 
     let allPositionsYSorted = [];
@@ -185,6 +190,8 @@ export default class WordChecker {
     this.wordsTrueOrFalse(this.allOk);
   }
 
+
+
   checkIfCorrectPosition() {
 
     this.testFailed = false;
@@ -196,31 +203,339 @@ export default class WordChecker {
     if (!allTilesNotAtStart) {
       for (let tile of this.game.currentPlayer.tilesPlaced) {
         //Check div above, below, on right and left of every placed tile
-        this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-        this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-        this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-        this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+        if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
 
-        //If found other player's tile above or below test has not been failed
-        if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow) ||
-          this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-          this.testFailed = false;
-          break;
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+
+          //If found other player's tile above or below test has not been failed
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div above')
+            this.testFailed = false;
+            break;
+          }
+
+          //Same as before when it comes to other player's tile on right and left side
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+            this.testFailed = false;
+            console.log('found div on left')
+            break;
+          }
+
+          //If there is none of other player's tile around my tile, test has been failed and move is invalid
+          else {
+            this.testFailed = true;
+
+
+          }
+        }
+
+        else if (tile.positionY == 0 && tile.positionX == 0) {
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+          else {
+            this.testFailed = true;
+
+          }
+
 
         }
 
-        //Same as before when it comes to other player's tile on right and left side
-        else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight) ||
-          this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
-          this.testFailed = false;
-          break;
+        else if (tile.positionY == 14 && tile.positionX == 14) {
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+
+          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+          else {
+            this.testFailed = true;
+
+          }
+
+
         }
 
-        //If there is none of other player's tile around my tile, test has been failed and move is invalid
-        else {
-          this.testFailed = true;
+
+        else if (tile.positionY == 0 && tile.positionX == 14) {
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+          else {
+            this.testFailed = true;
+
+          }
+
+
         }
+
+        else if (tile.positionY == 14 && tile.positionX == 0) {
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+
+          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+          else {
+            this.testFailed = true;
+
+          }
+
+
+        }
+
+        else if (tile.positionX == 14) {
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div above')
+            this.testFailed = false;
+            break;
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+            this.testFailed = false;
+            console.log('found div on left')
+            break;
+          }
+
+          //If there is none of other player's tile around my tile, test has been failed and move is invalid
+          else {
+            this.testFailed = true;
+
+
+          }
+
+        }
+
+        else if (tile.positionX == 0) {
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div above')
+            this.testFailed = false;
+            break;
+          }
+
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+            this.testFailed = false;
+            console.log('found div on right')
+            break;
+          }
+
+          //If there is none of other player's tile around my tile, test has been failed and move is invalid
+          else {
+            this.testFailed = true;
+
+          }
+
+
+        }
+
+        else if (tile.positionY == 0) {
+
+          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+            this.testFailed = false;
+            console.log('found div on left')
+            break;
+          }
+
+          //If there is none of other player's tile around my tile, test has been failed and move is invalid
+          else {
+            this.testFailed = true;
+
+
+          }
+
+
+        }
+
+        else if (tile.positionY == 14) {
+
+          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+
+          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+            console.log('found div below')
+            this.testFailed = false;
+
+            break;
+
+
+          }
+
+          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+
+            console.log('found div on right')
+            this.testFailed = false;
+            break;
+
+          }
+
+          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+            this.testFailed = false;
+            console.log('found div on left')
+            break;
+          }
+
+          //If there is none of other player's tile around my tile, test has been failed and move is invalid
+          else {
+            this.testFailed = true;
+
+
+          }
+
+        }
+
+
       }
+
+    }
+    else {
+      // let allXAreSame = true;
+
+      // Sort (do not know if you need this or if they 
+      // always are sorted from small to big numbers?)
+      let allPositionsXSorted = this.allPositionsX.sort((a, b) => a > b ? 1 : -1);
+      //console.log('sorted positions are', allPositionsXSorted);
+
+      let allPositionsYSorted = this.allPositionsY.sort((a, b) => a > b ? 1 : -1);
+      //console.log('sorted positions are', allPositionsYSorted);
+      let gaps = true;
+
+      if (this.allYAreSame) {
+        gaps = !allPositionsXSorted.every((x, i) =>
+          i === 0 || x - 1 === allPositionsXSorted[i - 1]
+        );
+      }
+      else if (this.allXAreSame) {
+        gaps = !allPositionsYSorted.every((y, i) =>
+          i === 0 || y - 1 === allPositionsYSorted[i - 1]
+        ); //Returnerar true om position inte är rätt
+      }
+      console.log(gaps)
+      if (gaps) {
+        this.testFailed = true;
+      }
+
 
     }
 
@@ -231,17 +546,21 @@ export default class WordChecker {
 
   wordsTrueOrFalse(words) {
     this.checkIfWordIsOnStartSquare();
+    if (this.checkIfCorrectPosition()) {
+      this.invalidMove = true;
+      this.checkIfCorrectPosition();
+    }
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
 
 
 
-    if (!words || this.invalidMove || this.checkIfCorrectPosition()) {
+    if (!words || this.invalidMove) {
 
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
-      this.removeTilesFromBoard(this.game.currentPlayer);
+      //this.removeTilesFromBoard(this.game.currentPlayer);
 
       // push back tiles to players currentTiles,
       for (let tile of this.game.currentPlayer.tilesPlaced) {
