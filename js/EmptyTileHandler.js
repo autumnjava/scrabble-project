@@ -1,3 +1,5 @@
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
+
 export default class EmptyTileHandler { 
 
   constructor(game) {
@@ -19,6 +21,7 @@ export default class EmptyTileHandler {
       this.showPopup();
       this.eventHandlers();
     }
+    return isEmptyTile;
   }
 
   isTileEmptyTile(tile) {
@@ -42,13 +45,11 @@ export default class EmptyTileHandler {
   }
 
   showPopup() { 
-    console.log("showing popup");
     $('body .tile').css({ "zIndex": "3", "position": "static" });
     this.popupBox.css({ display: 'block' });
   }
 
   hidePopup() {
-    console.log("hide popup");
     $('body .tile').css({ "zIndex": "1", "position": "relative" });
     $('.board .tile').css({ "position": "absolute" });
     this.popupBox.css({ display: 'none' });
@@ -57,8 +58,9 @@ export default class EmptyTileHandler {
   eventHandlers() {
     let that = this;
     this.closeSpan.onclick = function () {
+      that.moveTileBackToPlayer();
       that.hidePopup();
-      // move tile back to player
+      that.game.render();
     }
 
     this.submitButton.click(function () {
@@ -85,5 +87,11 @@ export default class EmptyTileHandler {
   tryAgain() {
     $('input[id=emptyTileInput]').val('');
     $('input[id=emptyTileInput]').attr('placeholder','Försök igen!');
+  }
+
+  moveTileBackToPlayer() { 
+    delete this.emptyTile.possibleToMove;
+    delete this.game.board[this.game.y][this.game.x].tile;
+    this.game.currentPlayer.currentTiles.push(this.emptyTile);
   }
 }
