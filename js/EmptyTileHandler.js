@@ -86,14 +86,19 @@ export default class EmptyTileHandler {
 
     this.submitButton.click(function () {
       let input = document.getElementById("emptyTileInput").value;
-      that.checkEmptyTileInputValid(input);
+      console.log(input, "1");
+      $('input[id=emptyTileInput]').val('');
+      console.log(input,"2");
+      that.checkInputValidAndChange(input);
     })
   }
 
-  checkEmptyTileInputValid(letter) { 
+  checkInputValidAndChange(letter) { 
     let isValid = letter.length === 1 && letter.match(/[a-z]/i);
     if (isValid) {
-      console.log(letter.toUpperCase());
+      this.emptyTile.char = letter.toUpperCase();
+      this.hidePopup();
+      this.game.render();
     }
     else {
       this.tryAgain();
@@ -102,5 +107,6 @@ export default class EmptyTileHandler {
 
   tryAgain() {
     $('input[id=emptyTileInput]').val('');
+    $('input[id=emptyTileInput]').attr('placeholder','Försök igen!');
   }
 }
