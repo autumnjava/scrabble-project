@@ -53,6 +53,9 @@ export default class EmptyTileHandler {
     $('body .tile').css({ "zIndex": "1", "position": "relative" });
     $('.board .tile').css({ "position": "absolute" });
     this.popupBox.css({ display: 'none' });
+    $('input[id=emptyTileInput]').val('');
+    $('input[id=emptyTileInput]').attr('placeholder', 'Skriv in bokstaven här');
+
   }
 
   eventHandlers() {
@@ -65,9 +68,7 @@ export default class EmptyTileHandler {
 
     this.submitButton.click(function () {
       let input = document.getElementById("emptyTileInput").value;
-      console.log(input, "1");
       $('input[id=emptyTileInput]').val('');
-      console.log(input,"2");
       that.checkInputValidAndChange(input);
     })
   }
