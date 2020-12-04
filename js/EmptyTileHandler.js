@@ -18,7 +18,6 @@ export default class EmptyTileHandler {
       this.emptyTile = tile;
       this.showPopup();
       this.eventHandlers();
-      //this.changeTileChar(tile);
     }
   }
 
@@ -27,28 +26,6 @@ export default class EmptyTileHandler {
       return tile.char === " ";
     }
     return false;
-  }
-
-  changeTileChar(tile){
-    if (tile.char === " ") {
-      console.log('Empty tile found')
-
-      let myBool = false;
-      while (!myBool) {
-
-        let letter = prompt('Please write in 1 letter for empty tile', '');
-
-        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
-        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
-          letter = letter.toUpperCase();
-          myBool = true;
-          tile.char = letter;
-
-          this.game.render();
-          console.log('new tile on x and y:', tile)
-        }
-      }
-    }
   }
 
   createPopupBox() { 
