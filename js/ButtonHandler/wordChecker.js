@@ -520,7 +520,7 @@ export default class WordChecker {
     }
 
 
-    console.log('test failed', this.testFailed)
+    console.log('Tiles are NOT touching old tiles?', this.testFailed)
     return this.testFailed;  //Returns true if word has not correct position and false if everything is ok
   }
 
