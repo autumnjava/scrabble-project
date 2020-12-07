@@ -19,7 +19,7 @@ export default class EmptyTileHandler {
     if (isEmptyTile) {
       this.emptyTile = tile;
       this.showPopup();
-      this.eventHandlers();
+      this.buttonHandlers();
     }
     return isEmptyTile;
   }
@@ -58,7 +58,7 @@ export default class EmptyTileHandler {
 
   }
 
-  eventHandlers() {
+  buttonHandlers() {
     let that = this;
     this.closeSpan.onclick = function () {
       that.moveTileBackToPlayer();
