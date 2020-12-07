@@ -1,11 +1,15 @@
 import Player from "./Player.js";
 import SAOLchecker from "./SAOLchecker.js";
 import WordChecker from "./ButtonHandler/WordChecker.js";
+
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
+import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
 import GameEnder from "./GameEnder.js";
+import EmptyTileHandler from "./EmptyTileHandler.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
-import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
+import Exit from "./ButtonHandler/Exit.js"
 class Game {
 
   players = [];
@@ -14,7 +18,9 @@ class Game {
   //currentPlayer = '';
   wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
-  turnSkipper = new TurnSkipper(this)
+  turnSkipper = new TurnSkipper(this);
+  exit = new Exit(this);
+  emptyTileHandler = new EmptyTileHandler(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -31,10 +37,10 @@ class Game {
 
   createFormAndShowInStartPage() {
     let formToFills = [
-      { label: 'Player 1', id: 'playername1', required: true },
-      { label: 'Player 2', id: 'playername2', required: true },
-      { label: 'Player 3', id: 'playername3', required: false },
-      { label: 'Player 4', id: 'playername4', required: false }
+      { label: 'Spelare 1', id: 'playername1', required: true },
+      { label: 'Spelare 1', id: 'playername2', required: true },
+      { label: 'Spelare 1', id: 'playername3', required: false },
+      { label: 'Spelare 1', id: 'playername4', required: false }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form id="form"></form>');
@@ -42,11 +48,11 @@ class Game {
       formTag.append(`
         <div>
         <label for="username"><span>${formToFill.label}</span></lable>
-        <input type="text" id="${formToFill.id}" placeholder="Write name here..." minlength="2" ${formToFill.required ? 'required' : ''}>
+        <input type="text" id="${formToFill.id}" placeholder="Skriv ditt namn här.." minlength="2" ${formToFill.required ? 'required' : ''}>
         </div>
       `)
     }
-    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">start game here</button>`);
+    formTag.append(`<button class="startGameButton" name="startGameButton" id="startGameButton" type="submit">Starta</button>`);
     askPlayerNameFormDiv.append(formTag);
     $('.startPage').append(askPlayerNameFormDiv);
   }
@@ -100,31 +106,30 @@ class Game {
 
   addButtonEvents() {
     let that = this;
-    let skipButton = $('#skipButton');
-    let breakButton = $('#breakButton');
-    let changeTilesButton = this.tileChanger.button;
+    let exitButton = $('#exitButton');
     let checkWordButton = $('#checkWordButton');
+    let skipButton = $('#skipButton');
+    let changeTilesButton = $('#changeTilesButton');
 
-    //Click on "skip turn" button and player skips turn (in process)
+    //Click on "skip" to skip the round
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
       that.changePlayer();
-      changePossibleToMoveToFalse(that.board);
+      that.board = changePossibleToMoveToFalse(that.board);
       that.render();
-    })
+    });
 
+    //Click on "change tiles" to change tiles
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
       that.changePlayer();
       that.render();
-
     });
 
     //Click on "Break button" too exit the game (in process)
-    breakButton.click(function () {
-
-
+    exitButton.click(function () {
+      that.exit.clickOnEventHandler();
     })
 
     checkWordButton.click(function () {
@@ -216,29 +221,6 @@ class Game {
 
     this.addDragEvents();
     this.moveTilesAroundBoard();
-  }
-
-  //Check if empty tile is placed on board
-  //in process
-  checkIfEmptyTile() {
-    if (this.board[this.y][this.x].tile.char == " ") {
-      console.log('Empty tile found')
-      let myBool = false;
-      while (!myBool) {
-
-        let letter = prompt('Please write in 1 letter for empty tile', '');
-
-        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
-        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
-          letter = letter.toUpperCase();
-          myBool = true;
-          this.board[this.y][this.x].tile.char = letter;
-
-          this.render();
-          console.log('new tile on x and y:', this.board[this.y][this.x].tile)
-        }
-      }
-    }
   }
 
   currentTilePoints() {

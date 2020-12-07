@@ -2,9 +2,8 @@ import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivAsATileObject } from "../Helpers/TileHelper.js";
-
-
-
+import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
+import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 
 export default class TileChanger {
 
@@ -18,6 +17,8 @@ export default class TileChanger {
 
 
   clickOnEventHandler() {
+    this.moveTilesOnBoardToPlayer();
+
     let playerTiles = this.game.currentPlayer.currentTiles;
     if (this.inSquareTiles.length > 0) {
       for (let tileToRemove of this.inSquareTiles) {
@@ -76,7 +77,6 @@ export default class TileChanger {
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
 
     if (!tileDiv.hasClass('onChangeTilesSquare')) {
-      console.log('pushed');
       this.inSquareTiles.push(tile);
       tileDiv.addClass('onChangeTilesSquare');
     }
@@ -85,8 +85,8 @@ export default class TileChanger {
   addTileDivInSquareFromBoard(tileDiv) { // assume tile is moved from board
     let newTile = getTileDivAsATileObject(tileDiv);
     if(!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
-      console.log('pushed');
       this.inSquareTiles.push(newTile);
+      this.returnTileToPlayer(newTile);
       tileDiv.addClass('onChangeTilesSquare');
     }
   }
@@ -110,17 +110,15 @@ export default class TileChanger {
     this.inSquareTiles = [];
   }
 
-  returnTileDivToPlayer(tileDiv) {
-    let tile = getTileDivDatasetAsObject(tileDiv);
-    console.log('tikle', tile);
-    console.log('lenght', this.isTileInSquareTiles(tile).length);
-    if (this.isTileInSquareTiles(tile).length <= 0) {
-      this.game.currentPlayer.currentTiles.push(tile);
+  returnTileToPlayer(tile) { 
+    this.game.currentPlayer.currentTiles.push(tile);
+  }
+  moveTilesOnBoardToPlayer() {
+    let tilesOnBoard = tilesWithPossibleToMove(this.game.board);
+    if (tilesOnBoard.length > 0) {
+      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesOnBoard];
     }
   }
 
-  returnTileToPlayer(tile) { 
-    this.game.currentPlayer.currentTiles.push(tile);
-    console.log(this.game.currentPlayer.currentTiles);
-  }
 }
