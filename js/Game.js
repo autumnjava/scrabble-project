@@ -185,9 +185,9 @@ class Game {
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
-    this.board.flat().forEach(x => $board.append('<div/>'));
+    this.networkInstanse.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
-      this.board.flat().map((x, i) => `
+      this.networkInstanse.board.flat().map((x, i) => `
         <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
         data-player="${that.players.indexOf(that.currentPlayer)}"
