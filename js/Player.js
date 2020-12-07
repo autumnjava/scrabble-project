@@ -20,11 +20,13 @@ export default class Player {
 
     player.append(panel);
 
-    this.rack.render(panel);
+    this.rack.render(player);
 
     panel.append(`
-      <name>Player: ${this.name}</name>
-      <points>Points: ${this.points}</points>
+      <info>
+        <name>Player: ${this.name}</name>
+        <points>Points: ${this.points}</points>
+      </info>
     `);
     /*
     return `<div class="stand">

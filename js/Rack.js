@@ -145,11 +145,17 @@ export default class Rack {
   dragEnd(e, pointer) {
     let that = this;
     let me = e.currentTarget;
-    me.remove();
-    that.switchTiles(that.pickedUp, that.overID);
-    that.pickedUp = false;
-    that.overID = false;
-    that.render($('panel'));
+    let { pageX: mouseX, pageY: mouseY } = pointer;
+    let over = that.overID ? $(`player rack div tile[id="${that.overID}"]`) : false;
+    if (over) {
+      let offset = over.offset();
+      if (mouseX > offset.left && mouseX < offset.left + over.width() && mouseY > offset.top && mouseY < offset.top + over.height()) {
+        that.switchTiles(that.pickedUp, that.overID);
+      }
+      that.pickedUp = false;
+      that.overID = false;
+    }
+    that.render($('player'));
   }
 }
 

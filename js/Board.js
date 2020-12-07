@@ -3,23 +3,29 @@ export default class Board {
     this.createBoard();
   }
 
-  render() {
+  async render() {
     $('board').remove();
     let board = this.board;
     let $board = $('<board></board>');
     let id = 0;
-    $board.hide();
     $board.html(
       board.flat().map(x => `
-        <div id="${id++}" class="square ${x.specialValue ? 'special-' + x.specialValue : ''}">
-        ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''} 
+        <div id="${id++}" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
+          ${x.tile ? `<tile>${x.tile.char}</tile>` : ''} 
         </div>
       `)
     );
 
-    $('game left').append($board);
-    $board.fadeIn(1000);
-    console.log(board);
+    await $('game left').append($board);
+    this.adjustBoard();
+  }
+
+  adjustBoard() {
+    let squares = $('board > div');
+    for (let square of squares) {
+      let me = $(square);
+      me.css('height', me.width() + 'px');
+    }
   }
 
   createBoard() {
@@ -59,3 +65,11 @@ export default class Board {
 
   getBoard() { return this.board; }
 }
+
+$(window).resize(function () {
+  let squares = $('board > div');
+  for (let square of squares) {
+    let me = $(square);
+    me.css('height', me.width() + 'px');
+  }
+});

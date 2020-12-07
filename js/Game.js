@@ -17,7 +17,9 @@ export default class Game {
 
   async init() {
     await this.bag.init();
+    $('header').hide();
     $('start').hide();
+    $('footer').hide();
     this.start();
   }
 
@@ -34,27 +36,28 @@ export default class Game {
   }
 
   async render() {
-    this.board.render();
-    this.currentPlayer.render();
+    await this.board.render();
+    await this.currentPlayer.render();
     this.changer.render();
     this.menu.render();
-    /*
-    $players.append(this.currentPlayer.render());
-    if (this.tiles.length < 7) {
-      $('#changeTilesButton').hide();
-    }
-
-    $('.tiles').html(
-      this.tiles.map(x => `<div>${x.char}</div>`).join('')
-    );
-
-    this.addDragEvents();
-    */
+    await $('board, player info, changer, menu').hide();
+    await $('board').fadeIn(500, function () {
+      $('player').show(function () {
+        $('player rack').show(function () {
+          $('player info').fadeIn(250, function () {
+            $('changer').fadeIn(250, function () {
+              $('menu').fadeIn(250);
+            });
+          });
+        });
+      });
+    });
+    addDragEvents();
   }
 
   async start() {
     let that = this;
-    let pointer = $('start');
+    let start = $('start');
     let inputFields = [
       { label: 'Player 1', id: 'player_1', required: true },
       { label: 'Player 2', id: 'player_2', required: true },
@@ -63,18 +66,24 @@ export default class Game {
     ];
 
     let form = $('<form></form>');
+    let table = $('<table></table>');
     for (let field of inputFields) {
-      form.append(`
-        <div>
-        <label for="${field.id}">${field.label}</label>
-        <input type="text" id="${field.id}" placeholder="Write name here..." minlength="2" ${field.required ? 'required' : ''}>
-        </div>
+      table.append(`
+        <tr>
+          <td><label for="${field.id}">${field.label}</label></td>
+          <td><input type="text" id="${field.id}" placeholder="Write name here..." minlength="2" ${field.required ? 'required' : ''}></td>
+        </tr>
       `)
     }
-    form.append(`<div><button name="start_game" type="submit">start game</button></div>`);
+    table.append(`<tr><td colspan="2"><button name="start_game" type="submit">start game</button></td></tr>`);
+    form.append(table);
 
-    pointer.append(form);
-    pointer.show();
+    start.append(form);
+    $('header').slideDown(500, function () {
+      $('footer').slideDown(500, function () {
+        start.fadeIn(1000);
+      });
+    });
 
     let startGame = document.querySelector('button');
 
@@ -87,11 +96,15 @@ export default class Game {
         if (playerName.length > 0) { that.players.push(new Player(playerName)) };
       }
       if (that.getPlayers().length >= 2) {
-        $('start').hide();
-        $('game').show();
-        $('header').animate({ "font-size": "15px", "padding": "5px" });
-        $('footer').animate({ "font-size": "10px", "padding": "3px" });
-        that.game();
+        $('start').fadeOut(1000, function () {
+          $('footer').slideUp(500, function () {
+            $('header').slideUp(500, function () {
+              $('game').fadeIn(1000, function () {
+                that.game();
+              });
+            });
+          });
+        });
       } else {
         alert("You need at least two players to start a new game.");
       }

@@ -7,28 +7,35 @@ menu ul {
   float: left;
   width: 100%;
   list-style-type: none;
-  padding: 2vh;
 }
 
 menu ul li {
   float: left;
-  width: 100%;
+  padding: 0 0 0 1vh;
+  min-width: 25%;
 }
 
 menu ul li a {
   display: block;
-  padding: 2vh;
-  margin: 0 0 1vh 0;
+  padding: 2vh 0;
   text-decoration: none;
+  font-family: 'pacifico';
   text-align: center;
-  background: rgb(0,0,0);
-  color: rgb(255,255,255);
+  border: 0.2em dashed #e5d4c2;
   border-radius: 1vh;
+  background: #213951;
+  color: white;
   font-size: 2vh;
-  font-family: arial;
+  box-shadow: 0 0 4px 1px #0a1126;
 }
 
 menu ul li a:hover {
-  background: rgb(255,255,255);
-  color: rgb(0,0,0);
+  background: #cf816a;
+  color: white;
+  box-shadow: none;
 }
+
+menu ul li:first-child {
+  padding: 0 0 0 0;
+}
+

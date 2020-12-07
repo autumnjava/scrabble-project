@@ -6,11 +6,13 @@ game {
 game left {
   float: left;
   width: 50%;
+  padding: 1vh;
 }
 
 game right {
   float: left;
   width: 50%;
+  padding: 1vh;
 }
 
 game button {

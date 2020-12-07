@@ -3,10 +3,10 @@ export default class Menu {
     let menu = $('<menu></menu>');
     menu.append(`
       <ul>
-        <li><a href="#">Check Word</a></li>
-        <li><a href="#">Change Tiles</a></li>
-        <li><a href="#">Skip Turn</a></li>
-        <li><a href="#">End Game</a></li>
+        <li><a href="#">Check</a></li>
+        <li><a href="#">Change</a></li>
+        <li><a href="#">Skip</a></li>
+        <li><a href="#">Quit</a></li>
       </ul>
     `);
     menu.hide();

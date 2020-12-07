@@ -1,22 +1,26 @@
 player {
   float: left;
   width: 100%;
-  font-size: 4vh;
 }
 
-player panel {
+player info {
   float: left;
   width: 100%;
-  padding: 2vh;
+  margin: 2vh 0 0 0;
+  padding: 1vh 2vh 1vh 2vh;
+  border: 0.2em dashed #e5d4c2;
+  border-radius: 0.5vh;
+  font-size: 2vh;
+  background: #213951;
+  font-family: 'pacifico';
+  color: white;
+  box-shadow: 0 0 4px 1px #0a1126;
 }
 
 player name {
   float: left;
-  margin: 0 1vh;
-  height: auto;
 }
 
 player points {
-  float: left;
-  height: 100%;
+  float: right;
 }
