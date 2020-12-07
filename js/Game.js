@@ -23,7 +23,7 @@ class Game {
     this.createStartPage();
     this.addEventListener();
     this.addButtonEvents();
-    await this.tilesFromFile();
+    //await this.tilesFromFile();
   }
 
   startGame() {

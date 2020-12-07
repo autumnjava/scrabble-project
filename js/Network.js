@@ -67,14 +67,14 @@ export default class NetWork {
 
   // Whenever you read this.tileSack this getter method
   // will be called returning tileSack from the networkStore
-  get tileSack() {
+  get tiles() {
     return this.networkStore.tiles;
   }
 
   // Whenever you change the value of this.tileSack 
   // this setter method will be called 
   // setting the value of tileSack in the networkStore
-  set tileSack(x) {
+  set tiles(x) {
     this.networkStore.tiles = x;
   }
 
