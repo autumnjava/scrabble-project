@@ -23,13 +23,12 @@ class Game {
     this.createStartPage();
     this.addEventListener();
     this.addButtonEvents();
-    //await this.tilesFromFile();
   }
 
   startGame() {
     //do we really need this line?
     //this.createBoard();
-    this.currentPlayer = this.players[0];
+    //this.currentPlayer = this.players[0];
     this.render();
   }
 
@@ -102,7 +101,7 @@ class Game {
     //Click on "skip" to skip the round
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
-      that.changePlayer();
+      that.networkInstance.changePlayer();
       changePossibleToMoveToFalse(that.networkInstance.board);
       that.render();
     });
@@ -111,7 +110,7 @@ class Game {
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
-      that.changePlayer();
+      that.networkInstance.changePlayer();
       that.render();
     });
 
@@ -122,7 +121,7 @@ class Game {
 
     checkWordButton.click(function () {
 
-      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+      that.wordCheckerInstance.calculatePoints(that.networkInstance.networkStore.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
       that.render();
@@ -130,13 +129,18 @@ class Game {
 
 
   }
-
-  changePlayer() {
-    if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
-      this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+  /*
+    changePlayer() {
+      if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
+        this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+      }
+      else this.currentPlayer = this.players[0];
+  
+      console.log(this.currentPlayer, 'currentplayer');
+  
+      return this.networkInstance.networkStore.playerNames.currentPlayer = this.currentPlayer;
     }
-    else this.currentPlayer = this.players[0];
-  }
+    */
 
 
 
@@ -191,7 +195,7 @@ class Game {
       this.networkInstance.board.flat().map((x, i) => `
         <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
-        data-player="${that.players.indexOf(that.currentPlayer)}"
+        data-player="${that.networkInstance.networkStore.playerNames.indexOf(that.networkInstance.networkStore.currentPlayer)}"
         data-tile="${i}"
         ${x.tile.possibleToMove === true ? 'data-possibletomove' : ''}
         > ${x.tile.char}
@@ -203,7 +207,8 @@ class Game {
     );
     $('#gamePage').show();
     $('#startPage').hide();
-    $players.append(this.currentPlayer.render());
+    // this line returns "it is not a function?"
+    $players.append(this.networkInstance.networkStore.currentPlayer.render());
     this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
@@ -212,7 +217,8 @@ class Game {
 
     this.addDragEvents();
     this.moveTilesAroundBoard();
-
+    console.log(this.networkInstance.networkStore.currentPlayer, 'currentplayer');
+    console.log(this.networkInstance.currentPlayer, 'currentplayer without networkstore')
 
   }
 
@@ -240,7 +246,7 @@ class Game {
   }
 
   currentTilePoints() {
-    for (let player of this.players) {
+    for (let player of this.networkInstance.networkStore.playerNames) {
       for (let tile of player.currentTiles) {
         for (let key in tile) {
           let val = tile[key];

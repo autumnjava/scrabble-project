@@ -10,6 +10,7 @@ export default class NetWork {
   }
   listenForNetworkChanges() {
     this.game.render();
+
   }
 
   async preStart() {
@@ -33,16 +34,16 @@ export default class NetWork {
     store.playerNames = store.playerNames || [];
     store.board = store.board || this.game.createBoard();
     store.tiles = store.tiles || await this.game.tilesFromFile();
-    store.currentPlayer = 0;
 
     // add player names,the board and points to the network
-
     this.game.createPlayers();
 
     store.playerNames.push(this.game.getName());
+    store.currentPlayer = store.playerNames[0];
+
     console.log(store.playerNames, 'networks playernames');
     console.log(store.board, 'the board of network');
-    console.log(store.tiles, ' network tiles');
+    console.log(store.currentPlayer, 'currentplayer in network')
 
 
     this.game.startGame();
@@ -51,12 +52,14 @@ export default class NetWork {
     console.log('start the game')
   }
 
-  // Whenever you read this.board this getter method
-  // will be called returning board from the networkStore
-  get board() {
-    return this.networkStore.board;
-  }
+  changePlayer() {
+    let store = this.networkStore;
 
+    if (store.playerNames.indexOf(store.currentPlayer) < store.playerNames.length - 1) {
+      store.currentPlayer = store.playerNames[store.playerNames.indexOf(store.currentPlayer) + 1];
+    }
+    else { store.currentPlayer = store.playerNames[0]; }
+  }
 
   // Whenever you change the value of this.board 
   // this setter method will be called 
@@ -65,6 +68,11 @@ export default class NetWork {
     this.networkStore.board = x;
   }
 
+  // Whenever you read this.board this getter method
+  // will be called returning board from the networkStore
+  get board() {
+    return this.networkStore.board;
+  }
   // Whenever you read this.tileSack this getter method
   // will be called returning tileSack from the networkStore
   get tiles() {
@@ -77,6 +85,10 @@ export default class NetWork {
   set tiles(x) {
     this.networkStore.tiles = x;
   }
+
+
+
+
 
 
 }

@@ -193,7 +193,7 @@ export default class WordChecker {
       if (this.game.currentPlayer.correctWordCounter === 3) {
         this.game.currentPlayer.attemptCounter++;
         this.game.currentPlayer.correctWordCounter = 0;
-        this.game.changePlayer();;
+        this.game.networkInstance.changePlayer();;
       }
     }
     else if (words) {
@@ -211,7 +211,7 @@ export default class WordChecker {
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       console.log(this.game.networkInstance.tiles, ' tiles in the bag');
-      this.game.changePlayer();
+      this.game.networkInstance.changePlayer();
     }
     //resetting for next move
     this.wordToCheck = '';
