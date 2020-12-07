@@ -29,7 +29,7 @@ export default class Exit {
     return `
       <div id="exitPopupBox">
         <div id="exitPopupBoxContent">
-          <span class="popupClose" id="exitPopupClose">&times;</span>
+          <span class="popupClose" id="exitPopupClose">&times;</span><br>
           <p>Vill du lämna spelet?</p>
             <button class="exitButtonYes" name="exitButtonYes" id="exitButtonYes">Ja</button>
             <button class="exitButtonNo" name="exitButtonNo" id="exitButtonNo">Nej</button>

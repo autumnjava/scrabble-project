@@ -23,7 +23,7 @@
   width: 60%;
 }
 
-#emptyTilePopupBox p {
+#emptyTilePopupBox p, #exitPopupBox p {
   padding: 1em;
   color: #213951;
   font-size: 3vw;
