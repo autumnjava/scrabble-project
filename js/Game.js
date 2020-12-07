@@ -101,7 +101,7 @@ class Game {
 
   addButtonEvents() {
     let that = this;
-    let breakButton = $('#breakButton');
+    let exitButton = $('#exitButton');
     let checkWordButton = $('#checkWordButton');
     let skipButton = $('#skipButton');
     let changeTilesButton = $('#changeTilesButton');
@@ -123,7 +123,7 @@ class Game {
     });
 
     //Click on "Break button" too exit the game (in process)
-    breakButton.click(function () {
+    exitButton.click(function () {
     })
 
     checkWordButton.click(function () {
