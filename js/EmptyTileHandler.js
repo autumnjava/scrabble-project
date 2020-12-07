@@ -12,6 +12,7 @@ export default class EmptyTileHandler {
     this.popupBox = $('#emptyTilePopupBox');
     this.closeSpan = document.getElementsByClassName("popupClose")[0];
     this.submitButton = $("#emptySubmitButton");
+    this.buttonHandlers();
   }
 
   checkIfEmptyTile(tile) {
@@ -19,7 +20,6 @@ export default class EmptyTileHandler {
     if (isEmptyTile) {
       this.emptyTile = tile;
       this.showPopup();
-      this.buttonHandlers();
     }
     return isEmptyTile;
   }

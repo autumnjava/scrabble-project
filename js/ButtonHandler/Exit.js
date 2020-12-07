@@ -15,11 +15,11 @@ export default class Exit {
     this.closeSpan = document.getElementsByClassName("popupClose")[0];
     this.yesButton = $("#exitButtonYes");
     this.noButton = $("#exitButtonNo");
+    this.buttonHandlers();
   }
 
   clickOnEventHandler() {
     this.showPopup();
-    this.buttonHandlers();
   }
 
   createPopupBox() {
@@ -51,14 +51,19 @@ export default class Exit {
     this.closeSpan.onclick = () => {
       that.hidePopup();
     }
-    
-    this.yesButton.click(() => {
+
+    this.yesButton.click(function () {
       that.hidePopup();
       that.gameEnder.endTheGame();
+      console.log("yes clicked");
     });
 
     this.noButton.click(() => {
       that.hidePopup();
     });
+  }
+
+  yesButtonEvent() {
+    console.log("in yes button event");
   }
 }
