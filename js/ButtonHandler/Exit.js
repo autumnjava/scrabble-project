@@ -1,3 +1,6 @@
+import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
+import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
+
 export default class Exit {
 
   constructor(game) {
@@ -54,8 +57,8 @@ export default class Exit {
 
     this.yesButton.click(function () {
       that.hidePopup();
+      that.moveTilesOnBoardToPlayer();
       that.gameEnder.endTheGame();
-      console.log("yes clicked");
     });
 
     this.noButton.click(() => {
@@ -63,7 +66,11 @@ export default class Exit {
     });
   }
 
-  yesButtonEvent() {
-    console.log("in yes button event");
+  moveTilesOnBoardToPlayer() {
+    let tilesOnBoard = tilesWithPossibleToMove(this.game.board);
+    if (tilesOnBoard.length > 0) {
+      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesOnBoard];
+    }
   }
 }
