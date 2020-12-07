@@ -32,6 +32,7 @@ export default class NetWork {
 
     store.playerNames = store.playerNames || [];
     store.board = store.board || this.game.createBoard();
+    store.tiles = store.tiles || await this.game.tilesFromFile();
     store.currentPlayer = 0;
 
     // add player names,the board and points to the network
@@ -41,19 +42,13 @@ export default class NetWork {
     store.playerNames.push(this.game.getName());
     console.log(store.playerNames, 'networks playernames');
     console.log(store.board, 'the board of network');
+    console.log(store.tiles, ' network tiles');
 
 
     this.game.startGame();
   }
   start() {
     console.log('start the game')
-  }
-
-  // Whenever you change the value of this.board 
-  // this setter method will be called 
-  // setting the value of board in the networkStore
-  set board(x) {
-    this.networkStore.board = x;
   }
 
   // Whenever you read this.board this getter method
@@ -63,8 +58,25 @@ export default class NetWork {
   }
 
 
+  // Whenever you change the value of this.board 
+  // this setter method will be called 
+  // setting the value of board in the networkStore
+  set board(x) {
+    this.networkStore.board = x;
+  }
 
+  // Whenever you read this.tileSack this getter method
+  // will be called returning tileSack from the networkStore
+  get tileSack() {
+    return this.networkStore.tiles;
+  }
 
+  // Whenever you change the value of this.tileSack 
+  // this setter method will be called 
+  // setting the value of tileSack in the networkStore
+  set tileSack(x) {
+    this.networkStore.tiles = x;
+  }
 
 
 }

@@ -49,13 +49,13 @@ export default class TileChanger {
   }
 
   hideChangeTiles(minTilesToShow) {
-    if (this.game.tiles.length < minTilesToShow) {
+    if (this.game.networkInstance.tiles.length < minTilesToShow) {
       this.changeTilesDiv.hide();
     }
   }
 
   hideButton(minTilesToShow) {
-    if (this.game.tiles.length < minTilesToShow) {
+    if (this.game.networkInstance.tiles.length < minTilesToShow) {
       this.button.hide();
     }
   }
