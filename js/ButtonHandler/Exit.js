@@ -15,7 +15,7 @@ export default class Exit {
 
     $('.gamePage').append(this.createPopupBox());
     this.popupBox = $('#exitPopupBox');
-    this.closeSpan = document.getElementsByClassName("popupClose")[0];
+    this.closeSpan = $('#exitPopupClose');
     this.yesButton = $("#exitButtonYes");
     this.noButton = $("#exitButtonNo");
     this.buttonHandlers();
@@ -29,7 +29,7 @@ export default class Exit {
     return `
       <div id="exitPopupBox">
         <div id="exitPopupBoxContent">
-          <span class="popupClose">&times;</span>
+          <span class="popupClose" id="exitPopupClose">&times;</span>
           <p>Vill du lämna spelet?</p>
             <button class="exitButtonYes" name="exitButtonYes" id="exitButtonYes">Ja</button>
             <button class="exitButtonNo" name="exitButtonNo" id="exitButtonNo">Nej</button>
@@ -51,9 +51,9 @@ export default class Exit {
 
   buttonHandlers() {
     let that = this;
-    this.closeSpan.onclick = () => {
+    this.closeSpan.click(() => {
       that.hidePopup();
-    }
+    });
 
     this.yesButton.click(function () {
       that.hidePopup();
