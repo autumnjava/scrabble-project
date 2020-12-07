@@ -1021,7 +1021,7 @@ export default class WordChecker {
 
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
-      //this.removeTilesFromBoard(this.game.currentPlayer);
+      this.removeTilesFromBoard(this.game.currentPlayer);
 
       // push back tiles to players currentTiles,
       for (let tile of this.game.currentPlayer.tilesPlaced) {
