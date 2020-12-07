@@ -123,13 +123,12 @@ class Game {
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
-
-
+      console.log(that.board);
     })
 
     checkWordButton.click(function () {
 
-      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+      //that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
       that.render();

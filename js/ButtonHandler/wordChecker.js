@@ -8,7 +8,6 @@ export default class WordChecker {
   constructor(game) {
     this.game = game;
     this.wordToCheck = '';
-    this.tilePointsOfWord = 0;
     this.isWordCorrect = false;
     this.oldWords = [];
   }
@@ -64,11 +63,6 @@ export default class WordChecker {
   }
 
 
-
-
-
-
-
   isBoardEmpty() {
     return this.game.board.flat().every(x => !x.tile);
   }
@@ -78,38 +72,45 @@ export default class WordChecker {
     // Loop through the rows
     for (let row = 0; row < 15; row++) {
       let chars = '';
+      let tiles = [];
       for (let col = 0; col < 15; col++) {
         if (this.game.board[row][col].tile) {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
+          tiles.push(this.game.board[row][col].tile);
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push(chars); // push the string chars into the array of words
+            words.push({ chars, tiles }); // push the string chars into the array of words
           }
           chars = '';
+          tiles = [];
         }
       }
     }
     // Loop through the columns
     for (let col = 0; col < 15; col++) {
       let chars = '';
+      let tiles = [];
       for (let row = 0; row < 15; row++) {
         if (this.game.board[row][col].tile) {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
+          tiles.push(this.game.board[row][col].tile);
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push(chars); // Push the string chars into the array of words
+            words.push({ chars, tiles }); // push the string chars into the array of words
           }
           chars = '';
+          tiles = [];
         }
       }
     }
-    return words;
+    return words; // an object {chars, points, specialValue}
   }
 
   newWordsToCheck() {
-    let words = this.collectWords();
+    this.wordObjects = this.collectWords();
+    let words = this.wordObjects.map(word => word.chars);
     this.myWords = words;
     console.log(words, ' words');
     console.log(this.oldWords, ' old words');
@@ -119,58 +120,71 @@ export default class WordChecker {
       let index = newWords.indexOf(this.oldWords.shift());
       if (index >= 0) {
         newWords.splice(index, 1); // Remove old words from the copy, so only new words are left
+        this.wordObjects.splice(index, 1);
       }
     }
 
     this.oldWords = words;
+    
     return newWords;
   }
 
 
 
-
-
-  calculatePoints(player) {
+  calculatePoints() {
     //method for calcuating how many point a player should
     //get from a correct placed word
+    let tilePointsOfWord = 0;
     let dw = false;
     let tw = false;
-    //at the moment this method does not count points for the letters that have been placed BEFORE.
+    //here, the words shall be valid "this.allOK" = true
+    for (let tile of this.game.currentPlayer.tilesPlaced) {
+      delete this.game.board[tile.positionY][tile.positionX].specialValue;
+    }
+
+    for (let wordObject of this.wordObjects) {
+      let tiles = wordObject.tiles;
+      console.log(tiles);
+
+    }
+
+/*
     for (let tile of player.tilesPlaced) {
       let special = this.game.board[tile.positionY][tile.positionX].specialValue;
       for (let key in tile) {
         let val = tile[key];
         if (special !== 'dw' || special !== 'tw') {
           if (key === 'points' && special === 'dl') { //double letter square
-            this.tilePointsOfWord += val * 2;
+            tilePointsOfWord += val * 2;
           } else if (key === 'points' && special === 'start') { //letter in start square
-            this.tilePointsOfWord += val * 2;
+            tilePointsOfWord += val * 2;
           } else if (key === 'points' && special === 'tl') { //triple letter square
-            this.tilePointsOfWord += val * 3;
+            tilePointsOfWord += val * 3;
           } else if (key === 'points' && special === undefined) { //regular square, no specialvalue
-            this.tilePointsOfWord += val;
+            tilePointsOfWord += val;
           }
         }
 
         if (key === 'points' && special === 'dw') { //double word square
-          this.tilePointsOfWord += val;
+          tilePointsOfWord += val;
           dw = true;
         } else if (key === 'points' && special === 'tw') { //triple word square
-          this.tilePointsOfWord += val;
+          tilePointsOfWord += val;
           tw = true;
         }
       }
     }
 
     if (dw) {
-      this.tilePointsOfWord = this.tilePointsOfWord * 2;
-      console.log('points of tiles DW situation', this.tilePointsOfWord);
+      tilePointsOfWord = tilePointsOfWord * 2;
+      console.log('points of tiles DW situation', tilePointsOfWord);
     } else if (tw) {
-      this.tilePointsOfWord = this.tilePointsOfWord * 3;
-      console.log('points of tiles TW situation', this.tilePointsOfWord);
+      tilePointsOfWord = tilePointsOfWord * 3;
+      console.log('points of tiles TW situation', tilePointsOfWord);
     } else {
-      console.log('points of tiles (not in DW or TW situation)', this.tilePointsOfWord);
+      console.log('points of tiles (not in DW or TW situation)', tilePointsOfWord);
     }
+  */
   }
 
   removeTilesFromBoard(player) {
@@ -653,9 +667,6 @@ export default class WordChecker {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
-
-
-
     if (!words || this.invalidMove || this.gaps) {
 
       console.log('word was not a word');
@@ -679,13 +690,12 @@ export default class WordChecker {
     }
     else if (words) {
       console.log('word was a word!');
-
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
-      this.game.currentPlayer.points += this.tilePointsOfWord;
+      this.game.currentPlayer.points += this.calculatePoints();
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
@@ -695,7 +705,6 @@ export default class WordChecker {
     }
     //resetting for next move
     this.wordToCheck = '';
-    this.tilePointsOfWord = 0;
     this.game.render();
   }
 
