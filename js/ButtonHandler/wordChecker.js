@@ -159,23 +159,27 @@ export default class WordChecker {
           tw = true;
         else if (special === 'dw')
           dw = true;
-        else{ // if not double or tripple WORD
-          if (special === 'dl' || special === 'start') {
-            tilePointsOfWord += points * 2;
-          }
-          else if (special === 'tl') {
-            tilePointsOfWord += points * 3;
-          }
-          else {
-            tilePointsOfWord += points;
-          }
+        
+        if (special === 'dl' || special === 'start') {
+          tilePointsOfWord += points * 2;
+        }
+        else if (special === 'tl') {
+          tilePointsOfWord += points * 3;
+        }
+        else {
+          tilePointsOfWord += points;
         }
       }
 
-      if (dw)
+      if (dw) {
         tilePointsOfWord *= 2;
-      else if (tw)
+        console.log(dw, "dw condition met");
+      }
+      else if (tw) {
         tilePointsOfWord *= 3;
+        console.log(tw, "tw condition met");
+      }
+        
 
       console.log(tilePointsOfWord, "word points");
       allPoints += tilePointsOfWord;
