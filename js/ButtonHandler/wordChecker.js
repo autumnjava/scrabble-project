@@ -526,7 +526,7 @@ export default class WordChecker {
 
   checkEmptySpace() {
 
-    // let allXAreSame = tue;
+
     //Problem! Om man placerar endast en tile på brädet blir allXAreSame true och allYAreSame true
     this.addOldTiles();
 
@@ -552,7 +552,7 @@ export default class WordChecker {
     else if (this.allYAreSame) {
       this.gaps = !allPositionsXSorted.every((x, i) =>
         i === 0 || x - 1 === allPositionsXSorted[i - 1]
-        //returnerar true om inte alla elementets index är 0 eller om inte 4 (5-1)är lika med 4 (4-1)
+
       );
 
       console.log('this sorts X positions sorted positions  X are', allPositionsXSorted);
@@ -601,7 +601,7 @@ export default class WordChecker {
 
           }
 
-          //Same as before when it comes to other player's tile on right and left side
+
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
             console.log('found x and y on right')
