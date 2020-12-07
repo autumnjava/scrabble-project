@@ -17,6 +17,7 @@
 body {
   min-height: 100vh;
   background-color: #d6e1e7;
+  overflow: hidden;
 }
 
 body button:hover{

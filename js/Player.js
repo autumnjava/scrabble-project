@@ -53,9 +53,6 @@ export default class Player {
   getName() { return this.name; }
 
   addTiles(tiles) {
-    if (this.rack.tiles.length + tiles.length <= 7) {
-      this.rack.addTiles(tiles);
-    }
-    this.render();
+    this.rack.addTiles(tiles);
   }
 }

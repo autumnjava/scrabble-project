@@ -3,6 +3,7 @@ import TileBag from "./TileBag.js";
 import TileChanger from "./TileChanger.js";
 import Player from "./Player.js";
 import Menu from "./Menu.js";
+import Tile from "./Tile.js";
 
 export default class Game {
   board = new Board();

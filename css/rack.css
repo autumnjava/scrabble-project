@@ -1,6 +1,6 @@
 rack {
   float: left;
-  padding: 1.5vh;
+  padding: 1vh;
   background-color: rgb(33, 57, 81);
   border-radius: 1vh;
   width: 100%;
@@ -21,23 +21,25 @@ rack div tile {
   padding: 1vh;
   width: 100%;
   height: 100%;
-  background: rgb(229, 212, 194); 
+  background: rgb(239,227,211);
+  background: linear-gradient(180deg, rgba(239,227,211,1) 0%, rgba(209,188,167,1) 100%); 
   border-radius: 1vh;
-  font-size: 200%;
-  line-height: 100%;
   border: #bd9182 solid 4px;
   border-spacing: 0;
-  box-shadow: 0 0 4px 1px #421327;
+  box-shadow: 0 0 8px 4px #421327;
 }
+
 rack div tile:hover {
   cursor: pointer;
+  background: rgb(250,244,232);
+  background: linear-gradient(180deg, rgba(250,244,232,1) 0%, rgba(239,227,211,1) 35%, rgba(229,212,194,1) 100%);
 }
 
 rack div tile char {
   float: left;
   width: 100%;
   height: 75%;
-  font-size: 100%;
+  line-height: 100%;
   text-align: center;
 }
 
@@ -45,6 +47,25 @@ rack div tile points {
   float: left;
   width: 100%;
   height: 25%;
-  font-size: 100%;
   text-align: right;
+}
+
+rack .empty {
+  border: 0;
+  background: rgba(0,0,0,0.5);
+  box-shadow: none;
+}
+
+rack .placable {
+  background: rgba(0,0,0,0.75);
+}
+
+rack .over {
+  opacity: 0.5;
+}
+
+rack .over-empty {
+  border: none;
+  background: rgba(0,0,0,0.5);
+  box-shadow: inset 0 0 2vh 1vh rgba(255,255,255,0.75);
 }

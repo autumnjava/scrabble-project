@@ -5,10 +5,10 @@ export default class Board {
 
   render() {
     $('board').remove();
-    let board = this.getBoard();
+    let board = this.board;
     let $board = $('<board></board>');
-    $board.hide();
     let id = 0;
+    $board.hide();
     $board.html(
       board.flat().map(x => `
         <div id="${id++}" class="square ${x.specialValue ? 'special-' + x.specialValue : ''}">
