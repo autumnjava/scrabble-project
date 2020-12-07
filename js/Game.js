@@ -130,7 +130,6 @@ class Game {
     })
 
     checkWordButton.click(function () {
-
       // in process
       //if (scrabbleOk) {
       //  that.currentPlayer.attemptCounter = 0;
@@ -139,6 +138,7 @@ class Game {
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
+      that.board = changePossibleToMoveToFalse(that.board);
       that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
@@ -218,6 +218,16 @@ class Game {
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
+
+    let checkWordButton = $('#checkWordButton');
+    //If there are no tiles on the board that has property data-possibleToMove, button is disabled.
+    if (tilesWithPossibleToMove(that.board).length === 0)
+      checkWordButton.attr("disabled", true);
+    else {
+      alert('YOU CAN NOW CLICK CHECK WORD BUTTON (although the wordcheck method is not supported in this branch)!')
+      checkWordButton.attr("disabled", false);
+    }
+
 
     this.addDragEvents();
     this.moveTilesAroundBoard();
