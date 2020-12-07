@@ -72,36 +72,42 @@ export default class WordChecker {
     // Loop through the rows
     for (let row = 0; row < 15; row++) {
       let chars = '';
-      let tiles = [];
+      let points = [];
+      let specialValues = [];
       for (let col = 0; col < 15; col++) {
         if (this.game.board[row][col].tile) {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
-          tiles.push(this.game.board[row][col].tile);
+          points.push(this.game.board[row][col].tile.points);
+          specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, tiles }); // push the string chars into the array of words
+            words.push({ chars, points, specialValues}); // push the string chars into the array of words
           }
           chars = '';
-          tiles = [];
+          points = [];
+          specialValues = [];
         }
       }
     }
     // Loop through the columns
     for (let col = 0; col < 15; col++) {
       let chars = '';
-      let tiles = [];
+      let points = [];
+      let specialValues = [];
       for (let row = 0; row < 15; row++) {
         if (this.game.board[row][col].tile) {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
-          tiles.push(this.game.board[row][col].tile);
+          points.push(this.game.board[row][col].tile.points);
+          specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, tiles }); // push the string chars into the array of words
+            words.push({ chars, points, specialValues}); // push the string chars into the array of words
           }
           chars = '';
-          tiles = [];
+          points = [];
+          specialValues = [];
         }
       }
     }
@@ -134,7 +140,7 @@ export default class WordChecker {
   calculatePoints() {
     //method for calcuating how many point a player should
     //get from a correct placed word
-    let tilePointsOfWord = 0;
+    let allPoints = 0;
     let dw = false;
     let tw = false;
     //here, the words shall be valid "this.allOK" = true
@@ -143,48 +149,38 @@ export default class WordChecker {
     }
 
     for (let wordObject of this.wordObjects) {
-      let tiles = wordObject.tiles;
-      console.log(tiles);
+      let tilePointsOfWord = 0;
+      let chars = wordObject.chars.split('');
+      for (let i = 0; i < chars.length; i++) { 
+        let points = wordObject.points[i];
+        let special = wordObject.specialValues[i];
 
-    }
-
-/*
-    for (let tile of player.tilesPlaced) {
-      let special = this.game.board[tile.positionY][tile.positionX].specialValue;
-      for (let key in tile) {
-        let val = tile[key];
-        if (special !== 'dw' || special !== 'tw') {
-          if (key === 'points' && special === 'dl') { //double letter square
-            tilePointsOfWord += val * 2;
-          } else if (key === 'points' && special === 'start') { //letter in start square
-            tilePointsOfWord += val * 2;
-          } else if (key === 'points' && special === 'tl') { //triple letter square
-            tilePointsOfWord += val * 3;
-          } else if (key === 'points' && special === undefined) { //regular square, no specialvalue
-            tilePointsOfWord += val;
+        if(special === 'tw') 
+          tw = true;
+        else if (special === 'dw')
+          dw = true;
+        else{ // if not double or tripple WORD
+          if (special === 'dl' || special === 'start') {
+            tilePointsOfWord += points * 2;
+          }
+          else if (special === 'tl') {
+            tilePointsOfWord += points * 3;
+          }
+          else {
+            tilePointsOfWord += points;
           }
         }
-
-        if (key === 'points' && special === 'dw') { //double word square
-          tilePointsOfWord += val;
-          dw = true;
-        } else if (key === 'points' && special === 'tw') { //triple word square
-          tilePointsOfWord += val;
-          tw = true;
-        }
       }
-    }
 
-    if (dw) {
-      tilePointsOfWord = tilePointsOfWord * 2;
-      console.log('points of tiles DW situation', tilePointsOfWord);
-    } else if (tw) {
-      tilePointsOfWord = tilePointsOfWord * 3;
-      console.log('points of tiles TW situation', tilePointsOfWord);
-    } else {
-      console.log('points of tiles (not in DW or TW situation)', tilePointsOfWord);
+      if (dw)
+        tilePointsOfWord *= 2;
+      else if (tw)
+        tilePointsOfWord *= 3;
+
+      console.log(tilePointsOfWord, "word points");
+      allPoints += tilePointsOfWord;
     }
-  */
+    return allPoints;
   }
 
   removeTilesFromBoard(player) {
@@ -598,9 +594,6 @@ export default class WordChecker {
 
             continue;
 
-
-
-
           }
 
           else if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
@@ -656,6 +649,13 @@ export default class WordChecker {
 
   }
 
+  additionalPoints() {
+    if (this.game.currentPlayer.currentTiles.length === 1 && this.game.currentPlayer.tilesPlaced.length === 7) {
+      return 50;
+    }
+    return 0;
+  }
+
   wordsTrueOrFalse(words) {
     this.checkIfWordIsOnStartSquare();
     if (this.checkIfCorrectPosition()) {
@@ -696,6 +696,7 @@ export default class WordChecker {
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.calculatePoints();
+      this.game.currentPlayer.points += this.additionalPoints();
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
