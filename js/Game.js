@@ -7,6 +7,7 @@ import GameEnder from "./GameEnder.js";
 import EmptyTileHandler from "./EmptyTileHandler.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
+import Exit from "./ButtonHandler/Exit.js"
 class Game {
 
   players = [];
@@ -15,6 +16,7 @@ class Game {
   //currentPlayer = '';
   gameEnder = new GameEnder(this);
   turnSkipper = new TurnSkipper(this);
+  exit = new Exit(this);
   emptyTileHandler = new EmptyTileHandler(this);
 
   async start() {
@@ -101,7 +103,7 @@ class Game {
 
   addButtonEvents() {
     let that = this;
-    let breakButton = $('#breakButton');
+    let exitButton = $('#exitButton');
     let checkWordButton = $('#checkWordButton');
     let skipButton = $('#skipButton');
     let changeTilesButton = $('#changeTilesButton');
@@ -123,7 +125,8 @@ class Game {
     });
 
     //Click on "Break button" too exit the game (in process)
-    breakButton.click(function () {
+    exitButton.click(function () {
+      that.exit.clickOnEventHandler();
     })
 
     checkWordButton.click(function () {

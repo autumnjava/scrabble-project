@@ -10,8 +10,9 @@ export default class EmptyTileHandler {
   initial() {
     $('.gamePage').append(this.createPopupBox());
     this.popupBox = $('#emptyTilePopupBox');
-    this.closeSpan = document.getElementsByClassName("popupClose")[0];
+    this.closeSpan = $("#popupClose");
     this.submitButton = $("#emptySubmitButton");
+    this.buttonHandlers();
   }
 
   checkIfEmptyTile(tile) {
@@ -19,7 +20,6 @@ export default class EmptyTileHandler {
     if (isEmptyTile) {
       this.emptyTile = tile;
       this.showPopup();
-      this.eventHandlers();
     }
     return isEmptyTile;
   }
@@ -35,7 +35,7 @@ export default class EmptyTileHandler {
     return `
       <div id="emptyTilePopupBox">
         <div id="emptyTilePopupBoxContent">
-          <span class="popupClose">&times;</span>
+          <span class="popupClose" id="popupClose">&times;</span>
           <p>Var god och mata in en bokstav till den tomma brickan!</p>
           <br>
             <input type="text" id="emptyTileInput" placeholder="Skriv in bokstaven här" minlength="1" maxlength="1" required}>
@@ -59,13 +59,13 @@ export default class EmptyTileHandler {
 
   }
 
-  eventHandlers() {
+  buttonHandlers() {
     let that = this;
-    this.closeSpan.onclick = function () {
+    this.closeSpan.click(function () {
       that.moveTileBackToPlayer();
       that.hidePopup();
       that.game.render();
-    }
+    });
 
     this.submitButton.click(function () {
       let input = document.getElementById("emptyTileInput").value;

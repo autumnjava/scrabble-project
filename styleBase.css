@@ -14,14 +14,14 @@ body {
   min-height: 100vh;
   flex-direction: column;
 }
-
+/*
 .gamePage, .startPage {
   flex: 1;
 }
-/* End sticky footer */
+End sticky footer */
+
 
 body {
-  
   background-color: #d6e1e7;
 }
 
@@ -47,4 +47,7 @@ footer {
   width: 98.8%;
   font-family: 'Open Sans', sans-serif;
   font-size: small;
+  bottom: 0;
+  position: absolute;
+  margin: 0 auto;
 }
