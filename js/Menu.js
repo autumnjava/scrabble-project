@@ -1,5 +1,5 @@
 export default class Menu {
-  render() {
+  async render() {
     let menu = $('<menu></menu>');
     menu.append(`
       <ul>
@@ -9,8 +9,7 @@ export default class Menu {
         <li><a href="#">Quit</a></li>
       </ul>
     `);
-    menu.hide();
-    $('game right').append(menu);
-    menu.fadeIn(1000);
+    await $('game right').append(menu);
+    menu.show()
   }
 }

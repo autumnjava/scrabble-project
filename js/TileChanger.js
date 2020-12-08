@@ -1,7 +1,7 @@
 export default class TileChanger {
-  render() {
+  async render() {
     let pointer = $('game right ');
-    pointer.append(`
+    await pointer.append(`
       <changer><surface>Change tiles</surface></changer>`);
   }
 }

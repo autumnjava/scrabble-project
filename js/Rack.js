@@ -87,10 +87,10 @@ export default class Rack {
 
   switchTiles(from, to) {
     let that = this;
-    console.log(from + " : " + to);
     if (from != to) {
       let tiles = that.tiles;
-      if (!tiles[to]) { console.log('moving to empty slot ...'); tiles[to] = tiles[from]; tiles[from] = null; } else {
+      //Check if moving to empty slot, else switch positions
+      if (!tiles[to]) { tiles[to] = tiles[from]; tiles[from] = null; } else {
         let temp = tiles[from];
         tiles[from] = tiles[to];
         tiles[to] = temp;
@@ -133,6 +133,7 @@ export default class Rack {
       let offset = me.offset();
       if (mouseX > offset.left && mouseX < offset.left + me.width() && mouseY > offset.top && mouseY < offset.top + me.height()) {
         that.overID = parseInt(me.attr('id'));
+        console.log(that.overID);
         if (tile.hasClass('empty')) { tile.removeClass('empty'); tile.addClass('empty-over'); }
         if (!tile.hasClass('over')) { tile.addClass('over'); }
       } else {
@@ -144,18 +145,24 @@ export default class Rack {
 
   dragEnd(e, pointer) {
     let that = this;
-    let me = e.currentTarget;
     let { pageX: mouseX, pageY: mouseY } = pointer;
-    let over = that.overID ? $(`player rack div tile[id="${that.overID}"]`) : false;
-    if (over) {
-      let offset = over.offset();
-      if (mouseX > offset.left && mouseX < offset.left + over.width() && mouseY > offset.top && mouseY < offset.top + over.height()) {
-        that.switchTiles(that.pickedUp, that.overID);
-      }
-      that.pickedUp = false;
-      that.overID = false;
+    let board = $('board');
+    let rack = $('rack');
+    let changer = $('changer');
+    let rackOffset = rack.offset();
+    if (that.isOver(pointer, $('rack'))) { that.switchTiles(that.pickedUp, that.overID); that.render($('player')); }
+    if (!that.isOver(pointer, board) && !that.isOver(pointer, rack) && !that.isOver(pointer, changer)) {
+      that.render($('player'));
     }
-    that.render($('player'));
+  }
+
+  isOver(pointer, toCheck) {
+    let { pageX: mouseX, pageY: mouseY } = pointer;
+    let offset = toCheck.offset();
+    if (mouseX > offset.left && mouseX < offset.left + toCheck.width() && mouseY > offset.top && mouseY < offset.top + toCheck.height()) {
+      return true;
+    }
+    return false;
   }
 }
 

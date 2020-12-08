@@ -39,20 +39,8 @@ export default class Game {
     await this.board.render();
     await this.currentPlayer.render();
     this.changer.render();
-    this.menu.render();
-    await $('board, player info, changer, menu').hide();
-    await $('board').fadeIn(500, function () {
-      $('player').show(function () {
-        $('player rack').show(function () {
-          $('player info').fadeIn(250, function () {
-            $('changer').fadeIn(250, function () {
-              $('menu').fadeIn(250);
-            });
-          });
-        });
-      });
-    });
-    addDragEvents();
+    await this.menu.render();
+    $('game').show();
   }
 
   async start() {
@@ -96,12 +84,10 @@ export default class Game {
         if (playerName.length > 0) { that.players.push(new Player(playerName)) };
       }
       if (that.getPlayers().length >= 2) {
-        $('start').fadeOut(1000, function () {
-          $('footer').slideUp(500, function () {
-            $('header').slideUp(500, function () {
-              $('game').fadeIn(1000, function () {
-                that.game();
-              });
+        $('start').fadeOut(500, function () {
+          $('footer').slideUp(250, function () {
+            $('header').slideUp(250, function () {
+              that.game();
             });
           });
         });

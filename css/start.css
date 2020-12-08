@@ -27,12 +27,11 @@ start form table tr td {
   padding: 1vh;
 }
 
-start form label{
+start form label {
   float: left;
   padding: 1vh;
   width: 100%;
   font-size: 2vh;
-  line-height: ;
   font-weight: bold;
   background-color: #98aab4;
   border-radius: 0.5vh;

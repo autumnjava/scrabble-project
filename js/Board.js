@@ -11,20 +11,21 @@ export default class Board {
     $board.html(
       board.flat().map(x => `
         <div id="${id++}" class="${x.specialValue ? 'special-' + x.specialValue : ''}">
-          ${x.tile ? `<tile>${x.tile.char}</tile>` : ''} 
+         ${x.specialValue ? '<span><b>' + x.specialValue.toUpperCase() + '</b></span>' : ''}
         </div>
       `)
     );
 
     await $('game left').append($board);
-    this.adjustBoard();
+    await this.adjustBoard();
   }
 
-  adjustBoard() {
+  async adjustBoard() {
     let squares = $('board > div');
     for (let square of squares) {
       let me = $(square);
       me.css('height', me.width() + 'px');
+      me.css('line-height', me.width() + 'px');
     }
   }
 
@@ -46,7 +47,7 @@ export default class Board {
       });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 11]]
       .forEach(([y, x]) => {
         this.board[y][x].specialValue = 'dl',
           this.board[y][x].tileValue = 2
@@ -71,5 +72,6 @@ $(window).resize(function () {
   for (let square of squares) {
     let me = $(square);
     me.css('height', me.width() + 'px');
+    me.css('line-height', me.width() + 'px');
   }
 });

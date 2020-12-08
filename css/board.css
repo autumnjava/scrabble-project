@@ -9,7 +9,7 @@ board > div {
   border-left: 2px solid rgb(0,0,0,0.75);
   border-bottom: 2px solid rgb(0,0,0,1);
   border-right: 2px solid rgb(0,0,0,1);
-  background-color: rgb(255, 255, 255);
+  background: white;
   width: 6.66%;
   border-radius: 0.5vh;
 }
@@ -18,71 +18,29 @@ board > div:nth-child(15n+1){
   clear: both;
 }
 
-board > div.special-tw {
-background-color: #ccb0a2;
-}
-
-board .special-tw::after{
-  content: 'TW';
-  color: #fff;
-  font-style: bold;
-  display: block;
-  text-align: center;
-  font-size: 3vh;
-}
-
-board > div.special-dl{
-background-color: #d6e1e7;
-}
-
-board .special-dl::after{
-  content: 'DL';
-  color: #FFF;
-  font-style: bold;
-  display: block;
-  text-align: center;
-  font-size: 3vh;
-}
-
-board > div.special-dw{
-background-color: #98aab4;
-}
-
-board .special-dw::after{
-  content: 'DW';
-  color: #FFF;
-  font-style: bold;
-  display: block;
-  text-align: center;
-  font-size: 3vh;
-}
-
-board > div.special-tl{
-background-color: #e5d4c2;
-
-}
-
-board .special-tl::after{
-  content: 'TL';
-  color: #fff;
-  font-style: bold;
-  display: block;
-  text-align: center;
-  font-size: 3vh;
-}
-
-board > div.special-start{
-background-color: #b77b57;
-}
-
-board .special-start::after{
-  content: 'START';
-  color: #fff;
-  font-style: bold;
-  display: block;
+board div span {
+  float: left;
+  width: 100%;
   text-align: center;
   font-size: 1.5vh;
-  padding-top: 1.7vh;
+  font-family: 'Open Sans';
+  color: white;
+}
+
+board div[class$="start"], board div[class$="dw"] {
+  background-color: #e5d4c2;
+}
+
+board div[class$="tw"] {
+  background-color: #cf6a6a;
+}
+
+board div[class$="dl"] {
+  background-color: #98aab4;
+}
+
+board div[class$="tl"] {
+  background-color: #213951;
 }
 
 board .tile {
@@ -90,6 +48,7 @@ board .tile {
   margin: 1px;
 }
 
-board > div.hover {
-  background-color: orange;
+board > div:hover {
+  background-color: #cf816a;
+  cursor: pointer;
 }
