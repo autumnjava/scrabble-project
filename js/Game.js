@@ -28,8 +28,12 @@ class Game {
   startGame() {
     //do we really need this line?
     //this.createBoard();
-    //this.currentPlayer = this.players[0];
-    this.render();
+    this.currentPlayer = this.players[0];
+    // Add a pop-up telling the player that the game will start when atleast
+    // two players are connected
+    if (this.networkInstance.networkStore.playerNames.length > 1) {
+      this.render();
+    }
   }
 
 
@@ -37,6 +41,7 @@ class Game {
     // create and save players in the game
     let player = new Player(this.getName(), this)
     this.players.push(player);
+    console.log(this.players, ' antal spelare ');
   }
   getName() {
     this.playerName = $('input[name="playerName"]').val();
@@ -121,7 +126,7 @@ class Game {
 
     checkWordButton.click(function () {
 
-      that.wordCheckerInstance.calculatePoints(that.networkInstance.networkStore.currentPlayer);
+      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
       that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
       that.render();
@@ -208,7 +213,8 @@ class Game {
     $('#gamePage').show();
     $('#startPage').hide();
     // this line returns "it is not a function?"
-    $players.append(this.networkInstance.networkStore.currentPlayer.render());
+    console.log(this.currentPlayer, ' player in render');
+    $players.append(this.currentPlayer.render());
     this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
@@ -218,7 +224,6 @@ class Game {
     this.addDragEvents();
     this.moveTilesAroundBoard();
     console.log(this.networkInstance.networkStore.currentPlayer, 'currentplayer');
-    console.log(this.networkInstance.currentPlayer, 'currentplayer without networkstore')
 
   }
 
@@ -246,7 +251,7 @@ class Game {
   }
 
   currentTilePoints() {
-    for (let player of this.networkInstance.networkStore.playerNames) {
+    for (let player of this.players) {
       for (let tile of player.currentTiles) {
         for (let key in tile) {
           let val = tile[key];

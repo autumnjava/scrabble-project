@@ -9,6 +9,8 @@ export default class NetWork {
 
   }
   listenForNetworkChanges() {
+    let store = this.networkStore;
+    // if (store.currentPlayer !== this.playerIndex()) { return; }
     this.game.render();
 
   }
@@ -47,6 +49,7 @@ export default class NetWork {
 
 
     this.game.startGame();
+
   }
   start() {
     console.log('start the game')
@@ -59,6 +62,14 @@ export default class NetWork {
       store.currentPlayer = store.playerNames[store.playerNames.indexOf(store.currentPlayer) + 1];
     }
     else { store.currentPlayer = store.playerNames[0]; }
+
+    console.log()
+  }
+
+  playerIndex() {
+    let store = this.networkStore;
+    let playerIndex = store.playerNames.indexOf(store.currentPlayer);
+    return playerIndex;
   }
 
   // Whenever you change the value of this.board 
