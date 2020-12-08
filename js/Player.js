@@ -11,6 +11,7 @@ export default class Player {
     this.attemptCounter = 0;
     this.tilePoints = 0;
     this.tilesPlaced = [];
+
   }
 
 
@@ -32,7 +33,7 @@ export default class Player {
        <div class="player-icon">
       <div class="icon"><i class="fas fa-user fa-3x"></i></div>
        <div class="pname">${this.name} </div>
-       <div class="ppoints">${this.tilePoints} poäng </div>
+       <div class="ppoints">${this.points} Points </div>
       </div>
      
       `;

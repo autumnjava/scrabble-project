@@ -95,6 +95,7 @@ export default {
       // put the tile on the board and re-render
       this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
       this.board[this.y][this.x].tile.possibleToMove = true;
+      this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
       this.emptyTileHandler.checkIfEmptyTile(this.board[this.y][this.x].tile);
     }
@@ -150,6 +151,7 @@ export default {
         let pt = player.currentTiles;
         // move around
         pt.splice(newIndex, 0, oldObject); //add back to stand
+        this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player);
         delete oldSquare.tile; //delete property tile from oldSquare
       }
 

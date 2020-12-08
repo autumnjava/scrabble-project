@@ -1,4 +1,6 @@
 import Player from "./Player.js";
+import SAOLchecker from "./SAOLchecker.js";
+import WordChecker from "./ButtonHandler/WordChecker.js";
 
 import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
@@ -14,6 +16,7 @@ class Game {
   lastClickedTile;
   tileChanger = new TileChanger(this);
   //currentPlayer = '';
+  wordCheckerInstance = new WordChecker(this);
   gameEnder = new GameEnder(this);
   turnSkipper = new TurnSkipper(this);
   exit = new Exit(this);
@@ -111,7 +114,7 @@ class Game {
     //Click on "skip" to skip the round
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
-      changePlayer();
+      that.changePlayer();
       that.board = changePossibleToMoveToFalse(that.board);
       that.render();
     });
@@ -120,7 +123,7 @@ class Game {
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
-      changePlayer();
+      that.changePlayer();
       that.render();
     });
 
@@ -130,27 +133,23 @@ class Game {
     })
 
     checkWordButton.click(function () {
-      // in process
-      //if (scrabbleOk) {
-      //  that.currentPlayer.attemptCounter = 0;
-      //}
 
-      if (that.currentPlayer.checkWordButton >= 3) {
-        that.currentPlayer.attemptCounter++;
-      }
-      //that.board = changePossibleToMoveToFalse(that.board);
+      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+      that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
-      changePlayer();
       that.render();
     })
 
-    function changePlayer() {
-      if (that.players.indexOf(that.currentPlayer) < that.players.length - 1) {
-        that.currentPlayer = that.players[that.players.indexOf(that.currentPlayer) + 1];
-      }
-      else that.currentPlayer = that.players[0];
-    }
+
   }
+
+  changePlayer() {
+    if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
+      this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
+    }
+    else this.currentPlayer = this.players[0];
+  }
+
 
 
   createBoard() {
@@ -171,7 +170,7 @@ class Game {
       });
     [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2],
     [6, 6], [6, 8], [6, 12], [7, 3], [7, 11], [8, 2], [8, 6], [8, 6], [8, 8],
-    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [13, 0], [13, 11]]
+    [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 6], [12, 8], [14, 3], [14, 11]]
       .forEach(([y, x]) => {
         this.board[y][x].specialValue = 'dl',
           this.board[y][x].tileValue = 2
@@ -194,6 +193,7 @@ class Game {
 
   render() { //render board and player divs
     let that = this;
+
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.gamePage');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
@@ -218,23 +218,6 @@ class Game {
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
-
-    let checkWordButton = $('#checkWordButton');
-    //If there are no tiles on the board that has property data-possibleToMove, button is disabled.
-    if (tilesWithPossibleToMove(that.board).length === 0) {
-      checkWordButton.removeClass('checkWordButton_hover');
-      checkWordButton.css('cursor', 'default');
-      checkWordButton.attr("disabled", true);
-    }
-
-
-    else {
-      //alert('YOU CAN NOW CLICK CHECK WORD BUTTON (although the wordcheck method is not supported in this branch)!')
-      checkWordButton.addClass('checkWordButton_hover');
-      checkWordButton.css('cursor', 'pointer');
-      checkWordButton.attr("disabled", false);
-    }
-
 
     this.addDragEvents();
     this.moveTilesAroundBoard();

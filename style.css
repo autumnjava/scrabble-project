@@ -83,20 +83,19 @@
   right: 5vh; 
 }
 
-
-.checkWordButton_hover:hover{
-  background-color:transparent;
-  color: rgb(31, 30, 30);
-}
-
-.buttons > .button:hover{
-  background-color:transparent;
-  color: rgb(31, 30, 30);
+#checkWordButton{
+  background-color: #b65437;
 }
 
 #exitButton:hover{
+  opacity: 1;
   background-color:red;
   color: white;
+}
+
+body button:hover, #checkWordButton:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
 }
 
 .changeTiles {
@@ -171,7 +170,7 @@ background-color: #ccb0a2;
   font-size: 3vh;
 }
 
-.buttons > button {
+.in-game-buttons > .buttons > div {
   float: left;
   padding-left: 10px;
 }
