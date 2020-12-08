@@ -32,7 +32,7 @@
 }
 
 .boxes .messageBox {
-  /*display: none;*/
+  display: none;
   background-color: red;
 
 }

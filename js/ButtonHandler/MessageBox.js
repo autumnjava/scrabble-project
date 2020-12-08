@@ -19,4 +19,12 @@ export default class MessageBox {
     `
   }
 
+  showMessage() { 
+    $('#' + this.id).show();
+  }
+
+  hideMessage() {
+    $('#' + this.id).hide();
+  }
+
 }

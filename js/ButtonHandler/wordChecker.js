@@ -1020,7 +1020,7 @@ export default class WordChecker {
 
 
     if (!words || this.invalidMove || this.gaps) {
-
+      this.messageBox.showMessage();
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
       this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.board)];
@@ -1034,9 +1034,11 @@ export default class WordChecker {
         this.game.currentPlayer.attemptCounter++;
         this.game.currentPlayer.correctWordCounter = 0;
         this.game.changePlayer();;
+        this.messageBox.hideMessage();
       }
     }
     else if (words) {
+      this.messageBox.hideMessage();
       console.log('word was a word!');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
@@ -1051,6 +1053,7 @@ export default class WordChecker {
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
+      this.messageBox.hideMessage();
     }
     //resetting for next move
     this.wordToCheck = '';
