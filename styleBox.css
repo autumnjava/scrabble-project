@@ -1,6 +1,6 @@
 .boxes {
   position: absolute;
-  display: inline;
+  display: inline-block;
   margin: 2vh;
   top: 24vh;
   right: 10vw;
@@ -8,6 +8,8 @@
 }
 
 .boxes .changeTilesSquare{
+  display: inline-block;
+  position: relative;
   margin: auto;
   text-align: center;
   height: 30vh;
@@ -32,7 +34,11 @@
 }
 
 .boxes .messageBox {
-  display: none;
+  display: inline-block;
+  position: relative;
+  margin: auto;
   background-color: red;
-
+  text-align: center;
+  height: 5vh;
+  width: 30vh;
 }
