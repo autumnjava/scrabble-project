@@ -191,8 +191,6 @@ export default class WordChecker {
       else if (tw) {
         tilePointsOfWord *= 3;
       }
-        
-      console.log("word objects", this.wordObjects);
       console.log(tilePointsOfWord, "word points");
       allPoints += tilePointsOfWord;
     }
