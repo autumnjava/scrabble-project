@@ -197,6 +197,7 @@ export default class WordChecker {
       }
     }
     else if (words) {
+      let store = this.game.networkInstance.networkStore;
       console.log('word was a word!');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.networkInstance.board);
@@ -205,6 +206,9 @@ export default class WordChecker {
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.tilePointsOfWord;
+      if (store.currentPlayerIndex === this.game.meIndex) {
+        store.players[store.currentPlayerIndex].points += this.tilePointsOfWord;
+      }
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
