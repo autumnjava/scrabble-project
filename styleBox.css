@@ -8,7 +8,6 @@
 }
 
 .boxes .changeTilesSquare{
-  display: inline-block;
   position: relative;
   margin: auto;
   text-align: center;
@@ -34,11 +33,15 @@
 }
 
 .boxes .messageBox {
-  background-color: red;
-  border-radius: 50px;
+  display: none;
+  background-color: rgb(253, 0, 0);
+  border-radius: 10px;
+  margin: 10px auto;
   padding: 0.5em 1.5em;
+  width: 30vh;
   font-size: 2.5vh;
   text-transform: uppercase;
+  text-align: center;
   font-weight: bold;
   transition: all 300ms ease-in-out;
 }
