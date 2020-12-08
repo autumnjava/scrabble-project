@@ -87,15 +87,19 @@
   background-color: #b65437;
 }
 
-#exitButton:hover{
-  opacity: 1;
-  background-color:red;
-  color: white;
-}
-
-body button:hover, #checkWordButton:hover{
+.checkWordButton_hover:hover{
   background-color:transparent;
   color: rgb(31, 30, 30);
+}
+
+.buttons > .button:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+#exitButton:hover{
+  background-color:red;
+  color: white;
 }
 
 .changeTiles {
