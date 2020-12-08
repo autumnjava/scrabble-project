@@ -138,7 +138,7 @@ class Game {
       if (that.currentPlayer.checkWordButton >= 3) {
         that.currentPlayer.attemptCounter++;
       }
-      that.board = changePossibleToMoveToFalse(that.board);
+      //that.board = changePossibleToMoveToFalse(that.board);
       that.gameEnder.checkGameEnd();
       changePlayer();
       that.render();
@@ -229,7 +229,7 @@ class Game {
 
 
     else {
-      alert('YOU CAN NOW CLICK CHECK WORD BUTTON (although the wordcheck method is not supported in this branch)!')
+      //alert('YOU CAN NOW CLICK CHECK WORD BUTTON (although the wordcheck method is not supported in this branch)!')
       checkWordButton.addClass('checkWordButton_hover');
       checkWordButton.css('cursor', 'pointer');
       checkWordButton.attr("disabled", false);
