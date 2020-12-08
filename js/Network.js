@@ -14,7 +14,7 @@ export default class NetWork {
 
   async preStart() {
     let key = await this.createNetworkKey();
-    console.log('Key', key);
+    $('.startPage').append('Detta är nyckeln : ' + key);
     this.connectToStore(key, () => {
       console.log('Something changed...');
     });

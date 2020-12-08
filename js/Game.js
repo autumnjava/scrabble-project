@@ -27,7 +27,6 @@ class Game {
 
   startGame() {
     //do we really need this line?
-    //this.createBoard();
     this.currentPlayer = this.players[0];
     // Add a pop-up telling the player that the game will start when atleast
     // two players are connected
@@ -50,16 +49,12 @@ class Game {
   addEventListener() {
 
     $('body').on('click', '.startGameButton', async () => {
-      // if (!getName()) { return; 
       this.networkInstance.preStart();
-      // this.startGame();
     });
 
     $('body').on('click', '.connectGameButton', () => {
-      //  if (!getName()) { return; }
       this.networkKey = prompt('Enter the network key from your friend:');
       this.networkInstance.connectToStore(this.networkKey, this.networkInstance.listener);
-      // this.startGame();
     });
   }
 

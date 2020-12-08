@@ -16,45 +16,28 @@
   position: relative;
 }
 
-.startPage form{
-  display: relative;
-  margin: 0 auto;
-  margin-top: 20vh;
-  text-align: center;
-}
-
-.startPage form div{
-  margin: 3vh 10vw;
-  font-family: Arial;
-}
-
-.startPage form label span{
-  font-size: 2.3vh;
-  font-weight: bold;
-  padding: 2px 1em;
-  background-color: #98aab4;
-  border-radius: 2px;
-  color:  #213951;
-}
-
-.startPage form input {
-  font-size: 2.3vh;
-}
 
 .startPage button{
-  display: inline-block;
+  display: block;
   color: white;
   background-color: #cf816b;/*#f5b880;*/
   cursor: pointer;
   border: 5px solid white;
   border-radius: 50px;
-  margin: 10vh 10vh 0 10vh;
-  padding: 1.2em 3em;
+  margin: 10vh auto;
+  padding: 0.5em 1.7em;
   font-size: 4vh;
   text-transform: uppercase;
   font-weight: bold;
   transition: all 300ms ease-in-out;
   /*position: absolute;*/
+}
+.nameInput{
+  
+  margin : auto;
+  padding : 10px;
+  border: 2px solid white;
+  border-radius: 20px;
 }
 
 body button:hover{
