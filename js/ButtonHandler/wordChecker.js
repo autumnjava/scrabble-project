@@ -80,9 +80,16 @@ export default class WordChecker {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
           points.push(this.game.board[row][col].tile.points);
           specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
+          if (col >= 14 && chars.length > 1) {
+            words.push({ chars, points, specialValues });
+            chars = '';
+            points = [];
+            specialValues = [];
+          }
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
+            console.log("col", col);
             words.push({ chars, points, specialValues}); // push the string chars into the array of words
           }
           chars = '';
@@ -101,6 +108,12 @@ export default class WordChecker {
           chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
           points.push(this.game.board[row][col].tile.points);
           specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
+          if (row >= 14 && chars.length > 1) {
+            words.push({ chars, points, specialValues });
+            chars = '';
+            points = [];
+            specialValues = [];
+          }
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
@@ -174,14 +187,12 @@ export default class WordChecker {
 
       if (dw) {
         tilePointsOfWord *= 2;
-        console.log(dw, "dw condition met");
       }
       else if (tw) {
         tilePointsOfWord *= 3;
-        console.log(tw, "tw condition met");
       }
         
-
+      console.log("word objects", this.wordObjects);
       console.log(tilePointsOfWord, "word points");
       allPoints += tilePointsOfWord;
     }
@@ -1056,6 +1067,7 @@ export default class WordChecker {
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
+      console.log("wordobjects before calculating", this.wordObjects);
       this.game.currentPlayer.points += this.calculatePoints();
       this.game.currentPlayer.points += this.additionalPoints();
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
