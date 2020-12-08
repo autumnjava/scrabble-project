@@ -12,7 +12,7 @@ export default class WordChecker {
     this.tilePointsOfWord = 0;
     this.isWordCorrect = false;
     this.oldWords = [];
-    this.messageBox = new MessageBox();
+    this.messageBox = new MessageBox('OGILTIGT DRAG', 'invalidMove');
   }
 
   sortTiles(tile, x, y, player) {

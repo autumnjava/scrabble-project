@@ -98,7 +98,7 @@ body button:hover, #checkWordButton:hover{
   color: rgb(31, 30, 30);
 }
 
-.changeTiles {
+.boxes {
   position: absolute;
   display: inline;
   margin: 2vh;
@@ -107,7 +107,7 @@ body button:hover, #checkWordButton:hover{
   width: 70vh;
 }
 
-.changeTiles .changeTilesSquare{
+.boxes .changeTilesSquare{
   margin: auto;
   text-align: center;
   height: 30vh;
@@ -117,7 +117,7 @@ body button:hover, #checkWordButton:hover{
   background-color: #cf816a;
 }
 
-.changeTiles .changeTilesSquare p {
+.boxes .changeTilesSquare p {
   margin: auto;
   margin-top: 25%;
   text-align: center;
@@ -126,10 +126,6 @@ body button:hover, #checkWordButton:hover{
   width: 80%;
   height: 60%;
 } 
-
-.changeTiles button {
-  margin: 1vh;
-}
 
 .board {
   border: 10px solid #b77b57; 
@@ -302,7 +298,7 @@ body .tile {
   background-color: orange;
 }
 
-.changeTiles .changeTilesSquare.hover {
+.boxes .changeTilesSquare.hover {
   background-color: rgb(33, 57, 81);
 }
 
