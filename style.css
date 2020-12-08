@@ -57,11 +57,6 @@
   /*position: absolute;*/
 }
 
-body button:hover{
-  background-color:transparent;
-  color: rgb(31, 30, 30);
-}
-
 .gamePage button {
   display: inline-block;
   color: white;
@@ -88,11 +83,19 @@ body button:hover{
   right: 5vh; 
 }
 
-#breakButton:hover{
+#checkWordButton{
+  background-color: #b65437;
+}
+
+#exitButton:hover{
   opacity: 1;
   background-color:red;
-  border: 1px solid red;
   color: white;
+}
+
+body button:hover, #checkWordButton:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
 }
 
 .changeTiles {
