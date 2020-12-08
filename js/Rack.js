@@ -145,21 +145,34 @@ export default class Rack {
 
   dragEnd(e, pointer) {
     let that = this;
-    let { pageX: mouseX, pageY: mouseY } = pointer;
+    let me = $(e.currentTarget);
     let board = $('board');
     let rack = $('rack');
-    let changer = $('changer');
+    let change = $('changer');
     let rackOffset = rack.offset();
-    if (that.isOver(pointer, $('rack'))) { that.switchTiles(that.pickedUp, that.overID); that.render($('player')); }
-    if (!that.isOver(pointer, board) && !that.isOver(pointer, rack) && !that.isOver(pointer, changer)) {
-      that.render($('player'));
-    }
+    //If tile is placed on board
+    if (that.elementOver(me, board)) { console.log("You placed a tile on the board ..."); }
+    //If tile is placed in rack
+    if (that.mouseOver(pointer, rack)) { that.switchTiles(that.pickedUp, that.overID); that.render($('player')); }
+    //If tile is placed in change tile area
+    if (that.elementOver(me, change)) { console.log("you placed a tile in the change area ..."); }
+    //If tile is placed outside of any game containers, rerender the rack
+    if (!that.elementOver(me, board) && !that.mouseOver(pointer, rack) && !that.elementOver(me, change)) { that.render($('player')); }
   }
 
-  isOver(pointer, toCheck) {
+  mouseOver(pointer, toCheck) {
     let { pageX: mouseX, pageY: mouseY } = pointer;
     let offset = toCheck.offset();
     if (mouseX > offset.left && mouseX < offset.left + toCheck.width() && mouseY > offset.top && mouseY < offset.top + toCheck.height()) {
+      return true;
+    }
+    return false;
+  }
+
+  elementOver(element, over) {
+    let elementOffset = element.offset();
+    let overOffset = over.offset();
+    if (elementOffset.left > overOffset.left && elementOffset.left + element.width() < overOffset.left + over.width() && elementOffset.top > overOffset.top && elementOffset.top + element.height() < overOffset.top + over.height()) {
       return true;
     }
     return false;
