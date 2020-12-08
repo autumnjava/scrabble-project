@@ -222,6 +222,7 @@ class Game {
     let checkWordButton = $('#checkWordButton');
     //If there are no tiles on the board that has property data-possibleToMove, button is disabled.
     if (tilesWithPossibleToMove(that.board).length === 0) {
+      checkWordButton.removeClass('checkWordButton_hover');
       checkWordButton.css('cursor', 'default');
       checkWordButton.attr("disabled", true);
     }
@@ -229,6 +230,7 @@ class Game {
 
     else {
       alert('YOU CAN NOW CLICK CHECK WORD BUTTON (although the wordcheck method is not supported in this branch)!')
+      checkWordButton.addClass('checkWordButton_hover');
       checkWordButton.css('cursor', 'pointer');
       checkWordButton.attr("disabled", false);
     }

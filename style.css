@@ -57,11 +57,6 @@
   /*position: absolute;*/
 }
 
-body button:hover{
-  background-color:transparent;
-  color: rgb(31, 30, 30);
-}
-
 .gamePage button {
   display: inline-block;
   color: white;
@@ -88,10 +83,19 @@ body button:hover{
   right: 5vh; 
 }
 
-#breakButton:hover{
-  opacity: 1;
+
+.checkWordButton_hover:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+.buttons > .button:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+#exitButton:hover{
   background-color:red;
-  border: 1px solid red;
   color: white;
 }
 
@@ -167,7 +171,7 @@ background-color: #ccb0a2;
   font-size: 3vh;
 }
 
-.in-game-buttons > .buttons > div {
+.buttons > button {
   float: left;
   padding-left: 10px;
 }
