@@ -40,7 +40,8 @@ export default class Game {
     await this.currentPlayer.render();
     this.changer.render();
     await this.menu.render();
-    $('game').show();
+    await $('game').show();
+    this.addButtonListeners();
   }
 
   async start() {
@@ -104,4 +105,27 @@ export default class Game {
 
   getPlayers() { return this.players; }
   getPlayer(id) { return this.players[id]; }
+
+  addButtonListeners() {
+    let check = $('#check');
+    let change = $('#change');
+    let skip = $('#skip');
+    let quit = $('#quit');
+
+    check.click(function () {
+      console.log("You clicked the check button ...");
+    });
+
+    change.click(function () {
+      console.log("You clicked the change button ...");
+    });
+
+    skip.click(function () {
+      console.log("You clicked the skip button ...");
+    });
+
+    quit.click(function () {
+      console.log("You clicked the quit button ...");
+    });
+  }
 }

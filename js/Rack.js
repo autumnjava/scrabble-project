@@ -3,9 +3,9 @@ import Tile from "./Tile.js";
 export default class Rack {
   tiles = [...new Array(9)].map(() => { null });
   maxTiles = 7;
-  dragging = false;
   pickedUp = null;
   overID = null;
+  tilesToChange = [];
 
   async render(pointer) {
     $('rack').remove();
@@ -149,13 +149,16 @@ export default class Rack {
     let board = $('board');
     let rack = $('rack');
     let change = $('changer');
-    let rackOffset = rack.offset();
     //If tile is placed on board
     if (that.elementOver(me, board)) { console.log("You placed a tile on the board ..."); }
     //If tile is placed in rack
     if (that.mouseOver(pointer, rack)) { that.switchTiles(that.pickedUp, that.overID); that.render($('player')); }
     //If tile is placed in change tile area
-    if (that.elementOver(me, change)) { console.log("you placed a tile in the change area ..."); }
+    if (that.elementOver(me, change)) {
+      that.tilesToChange.push(that.tiles[that.pickedUp]);
+      console.log(that.tilesToChange);
+      console.log("you placed a tile in the change area ...");
+    }
     //If tile is placed outside of any game containers, rerender the rack
     if (!that.elementOver(me, board) && !that.mouseOver(pointer, rack) && !that.elementOver(me, change)) { that.render($('player')); }
   }
