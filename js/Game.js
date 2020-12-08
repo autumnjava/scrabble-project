@@ -106,7 +106,32 @@ export default class Game {
   getPlayers() { return this.players; }
   getPlayer(id) { return this.players[id]; }
 
+  changeTiles() {
+    let player = this.currentPlayer;
+    let bag = this.bag;
+    let toChange = player.rack.tilesToChange;
+    let newTiles = [];
+    let playerTiles = player.rack.tiles;
+
+    if (toChange.length > 0 && !player.hasChangedTiles) {
+      newTiles = bag.getRandomTiles(toChange.length);
+      for (let tile of toChange) {
+        let pos = playerTiles.indexOf(tile);
+        playerTiles[pos] = null;
+      }
+      player.addTiles(newTiles);
+      toChange.splice(0, toChange.length);
+      player.hasChangedTiles = true;
+      player.rack.render($('player'));
+    } else if (toChange.length > 0 && player.hasChangedTiles) {
+      alert("You can only change tiles once per round ...");
+      player.rack.render($('player'));
+    }
+  }
+
   addButtonListeners() {
+    let that = this;
+    let player = that.currentPlayer;
     let check = $('#check');
     let change = $('#change');
     let skip = $('#skip');
@@ -116,9 +141,7 @@ export default class Game {
       console.log("You clicked the check button ...");
     });
 
-    change.click(function () {
-      console.log("You clicked the change button ...");
-    });
+    change.click(function () { that.changeTiles(); });
 
     skip.click(function () {
       console.log("You clicked the skip button ...");

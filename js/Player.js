@@ -3,6 +3,7 @@ import Tile from "./Tile.js";
 
 export default class Player {
   rack = new Rack();
+  hasChangedTiles = false;
 
   constructor(name) {
     this.name = name;
@@ -28,27 +29,6 @@ export default class Player {
         <points>Points: ${this.points}</points>
       </info>
     `);
-    /*
-    return `<div class="stand">
-      ${this.currentTiles.map((x, i) => `<div 
-          class="tile ${x.char ? '' : 'none'}"
-          data-player="${this.myGame.players.indexOf(this)}"
-          data-tile="${i}"
-        >
-        ${x.char || ''}
-        <span>${x.points || ''}</span>
-      </div>`).join('')}
-      </div>
-    
-      
-       <div class="player-icon">
-
-      <div class="icon"><i class="fas fa-user fa-3x"></i></div>
-       <div class="pname">${this.name}  </div>
-      </div>
-     
-      `;
-      */
     $('game right').append(player);
   }
 
@@ -57,4 +37,6 @@ export default class Player {
   addTiles(tiles) {
     this.rack.addTiles(tiles);
   }
+
+  addTile(tile) { this.rack.addTile(tile); }
 }

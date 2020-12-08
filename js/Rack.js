@@ -123,15 +123,14 @@ export default class Rack {
 
   dragMove(e, pointer) {
     let that = this;
-    let { pageX: mouseX, pageY: mouseY } = pointer;
     let placeHolders = $('rack > div');
 
     for (let placeHolder of placeHolders) {
       let me = $(placeHolder);
       let id = parseInt(me.attr('id'));
       let tile = $(`tile[id="${id}"]`);
-      let offset = me.offset();
-      if (mouseX > offset.left && mouseX < offset.left + me.width() && mouseY > offset.top && mouseY < offset.top + me.height()) {
+
+      if (that.mouseOver(pointer, me)) {
         that.overID = parseInt(me.attr('id'));
         console.log(that.overID);
         if (tile.hasClass('empty')) { tile.removeClass('empty'); tile.addClass('empty-over'); }
@@ -156,7 +155,6 @@ export default class Rack {
     //If tile is placed in change tile area
     if (that.elementOver(me, change)) {
       that.tilesToChange.push(that.tiles[that.pickedUp]);
-      console.log(that.tilesToChange);
       console.log("you placed a tile in the change area ...");
     }
     //If tile is placed outside of any game containers, rerender the rack

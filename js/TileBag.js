@@ -20,10 +20,14 @@ export default class TileBag {
 
   shuffleRandom() { this.tiles.sort(() => Math.random() - 0.5); }
 
+  addTiles(tiles) { for (let tile of tiles) { this.addTile(tile); } }
+
+  addTile(tile) { this.tiles.push(tile); }
+
   getTiles() { return this.tiles; }
 
   getRandomTiles(quantity) {
-    if (quantity > 0 && quantity <= 7) {
+    if (quantity > 0 && quantity <= 7 && quantity < this.tiles.length) {
       let randomTiles = [];
       for (let i = 0; i < quantity; i++) {
         let randomNumber = Math.floor(Math.random() * this.tiles.length);
