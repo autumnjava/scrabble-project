@@ -98,35 +98,6 @@ body button:hover, #checkWordButton:hover{
   color: rgb(31, 30, 30);
 }
 
-.boxes {
-  position: absolute;
-  display: inline;
-  margin: 2vh;
-  top: 24vh;
-  right: 10vw;
-  width: 70vh;
-}
-
-.boxes .changeTilesSquare{
-  margin: auto;
-  text-align: center;
-  height: 30vh;
-  width: 30vh;
-  border: 0.3em dashed #e5d4c2;
-  border-radius: 10px;
-  background-color: #cf816a;
-}
-
-.boxes .changeTilesSquare p {
-  margin: auto;
-  margin-top: 25%;
-  text-align: center;
-  color: #e5d4c2;
-  font-size: 5vh;
-  width: 80%;
-  height: 60%;
-} 
-
 .board {
   border: 10px solid #b77b57; 
   margin-top: 1vh;
@@ -298,9 +269,6 @@ body .tile {
   background-color: orange;
 }
 
-.boxes .changeTilesSquare.hover {
-  background-color: rgb(33, 57, 81);
-}
 
 .pname {
   font-family: 'Open Sans', sans-serif;
