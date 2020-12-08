@@ -33,19 +33,26 @@ export default class NetWork {
     let store = this.networkStore;
     console.log(store, 'connected to store')
 
-    store.playerNames = store.playerNames || [];
+    // add player names,the board and points to the network
+    store.players = store.players || [];
+
+
+    let player = { "playerName": this.game.getName(), "points": 0 };
+
+
+
+
     store.board = store.board || this.game.createBoard();
     store.tiles = store.tiles || await this.game.tilesFromFile();
-
-    // add player names,the board and points to the network
     this.game.createPlayers();
+    this.game.meIndex = store.players.length;
+    store.players.push(player);
+    store.currentPlayerIndex = 0;
 
-    store.playerNames.push(this.game.getName());
-    store.currentPlayer = store.playerNames[0];
 
-    console.log(store.playerNames, 'networks playernames');
     console.log(store.board, 'the board of network');
-    console.log(store.currentPlayer, 'currentplayer in network')
+    console.log(store.players, 'the players of network');
+
 
 
     this.game.startGame();
@@ -58,19 +65,17 @@ export default class NetWork {
   changePlayer() {
     let store = this.networkStore;
 
-    if (store.playerNames.indexOf(store.currentPlayer) < store.playerNames.length - 1) {
-      store.currentPlayer = store.playerNames[store.playerNames.indexOf(store.currentPlayer) + 1];
+    if (store.currentPlayerIndex < store.players.length - 1) {
+      store.currentPlayerIndex++;
     }
-    else { store.currentPlayer = store.playerNames[0]; }
+    else { store.currentPlayerIndex = 0; }
 
-    console.log()
+
+    console.log(store.players[store.currentPlayerIndex], 'current player');
+    console.log(store.players.length, 'length of store.players');
   }
 
-  playerIndex() {
-    let store = this.networkStore;
-    let playerIndex = store.playerNames.indexOf(store.currentPlayer);
-    return playerIndex;
-  }
+
 
   // Whenever you change the value of this.board 
   // this setter method will be called 

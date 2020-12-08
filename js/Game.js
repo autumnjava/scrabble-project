@@ -31,7 +31,7 @@ class Game {
     this.currentPlayer = this.players[0];
     // Add a pop-up telling the player that the game will start when atleast
     // two players are connected
-    if (this.networkInstance.networkStore.playerNames.length > 1) {
+    if (this.networkInstance.networkStore.players.length > 1) {
       this.render();
     }
   }
@@ -41,7 +41,6 @@ class Game {
     // create and save players in the game
     let player = new Player(this.getName(), this)
     this.players.push(player);
-    console.log(this.players, ' antal spelare ');
   }
   getName() {
     this.playerName = $('input[name="playerName"]').val();
@@ -104,48 +103,45 @@ class Game {
     let changeTilesButton = $('#changeTilesButton');
 
     //Click on "skip" to skip the round
+
     skipButton.click(function () {
-      that.turnSkipper.clickOnEventHandler();
-      that.networkInstance.changePlayer();
-      changePossibleToMoveToFalse(that.networkInstance.board);
-      that.render();
+      if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
+        that.turnSkipper.clickOnEventHandler();
+        that.networkInstance.changePlayer();
+        changePossibleToMoveToFalse(that.networkInstance.board);
+        that.render();
+      }
     });
 
     //Click on "change tiles" to change tiles
     changeTilesButton.click(function () {
-      that.tileChanger.clickOnEventHandler();
-      that.gameEnder.checkGameEnd();
-      that.networkInstance.changePlayer();
-      that.render();
+      if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
+        that.tileChanger.clickOnEventHandler();
+        that.gameEnder.checkGameEnd();
+        that.networkInstance.changePlayer();
+        that.render();
+      }
     });
 
     //Click on "Break button" too exit the game (in process)
     breakButton.click(function () {
+      if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
 
+      }
     })
 
     checkWordButton.click(function () {
-
-      that.wordCheckerInstance.calculatePoints(that.currentPlayer);
-      that.wordCheckerInstance.checkWordWithSAOL();
-      that.gameEnder.checkGameEnd();
-      that.render();
+      if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
+        that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+        that.wordCheckerInstance.checkWordWithSAOL();
+        that.gameEnder.checkGameEnd();
+        that.render();
+      }
     })
 
 
   }
-  /*
-    changePlayer() {
-      if (this.players.indexOf(this.currentPlayer) < this.players.length - 1) {
-        this.currentPlayer = this.players[this.players.indexOf(this.currentPlayer) + 1];
-      }
-      else this.currentPlayer = this.players[0];
-  
-      console.log(this.currentPlayer, 'currentplayer');
-  
-      return this.networkInstance.networkStore.playerNames.currentPlayer = this.currentPlayer;
-    }
-    */
+
 
 
 
@@ -200,7 +196,7 @@ class Game {
       this.networkInstance.board.flat().map((x, i) => `
         <div class="boardSquare ${x.specialValue ? 'special-' + x.specialValue : ''}">
         ${x.tile ? `<div class="tile ${x.tile.points == 0 ? 'empty' : x.tile.char}" 
-        data-player="${that.networkInstance.networkStore.playerNames.indexOf(that.networkInstance.networkStore.currentPlayer)}"
+        data-player="${that.networkInstance.networkStore.players.indexOf(that.networkInstance.networkStore.currentPlayer)}"
         data-tile="${i}"
         ${x.tile.possibleToMove === true ? 'data-possibletomove' : ''}
         > ${x.tile.char}
@@ -212,18 +208,17 @@ class Game {
     );
     $('#gamePage').show();
     $('#startPage').hide();
-    // this line returns "it is not a function?"
-    console.log(this.currentPlayer, ' player in render');
     $players.append(this.currentPlayer.render());
     this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
       this.networkInstance.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
+    if (this.networkInstance.networkStore.currentPlayerIndex === this.meIndex) {
+      this.addDragEvents();
+      this.moveTilesAroundBoard();
+    }
 
-    this.addDragEvents();
-    this.moveTilesAroundBoard();
-    console.log(this.networkInstance.networkStore.currentPlayer, 'currentplayer');
 
   }
 
