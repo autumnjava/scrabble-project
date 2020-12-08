@@ -12,7 +12,6 @@ export default class WordChecker {
     this.tilePointsOfWord = 0;
     this.isWordCorrect = false;
     this.oldWords = [];
-    this.messageBox = new MessageBox();
   }
 
   sortTiles(tile, x, y, player) {
