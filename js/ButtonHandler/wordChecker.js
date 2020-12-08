@@ -1,4 +1,5 @@
 import SAOLchecker from "../SAOLchecker.js";
+import MessageBox from "./MessageBox.js"
 import { changePossibleToMoveToFalse, removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
 
@@ -11,6 +12,7 @@ export default class WordChecker {
     this.tilePointsOfWord = 0;
     this.isWordCorrect = false;
     this.oldWords = [];
+    this.messageBox = new MessageBox();
   }
 
   sortTiles(tile, x, y, player) {
