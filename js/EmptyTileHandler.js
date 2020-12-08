@@ -68,14 +68,14 @@ export default class EmptyTileHandler {
     });
 
     this.submitButton.click(function () {
-      let input = document.getElementById("emptyTileInput").value;
+      let letter = document.getElementById("emptyTileInput").value;
       $('input[id=emptyTileInput]').val('');
-      that.checkInputValidAndChange(input);
+      that.checkInputValidAndChange(letter);
     })
   }
 
   checkInputValidAndChange(letter) { 
-    let isValid = letter.length === 1 && letter.match(/[a-z]/i);
+    let isValid = letter.length === 1 && (letter.match(/^[a-zåÅäÄöÖ]+$/i));
     if (isValid) {
       this.emptyTile.char = letter.toUpperCase();
       this.hidePopup();
