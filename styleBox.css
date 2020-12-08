@@ -34,11 +34,11 @@
 }
 
 .boxes .messageBox {
-  display: inline-block;
-  position: relative;
-  margin: auto;
   background-color: red;
-  text-align: center;
-  height: 5vh;
-  width: 30vh;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 2.5vh;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
 }

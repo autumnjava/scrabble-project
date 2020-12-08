@@ -7,7 +7,7 @@ export default class MessageBox {
 
   initial(message, messageEngWithCamelCase) { 
     this.id = 'messageBox' + messageEngWithCamelCase;
-    $('.boxes').append(this.createBox(message));
+    $('.boxes').prepend(this.createBox(message));
     this.box = $('#' + this.id);
   }
 
