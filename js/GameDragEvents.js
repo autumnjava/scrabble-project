@@ -1,3 +1,7 @@
+import { removeTilesFromBoard } from "./Helpers/BoardHelper.js";
+import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
+
+
 export default {
   addDragEvents() {
     let that = this;
@@ -42,8 +46,16 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
+      let tilesOnBoard = tilesWithPossibleToMove(this.board);
+      if (tilesOnBoard.length > 0) {
+        this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
+        console.log(this.currentPlayer.currentTiles);
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+        this.render();
+        return;
+      }
       this.tileChanger.addTileDivInSquare(me);
-      console.log('changeable tiles from stand', this.tileChanger.inSquareTiles);
     }
     else {
       let player = this.players[+$(me).attr('data-player')];
@@ -85,8 +97,7 @@ export default {
       this.board[this.y][this.x].tile.possibleToMove = true;
       this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
-      this.checkIfEmptyTile();
-
+      this.emptyTileHandler.checkIfEmptyTile(this.board[this.y][this.x].tile);
     }
     this.lastClickedTile = me;
   },
@@ -113,8 +124,11 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
+      if (tilesWithPossibleToMove(this.board).length > 0) {
+        // if there are tiles on the board already
+        removeTilesFromBoard(this.board);
+      }
       this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
-      console.log('tiles from board', this.tileChanger.inSquareTiles);
       this.lastClickedTile = me;
       return;
     }
