@@ -9,9 +9,9 @@ export default class TileChanger {
 
   constructor(game) {
     this.game = game;
-    this.changeTilesDiv = $('.changeTiles');
-    this.button = $('.changeTilesButton');
-    this.square = $('.changeTiles .changeTilesSquare');
+    this.changeTilesDiv = $('.boxes');
+    this.button = $('#changeTilesButton');
+    this.square = $('.boxes .changeTilesSquare');
     this.inSquareTiles = [];
   }
 
@@ -47,7 +47,7 @@ export default class TileChanger {
 
   hideChangeTiles(minTilesToShow) {
     if (this.game.tiles.length < minTilesToShow) {
-      this.changeTilesDiv.hide();
+      this.square.hide();
     }
   }
 

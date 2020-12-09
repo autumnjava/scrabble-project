@@ -11,6 +11,7 @@ export default class WordChecker {
     this.wordToCheck = '';
     this.isWordCorrect = false;
     this.oldWords = [];
+    this.messageBox = new MessageBox('OGILTIGT DRAG', 'invalidMove');
   }
 
   sortTiles(tile, x, y, player) {
@@ -90,7 +91,7 @@ export default class WordChecker {
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
             console.log("col", col);
-            words.push({ chars, points, specialValues}); // push the string chars into the array of words
+            words.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -117,7 +118,7 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, points, specialValues}); // push the string chars into the array of words
+            words.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -145,7 +146,7 @@ export default class WordChecker {
     }
 
     this.oldWords = words;
-    
+
     return newWords;
   }
 
@@ -165,15 +166,15 @@ export default class WordChecker {
     for (let wordObject of this.wordObjects) {
       let tilePointsOfWord = 0;
       let chars = wordObject.chars.split('');
-      for (let i = 0; i < chars.length; i++) { 
+      for (let i = 0; i < chars.length; i++) {
         let points = wordObject.points[i];
         let special = wordObject.specialValues[i];
 
-        if(special === 'tw') 
+        if (special === 'tw')
           tw = true;
         else if (special === 'dw')
           dw = true;
-        
+
         if (special === 'dl' || special === 'start') {
           tilePointsOfWord += points * 2;
         }
@@ -1042,7 +1043,7 @@ export default class WordChecker {
     let playerTiles = this.game.currentPlayer.currentTiles;
 
     if (!words || this.invalidMove || this.gaps) {
-
+      this.messageBox.showMessage();
       console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
       this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.board)];
@@ -1056,9 +1057,11 @@ export default class WordChecker {
         this.game.currentPlayer.attemptCounter++;
         this.game.currentPlayer.correctWordCounter = 0;
         this.game.changePlayer();;
+        this.messageBox.hideMessage();
       }
     }
     else if (words) {
+      this.messageBox.hideMessage();
       console.log('word was a word!');
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);
@@ -1074,6 +1077,7 @@ export default class WordChecker {
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.game.changePlayer();
+      this.messageBox.hideMessage();
     }
     //resetting for next move
     this.wordToCheck = '';

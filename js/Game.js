@@ -115,6 +115,7 @@ class Game {
     skipButton.click(function () {
       that.turnSkipper.clickOnEventHandler();
       that.changePlayer();
+      that.wordCheckerInstance.messageBox.hideMessage();
       that.board = changePossibleToMoveToFalse(that.board);
       that.render();
     });
@@ -124,6 +125,7 @@ class Game {
       that.tileChanger.clickOnEventHandler();
       that.gameEnder.checkGameEnd();
       that.changePlayer();
+      that.wordCheckerInstance.messageBox.hideMessage();
       that.render();
     });
 
@@ -135,6 +137,7 @@ class Game {
     checkWordButton.click(function () {
 
       //that.wordCheckerInstance.calculatePoints(that.currentPlayer);
+
       that.wordCheckerInstance.checkWordWithSAOL();
       that.gameEnder.checkGameEnd();
       that.render();
