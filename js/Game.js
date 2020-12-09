@@ -3,7 +3,6 @@ import TileBag from "./TileBag.js";
 import TileChanger from "./TileChanger.js";
 import Player from "./Player.js";
 import Menu from "./Menu.js";
-import Tile from "./Tile.js";
 
 export default class Game {
   board = new Board();
@@ -12,6 +11,7 @@ export default class Game {
   menu = new Menu();
   players = [];
   running = false;
+  tilesToChange = [];
 
   constructor() { this.init(); }
 
@@ -28,20 +28,16 @@ export default class Game {
     this.currentRound = 1;
     this.currentTurn = 1;
     this.currentPlayer = this.getPlayer(0);
-
-    if (this.currentRound == 1) {
-      let tilesToAdd = this.bag.getRandomTiles(7);
-      this.currentPlayer.addTiles(tilesToAdd);
-    }
   }
 
   async render() {
     await this.board.render();
     await this.currentPlayer.render();
-    this.changer.render();
+    //this.changer.render();
     await this.menu.render();
     await $('game').show();
     this.addButtonListeners();
+    this.addDragEvents();
   }
 
   async start() {
@@ -82,7 +78,10 @@ export default class Game {
       that.players = [];
       for (let playerID of playerIDs) {
         let playerName = $('#' + playerID).val();
-        if (playerName.length > 0) { that.players.push(new Player(playerName)) };
+        let playerToAdd = new Player(playerName);
+        let tilesToAdd = this.bag.getRandomTiles(7);
+        playerToAdd.addTiles(tilesToAdd);
+        if (playerName.length > 0) { that.players.push(playerToAdd) };
       }
       if (that.getPlayers().length >= 2) {
         $('start').fadeOut(500, function () {
@@ -109,7 +108,7 @@ export default class Game {
   changeTiles() {
     let player = this.currentPlayer;
     let bag = this.bag;
-    let toChange = player.rack.tilesToChange;
+    let toChange = this.tilesToChange;
     let newTiles = [];
     let playerTiles = player.rack.tiles;
 
@@ -122,10 +121,10 @@ export default class Game {
       player.addTiles(newTiles);
       toChange.splice(0, toChange.length);
       player.hasChangedTiles = true;
-      player.rack.render($('player'));
+      this.render();
     } else if (toChange.length > 0 && player.hasChangedTiles) {
       alert("You can only change tiles once per round ...");
-      player.rack.render($('player'));
+      this.render();
     }
   }
 
@@ -134,21 +133,140 @@ export default class Game {
     let player = that.currentPlayer;
     let check = $('#check');
     let change = $('#change');
-    let skip = $('#skip');
+    let end = $('#end');
     let quit = $('#quit');
 
-    check.click(function () {
-      console.log("You clicked the check button ...");
-    });
-
+    check.click(function () { console.log("You clicked the check button ..."); });
     change.click(function () { that.changeTiles(); });
+    end.click(function () { console.log("You clicked the end turn button ..."); });
+    quit.click(function () { console.log("You clicked the quit button ..."); });
+  }
 
-    skip.click(function () {
-      console.log("You clicked the skip button ...");
-    });
+  mouseOver(pointer, toCheck) {
+    let { pageX: mouseX, pageY: mouseY } = pointer;
+    let offset = toCheck.offset();
+    if (mouseX > offset.left && mouseX < offset.left + toCheck.width() && mouseY > offset.top && mouseY < offset.top + toCheck.height()) {
+      return true;
+    }
+    return false;
+  }
 
-    quit.click(function () {
-      console.log("You clicked the quit button ...");
-    });
+  elementOver(element, over) {
+    let elementOffset = element.offset();
+    let overOffset = over.offset();
+    if (elementOffset.left > overOffset.left && elementOffset.left + element.width() < overOffset.left + over.width() && elementOffset.top > overOffset.top && elementOffset.top + element.height() < overOffset.top + over.height()) {
+      return true;
+    }
+    return false;
+  }
+
+  switchTiles(from, to) {
+    let that = this;
+    if (from != to) {
+      let tiles = that.currentPlayer.rack.tiles;
+      //Check if moving to empty slot, else switch positions
+      if (!tiles[to]) { tiles[to] = tiles[from]; tiles[from] = null; } else {
+        let temp = tiles[from];
+        tiles[from] = tiles[to];
+        tiles[to] = temp;
+      }
+    }
+  }
+
+  addDragEvents() {
+    let that = this;
+    $('.draggable').draggabilly({ containment: 'body' })
+      .on('dragStart', (e) => that.dragStart(e))
+      .on('dragMove', (e, pointer) => that.dragMove(e, pointer))
+      .on('dragEnd', (e, pointer) => that.dragEnd(e, pointer));
+  }
+
+  dragStart(e) {
+    let me = e.currentTarget;
+    let $me = $(e.currentTarget);
+    this.pickedUp = parseInt($me.attr('id'));
+    $(me).css('z-index', 100);
+    console.log("Picked up a tile ...");
+  }
+
+  dragMove(e, pointer) {
+    let that = this;
+    let target = $(e.currentTarget);
+    let board = $('board');
+    let rack = $('rack');
+    let change = $('changer');
+    let placeHolders = $('rack > div');
+
+    //If over board
+    if (that.elementOver(target, board)) {
+      if (target.hasClass('over')) { target.removeClass('over'); }
+      if (!target.hasClass('over-board')) { target.addClass('over-board'); }
+
+      let squareWidth = $('board div:first-child').width();
+      let squareHeight = $('board div:first-child').height();
+      let charSize = (squareWidth * 0.75) + 'px';
+      let pointSize = (squareWidth * 0.25) + 'px';
+
+      if (target.width() != squareWidth) { target.width(squareWidth); }
+      if (target.height != squareHeight) { target.height(squareHeight); }
+      target.children('char').each(function () { $(this).css({ 'line-height': '120% ', 'height': charSize, 'font-size': charSize }); });
+      target.children('points').each(function () { $(this).css({ 'line-height': pointSize, 'height': pointSize, 'font-size': pointSize }); });
+      let squares = $('board > div');
+      for (let square of squares) {
+        let me = $(square);
+        if (that.mouseOver(pointer, me)) {
+          if (!me.hasClass('over')) { me.addClass('over'); }
+        } else {
+          if (me.hasClass('over')) { me.removeClass('over'); }
+        }
+      }
+    }
+
+    //If over rack
+    if (this.mouseOver(pointer, rack)) {
+      for (let placeHolder of placeHolders) {
+        let me = $(placeHolder);
+        let id = parseInt(me.attr('id'));
+        let tile = $(`tile[id="${id}"]`);
+
+        if (that.mouseOver(pointer, me)) {
+          that.overID = parseInt(me.attr('id'));
+          console.log(that.overID);
+          if (tile.hasClass('empty')) { tile.removeClass('empty'); tile.addClass('empty-over'); }
+          if (!tile.hasClass('over')) { tile.addClass('over'); }
+        } else {
+          if (tile.hasClass('empty-over')) { tile.removeClass('empty-over'); tile.addClass('empty'); }
+          if (tile.hasClass('over')) { tile.removeClass('over'); }
+        }
+      }
+    }
+    //If over tile changer
+    if (that.elementOver(target, change)) {
+      if (target.hasClass('over')) { target.removeClass('over'); }
+    }
+  }
+
+  dragEnd(e, pointer) {
+    let that = this;
+    let player = that.currentPlayer;
+    let me = $(e.currentTarget);
+    let board = $('board');
+    let rack = $('rack');
+    let change = $('changer');
+
+    //If tile is placed on board
+    if (that.elementOver(me, board)) {
+      console.log("You placed a tile on the board ...");
+    }
+    //If tile is placed in rack
+    if (that.mouseOver(pointer, rack)) { that.switchTiles(that.pickedUp, that.overID); that.render(); }
+    //If tile is placed in change tile area
+    if (that.elementOver(me, change)) {
+      let toAdd = player.rack.tiles[that.pickedUp];
+      //Add to change array if not already in it ...
+      if (that.tilesToChange.indexOf(toAdd) == -1) { that.tilesToChange.push(toAdd); }
+    }
+    //If tile is placed outside of any game containers, rerender the rack
+    if (!that.elementOver(me, board) && !that.mouseOver(pointer, rack) && !that.elementOver(me, change)) { that.render(); }
   }
 }

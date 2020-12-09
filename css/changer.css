@@ -1,24 +1,26 @@
 changer{
   float: left;
-  margin: 2vh 0;
   width: 100%;
+  border-left: 0.2em dashed #e5d4c2;
+  border-right: 0.2em dashed #e5d4c2;
+  padding: 1vh 1vh 0 1vh;
+  background-color: rgb(33, 57, 81);
 }
 
 changer surface {
   float: left;
   width: 100%;
-  border: 0.2em dashed #e5d4c2;
+  padding: 1vh;
+  border: 0.1em dashed #e5d4c2;
   border-radius: 1vh;
-  background-color: #cf816a;
   text-align: center;
   color: #e5d4c2;
   font-size: 5vh;
-  line-height: 20vh;
   font-family: 'pacifico';
+  box-shadow: inset 0 0 1vh 0.5vh rgba(0,0,0,0.5);
 }
 
 changer surface:hover {
+  background-color: #cf816a;
   cursor: pointer;
-  background-color: rgb(33, 57, 81);
-  box-shadow: inset 0 0 1vh 0.5vh rgba(0,0,0,0.5);
 }

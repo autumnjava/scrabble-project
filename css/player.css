@@ -1,15 +1,19 @@
 player {
   float: left;
   width: 100%;
+  box-shadow: 0 0 4px 1px #0a1126;
+  border-radius: 1vh;
 }
 
 player info {
   float: left;
   width: 100%;
-  margin: 2vh 0 0 0;
+  margin: 0;
   padding: 1vh 2vh 1vh 2vh;
-  border: 0.2em dashed #e5d4c2;
-  border-radius: 0.5vh;
+  border-top: 0.2em dashed #e5d4c2;
+  border-right: 0.2em dashed #e5d4c2;
+  border-left: 0.2em dashed #e5d4c2;
+  border-radius: 0.5vh 0.5vh 0 0;
   font-size: 2vh;
   background: #213951;
   font-family: 'pacifico';

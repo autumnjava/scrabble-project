@@ -52,3 +52,7 @@ board > div:hover {
   background-color: #cf816a;
   cursor: pointer;
 }
+
+board .over {
+  background-color: #cf816a;
+}

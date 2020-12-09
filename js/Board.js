@@ -24,8 +24,8 @@ export default class Board {
     let squares = $('board > div');
     for (let square of squares) {
       let me = $(square);
-      me.css('height', me.width() + 'px');
-      me.css('line-height', me.width() + 'px');
+      me.height(me.width());
+      me.css('line-height', me.height() + 'px');
     }
   }
 
@@ -71,7 +71,7 @@ $(window).resize(function () {
   let squares = $('board > div');
   for (let square of squares) {
     let me = $(square);
-    me.css('height', me.width() + 'px');
-    me.css('line-height', me.width() + 'px');
+    me.height(me.width());
+    me.css('line-height', me.height() + 'px');
   }
 });

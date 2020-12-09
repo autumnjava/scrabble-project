@@ -1,8 +1,9 @@
 import Rack from "./Rack.js";
-import Tile from "./Tile.js";
+import TileChanger from "./TileChanger.js";
 
 export default class Player {
   rack = new Rack();
+  changer = new TileChanger();
   hasChangedTiles = false;
 
   constructor(name) {
@@ -17,19 +18,10 @@ export default class Player {
   async render() {
     $('player').remove();
     let player = $(`<player></player>`);
-    let panel = $(`<panel></panel>`);
-
-    player.append(panel);
-
+    await $('game right').prepend(player);
+    player.append(`<info><name>Player: ${this.name}</name><points>Points: ${this.points}</points></info>`);
+    await this.changer.render();
     this.rack.render(player);
-
-    panel.append(`
-      <info>
-        <name>Player: ${this.name}</name>
-        <points>Points: ${this.points}</points>
-      </info>
-    `);
-    $('game right').append(player);
   }
 
   getName() { return this.name; }
