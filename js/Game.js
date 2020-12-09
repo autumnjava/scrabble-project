@@ -136,7 +136,6 @@ class Game {
 
     checkWordButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
-        that.wordCheckerInstance.calculatePoints(that.currentPlayer);
         that.wordCheckerInstance.checkWordWithSAOL();
         that.gameEnder.checkGameEnd();
         that.render();
@@ -226,7 +225,7 @@ class Game {
 
     let checkWordButton = $('#checkWordButton');
     //If there are no tiles on the board that has property data-possibleToMove, button is disabled.
-    if (tilesWithPossibleToMove(that.board).length === 0) {
+    if (tilesWithPossibleToMove(that.networkInstance.board).length === 0) {
       checkWordButton.removeClass('checkWordButton_hover');
       checkWordButton.css('cursor', 'default');
       checkWordButton.attr("disabled", true);

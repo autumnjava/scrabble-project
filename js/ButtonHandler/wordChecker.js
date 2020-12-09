@@ -223,10 +223,10 @@ export default class WordChecker {
         //Check div above, below, on right and left of every placed tile
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
 
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           //If found other player's tile above or below test has not been failed
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
@@ -268,8 +268,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionY == 0 && tile.positionX == 0) {
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             this.testFailed = false;
@@ -294,8 +294,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionY == 14 && tile.positionX == 14) {
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
             this.testFailed = false;
@@ -321,8 +321,8 @@ export default class WordChecker {
 
 
         else if (tile.positionY == 0 && tile.positionX == 14) {
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             this.testFailed = false;
@@ -347,8 +347,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionY == 14 && tile.positionX == 0) {
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
             this.testFailed = false;
@@ -372,9 +372,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionX == 14) {
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             this.testFailed = false;
@@ -403,9 +403,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionX == 0) {
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
             this.testFailed = false;
@@ -435,9 +435,9 @@ export default class WordChecker {
 
         else if (tile.positionY == 0) {
 
-          this.divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
 
             this.testFailed = false;
@@ -470,9 +470,9 @@ export default class WordChecker {
 
         else if (tile.positionY == 14) {
 
-          this.divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
             this.testFailed = false;
@@ -559,10 +559,10 @@ export default class WordChecker {
     if (!this.allTilesNotAtStart) {
       for (let tile of this.game.currentPlayer.tilesPlaced) {
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
@@ -617,8 +617,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionX === 14 && tile.positionY === 0) {
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
@@ -649,8 +649,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionX === 0 && tile.positionY === 14) {
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
 
 
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
@@ -686,8 +686,8 @@ export default class WordChecker {
 
         else if (tile.positionY === 0 && tile.positionX === 0) {
 
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
@@ -716,8 +716,8 @@ export default class WordChecker {
         }
 
         else if (tile.positionY === 14 && tile.positionX === 14) {
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
@@ -743,9 +743,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionX === 14) {
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
 
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
@@ -786,9 +786,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionX === 0) {
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
@@ -830,9 +830,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionY === 0) {
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
-          let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
+          let divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
 
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
@@ -876,9 +876,9 @@ export default class WordChecker {
         }
 
         else if (tile.positionY == 14) {
-          let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
-          let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
-          let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
+          let divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
+          let divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
+          let divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
@@ -945,8 +945,8 @@ export default class WordChecker {
     if (!words || this.invalidMove || this.gaps) {
       this.messageBox.showMessage();
       this.game.currentPlayer.correctWordCounter++;
-      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.board)];
-      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.networkInstance.board)];
+      this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
 
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
 
@@ -962,6 +962,8 @@ export default class WordChecker {
     else if (words) {
       this.messageBox.hideMessage();
       let store = this.game.networkInstance.networkStore;
+      let points = this.calculatePoints();
+      let addPoints = this.additionalPoints();
       console.log('word was a word!');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.networkInstance.board);
@@ -969,11 +971,11 @@ export default class WordChecker {
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
-      this.game.currentPlayer.points += this.calculatePoints();
-      this.game.currentPlayer.points += this.additionalPoints();
+      this.game.currentPlayer.points += points;
+      this.game.currentPlayer.points += addPoints;
       if (store.currentPlayerIndex === this.game.meIndex) {
-        store.players[store.currentPlayerIndex].points += this.calculatePoints();
-        store.players[store.currentPlayerIndex].points += this.additionalPoints();
+        store.players[store.currentPlayerIndex].points += points;
+        store.players[store.currentPlayerIndex].points += addPoints;
       }
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
@@ -981,7 +983,6 @@ export default class WordChecker {
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
       this.messageBox.hideMessage();
-      console.log(this.game.networkInstance.tiles, ' tiles in the bag');
       this.game.networkInstance.changePlayer();
     }
     //resetting for next move

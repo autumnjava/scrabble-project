@@ -8,7 +8,7 @@ export default class Exit {
     this.initial();
   }
 
-  initial() { 
+  initial() {
     this.button = $('#exitButton');
     this.buttonDiv = $('.exitButton');
     this.gameEnder = this.game.gameEnder;
@@ -67,9 +67,9 @@ export default class Exit {
   }
 
   moveTilesOnBoardToPlayer() {
-    let tilesOnBoard = tilesWithPossibleToMove(this.game.board);
+    let tilesOnBoard = tilesWithPossibleToMove(this.game.networkInstance.board);
     if (tilesOnBoard.length > 0) {
-      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
       this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesOnBoard];
     }
   }

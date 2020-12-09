@@ -46,11 +46,11 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
-      let tilesOnBoard = tilesWithPossibleToMove(this.board);
+      let tilesOnBoard = tilesWithPossibleToMove(this.networkInstance.board);
       if (tilesOnBoard.length > 0) {
         this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
         // if there are tiles on the board already
-        removeTilesFromBoard(this.board);
+        removeTilesFromBoard(this.networkInstance.board);
         this.render();
         return;
       }
@@ -87,7 +87,7 @@ export default {
 
       let squareIndex = $('.board > div').index($dropZone);
 
-      // convert to y and x coords in this.board
+      // convert to y and x coords in this.networkInstance.board
       this.y = Math.floor(squareIndex / 15);
       this.x = squareIndex % 15;
 
@@ -96,7 +96,7 @@ export default {
       this.networkInstance.board[this.y][this.x].tile.possibleToMove = true;
       this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
-      this.emptyTileHandler.checkIfEmptyTile(this.board[this.y][this.x].tile);
+      this.emptyTileHandler.checkIfEmptyTile(this.networkInstance.board[this.y][this.x].tile);
     }
     this.lastClickedTile = me;
   },
@@ -123,9 +123,9 @@ export default {
     me.css({ zIndex: '' });
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
-      if (tilesWithPossibleToMove(this.board).length > 0) {
+      if (tilesWithPossibleToMove(this.networkInstance.board).length > 0) {
         // if there are tiles on the board already
-        removeTilesFromBoard(this.board);
+        removeTilesFromBoard(this.networkInstance.board);
       }
       this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
       this.lastClickedTile = me;
@@ -159,7 +159,7 @@ export default {
       if (!$dropZone.length) { this.render(); return; }
       let squareIndex = $('.board > div').index($dropZone);
 
-      // convert to y and x coords in this.board
+      // convert to y and x coords in this.networkInstance.board
       let newY = Math.floor(squareIndex / 15);
       let newX = squareIndex % 15;
 
