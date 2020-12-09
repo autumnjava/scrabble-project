@@ -16,6 +16,7 @@ export default class NetWork {
   async preStart() {
     let key = await this.createNetworkKey();
     let $keyDiv = $('.keyHolder');
+    $keyDiv.css({ display: 'block' });
     $keyDiv.text('Detta är nyckeln : ' + key);
     this.connectToStore(key, () => {
       console.log('Something changed...');

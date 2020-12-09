@@ -1,4 +1,4 @@
-#emptyTilePopupBox, #exitPopupBox {
+#emptyTilePopupBox, #exitPopupBox, #connectToGamePopupBox {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -11,7 +11,7 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#emptyTilePopupBoxContent, #exitPopupBoxContent {
+#emptyTilePopupBoxContent, #exitPopupBoxContent, #connectToGamePopupBoxContent {
   position: relative;
   background-color: #e5d4c2;
   text-align: center;
@@ -23,14 +23,14 @@
   width: 60%;
 }
 
-#emptyTilePopupBox p, #exitPopupBox p {
+#emptyTilePopupBox p, #exitPopupBox p, #connectToGamePopupBox p {
   padding: 1em;
   color: #213951;
   font-size: 3vw;
   font-weight: bold;
 }
 
-#emptyTilePopupBox button {
+#emptyTilePopupBox button, #connectToGamePopupBox button {
   border: 0.3em solid white;
   border-radius: 50px;
   padding: 0.5em 1.5em;
@@ -40,7 +40,7 @@
   transition: all 300ms ease-in-out;
 }
 
-#emptyTilePopupBox input{
+#emptyTilePopupBox input , #connectToGamePopupBox input{
   font-size: 3vw;
   width: 30vw;
   text-align: center;
@@ -61,3 +61,4 @@
   text-decoration: none;
   cursor: pointer;
 }
+

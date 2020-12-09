@@ -5,6 +5,7 @@ import WordChecker from "./ButtonHandler/WordChecker.js";
 import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 import { getTileDivDatasetAsObject } from "./Helpers/TileHelper.js";
 import { changePossibleToMoveToFalse } from "./Helpers/BoardHelper.js";
+import GameStarter from "./GameStarter.js";
 import GameEnder from "./GameEnder.js";
 import EmptyTileHandler from "./EmptyTileHandler.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
@@ -32,13 +33,12 @@ class Game {
   }
 
   startGame() {
-    //do we really need this line?
     this.currentPlayer = this.players[0];
-    // Add a pop-up telling the player that the game will start when atleast
-    // two players are connected
     if (this.networkInstance.networkStore.players.length > 1) {
       this.render();
+
     }
+
   }
 
 
@@ -59,8 +59,7 @@ class Game {
     });
 
     $('body').on('click', '.connectGameButton', () => {
-      this.networkKey = prompt('Enter the network key from your friend:');
-      this.networkInstance.connectToStore(this.networkKey, this.networkInstance.listener);
+      this.gameStarter.showPopup();
     });
   }
 
@@ -68,11 +67,14 @@ class Game {
     $('#gamePage').hide();
     $('#endPage').hide();
     $('.startPage').html(/*html*/`
+    <div class ="startPageContent">
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
         <button class="startGameButton">Start</button>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
+    </div>
     `);
+    this.gameStarter = new GameStarter(this);
   }
 
 
@@ -212,6 +214,13 @@ class Game {
     $('#gamePage').show();
     $('#startPage').hide();
     $players.append(this.currentPlayer.render());
+    if (this.networkInstance.networkStore.currentPlayerIndex === this.meIndex) {
+      $('.pname').css({ color: '#cf816a', fontWeight: '800' });
+      $('.myturn').text('Ditt drag!');
+    }
+    else {
+      $('.myturn').text('Vänta...');
+    }
     this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
@@ -238,6 +247,8 @@ class Game {
       checkWordButton.css('cursor', 'pointer');
       checkWordButton.attr("disabled", false);
     }
+    $('header').animate({ "font-size": "15px", "padding": "5px" });
+    $('footer').animate({ "font-size": "10px", "padding": "3px" });
   }
   //Check if empty tile is placed on board
   //in process

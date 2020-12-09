@@ -6,6 +6,9 @@
 
 .startPage {
   margin: 90px auto;
+  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .gamePage {
@@ -15,16 +18,19 @@
   min-width: 180vh;
   position: relative;
 }
+.startPage .startPageContent{
+  padding-top: 10vh;
+}
 
 
-.startPage button{
+.startPage button {
   display: block;
   color: white;
   background-color: #cf816b;/*#f5b880;*/
   cursor: pointer;
   border: 5px solid white;
   border-radius: 50px;
-  margin: 10vh auto;
+  margin: 7vh auto;
   padding: 0.5em 1.7em;
   font-size: 4vh;
   text-transform: uppercase;
@@ -33,11 +39,24 @@
   /*position: absolute;*/
 }
 .nameInput{
-  
-  margin : auto;
+  display: block;
+  margin-top : 50px;
+  margin: auto;
   padding : 10px;
   border: 2px solid white;
   border-radius: 20px;
+}
+
+.keyHolder{
+  display: none;
+  user-select: text;
+  font-size: 5vh;
+  font-family: Arial;
+  background-color: white;
+  padding: 10px;
+  border: 5px dotted #e5d4c2;
+  border-radius: 50px;
+  color: #213951;
 }
 
 .gamePage button {
@@ -71,7 +90,7 @@
   color: rgb(31, 30, 30);
 }
 
-.startGameButton:hover{
+.startPage button:hover{
   background-color:transparent;
   color: rgb(31, 30, 30);
 }
@@ -191,6 +210,12 @@ background-color: #b77b57;
   vertical-align:middle;
 }
 
+.myturn{
+  font-family: Arial;
+  font-weight: 800;
+  color: #213951 ;
+}
+
 .stand {
   float: left;
   background-color:#213951;
@@ -257,11 +282,14 @@ body .tile {
   font-family: 'Open Sans', sans-serif;
   font-size: 18px;
   font-weight: 800;
+  color: #213951;
 }
 
 .ppoints{
   font-family: 'Open Sans', sans-serif;
   font-size: small;
+  color: #213951;
+  font-weight: 800;
 }
 
 .topPlayers{
