@@ -38,9 +38,9 @@ class Game {
   createFormAndShowInStartPage() {
     let formToFills = [
       { label: 'Spelare 1', id: 'playername1', required: true },
-      { label: 'Spelare 1', id: 'playername2', required: true },
-      { label: 'Spelare 1', id: 'playername3', required: false },
-      { label: 'Spelare 1', id: 'playername4', required: false }
+      { label: 'Spelare 2', id: 'playername2', required: true },
+      { label: 'Spelare 3', id: 'playername3', required: false },
+      { label: 'Spelare 4', id: 'playername4', required: false }
     ]
     let askPlayerNameFormDiv = $('<div class="form"></div>');
     let formTag = $('<form id="form"></form>');
