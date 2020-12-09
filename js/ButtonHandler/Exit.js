@@ -56,12 +56,18 @@ export default class Exit {
     });
 
     this.yesButton.click(function () {
+      console.log("YES button pressed");
       that.hidePopup();
       that.moveTilesOnBoardToPlayer();
-      that.gameEnder.endTheGame();
+      for (let i = 0; i < that.game.networkInstance.networkStore.players.length; i++) {
+        console.log(i);
+        that.gameEnder.endTheGame(true);
+        that.game.networkInstance.changePlayer();
+      }
     });
 
     this.noButton.click(() => {
+      console.log("NO button pressed");
       that.hidePopup();
     });
   }

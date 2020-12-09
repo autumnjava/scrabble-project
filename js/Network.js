@@ -10,13 +10,27 @@ export default class NetWork {
 
   listenForNetworkChanges() {
     // if statement if it is not my turn dont listen to changes
-    if (this.networkStore.currentPlayerIndex === this.game.meIndex) {
+    if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
       this.game.render();
     }
 
-    console.log(this.game.gameEnder.endGame);
-    if (this.game.gameEnder.endGame) {
-      console.log("in network endGame");
+    let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
+    console.log("has the game ended? ", this.game.gameEnder.checkGameEnd());
+    console.log("has all players been calculated?", allPlayersCalculated);
+    if (this.game.gameEnder.checkGameEnd()) {
+      if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
+        if (allPlayersCalculated) { // all calculated
+          this.game.gameEnder.endTheGame(true); // end and render endPage
+          this.game.gameEnder.render(); // här kommer inEndPage bli true
+          this.changePlayer();
+          return;
+        }
+        this.game.gameEnder.endTheGame(true); // end and render endPage
+        this.changePlayer();
+      }
+      else{
+        this.changePlayer();
+      }
     }
   }
 
@@ -42,7 +56,14 @@ export default class NetWork {
 
     // add player names,the board and points to the network
     store.players = store.players || [];
-    let player = { "playerName": this.game.getName(), "points": 0, "attemptCounter":0 };
+    let player = {
+      "playerName": this.game.getName(),
+      "points": 0,
+      "attemptCounter": 0,
+      "minusPoints": 0,
+      "inEndPage": false,
+      "calculated": false
+    };
     store.board = store.board || this.game.createBoard();
     store.tiles = store.tiles || await this.game.tilesFromFile();
     this.game.createPlayers();

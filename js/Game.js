@@ -105,11 +105,15 @@ class Game {
     let changeTilesButton = $('#changeTilesButton');
 
     //Click on "skip" to skip the round
-
     skipButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.turnSkipper.clickOnEventHandler();
         that.wordCheckerInstance.messageBox.hideMessage();
+        if (that.gameEnder.checkGameEnd()) {
+          console.log("game ended");
+          that.gameEnder.endTheGame(true);
+          return;
+        }
         that.networkInstance.changePlayer();
         changePossibleToMoveToFalse(that.networkInstance.board);
         that.render();
@@ -249,22 +253,6 @@ class Game {
     $('footer').animate({ "font-size": "10px", "padding": "3px" });
   }
 
-  currentTilePoints() {
-    for (let player of this.players) {
-      for (let tile of player.currentTiles) {
-        for (let key in tile) {
-          let val = tile[key];
-          if (key === 'points') {
-            player.tilePoints = (player.tilePoints + val);
-          }
-        }
-      }
-      // This will remove all tiles left in players array of tiles when game ends
-      player.currentTiles.splice(0, player.currentTiles.length);
-      // The sum of players tiles left will be decreased from players points
-      player.points = (player.points - player.tilePoints);
-    }
-  }
 }
 
 import dragEvents from './GameDragEvents.js';

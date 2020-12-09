@@ -9,13 +9,10 @@ export default class GameEnder {
 
   endTheGame(gameOver = this.endGame) {
     if (gameOver) {
-      this.hideEverything();
       this.removeCurrentTilesFromPlayer();
       this.sortByPoints();
-      this.showPage();
-      this.render();
+      }
       //If endGame is true sort players' points and rank them (in process)
-    }
   }
 
   showPage() {
@@ -30,11 +27,11 @@ export default class GameEnder {
 
   checkGameEnd() {
     let countedPlayers = 0;
+    let count = 1;
     let store = this.game.networkInstance.networkStore;
     for (let player of store.players) {
-      console.log('player', player);
-      console.log('player attempts', player.attemptCounter);
-      console.log("player length", store.players.length);
+      console.log('player' + count + ' ' +  player);
+      console.log('player' +count + ' attempts', player.attemptCounter);
       if (player.attemptCounter >= 3) {
         countedPlayers++;
       }
@@ -52,12 +49,13 @@ export default class GameEnder {
         this.endGame = false;
       }
       console.log("counter player", countedPlayers);
+      count++;
     }
     return this.endGame;
   }
 
   sortByPoints() {
-    this.sortedPlayers = this.game.players.slice().sort(
+    this.sortedPlayers = this.game.networkInstance.networkStore.players.slice().sort(
       (a, b) => {
         return a.points > b.points ? -1 : 1;
       }
@@ -65,33 +63,36 @@ export default class GameEnder {
   }
 
   removeCurrentTilesFromPlayer() {
-    let totalTilePoints = 0;
-    let playersWithNoTiles = [];
-    for (let player of this.game.players) {
-      if (player.currentTiles.length === 0) {
-        playersWithNoTiles.push(player);
-        continue;
+    // only applies to currentPlayer and calculates if player has not been calculated
+    let store = this.game.networkInstance.networkStore;
+    if (!store.players[store.currentPlayerIndex].calculated){
+    let totalMinusPoints = 0;
+      if (this.game.currentPlayer.currentTiles.length === 0) {
       }
-      for (let tile of player.currentTiles) {
-        for (let key in tile) {
-          let val = tile[key];
-          if (key === 'points') {
-            player.tilePoints = (player.tilePoints + val);
+      else {
+        for (let tile of this.game.currentPlayer.currentTiles) {
+          for (let key in tile) {
+            let val = tile[key];
+            if (key === 'points') {
+              totalMinusPoints += val;
+            }
           }
         }
+        // This will remove all tiles left in players array of tiles when game ends
+        this.game.currentPlayer.currentTiles.splice(0, this.game.currentPlayer.currentTiles.length);
+        // The sum of players tiles left will be decreased from players points
+        this.game.currentPlayer.points -= totalMinusPoints;
+        store.players[store.currentPlayerIndex].points -= totalMinusPoints;
+        store.players[store.currentPlayerIndex].minusPoints += totalMinusPoints;
       }
-      // This will remove all tiles left in players array of tiles when game ends
-      player.currentTiles.splice(0, player.currentTiles.length);
-      // The sum of players tiles left will be decreased from players points
-      player.points = (player.points - player.tilePoints);
-      totalTilePoints += player.tilePoints;
-    }
-    for (let player of playersWithNoTiles) {
-      player.points = player.points + totalTilePoints;
+      store.players[store.currentPlayerIndex].calculated = true;
     }
   }
 
   render() {
+    this.showPage();
+    this.hideEverything();
+    this.page.html(''); // empty the endPage just in case
     let rankingDiv = $('<div class="ranking"></div>');
     let rankingListTitle = $('<p class="topPlayers">Resultat:<p>');
     let rankingList = $('<ol></ol>');
@@ -99,7 +100,7 @@ export default class GameEnder {
     for (let player of this.sortedPlayers) {
       let playerList = $(`<li class="rank${rankingNumber}"></li>`);
       playerList.append(`
-      <p><span class="rank rank${rankingNumber}">${player.name}</span> ${player.points}</p>
+      <p><span class="rank rank${rankingNumber}">${player.playerName}</span> ${player.points}</p>
       `)
       rankingNumber++;
       rankingList.append(playerList);
@@ -108,6 +109,7 @@ export default class GameEnder {
     rankingDiv.append(rankingList);
     this.page.append(rankingDiv);
     $('body').append(this.page);
+    this.game.networkInstance.networkStore.players[this.game.networkInstance.networkStore.currentPlayerIndex].inEndPage = true;
   }
 
 }
