@@ -13,6 +13,11 @@ export default class NetWork {
     if (this.networkStore.currentPlayerIndex === this.game.meIndex) {
       this.game.render();
     }
+
+    console.log(this.game.gameEnder.endGame);
+    if (this.game.gameEnder.endGame) {
+      console.log("in network endGame");
+    }
   }
 
   async preStart() {
@@ -37,7 +42,7 @@ export default class NetWork {
 
     // add player names,the board and points to the network
     store.players = store.players || [];
-    let player = { "playerName": this.game.getName(), "points": 0 };
+    let player = { "playerName": this.game.getName(), "points": 0, "attemptCounter":0 };
     store.board = store.board || this.game.createBoard();
     store.tiles = store.tiles || await this.game.tilesFromFile();
     this.game.createPlayers();

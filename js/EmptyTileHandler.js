@@ -93,7 +93,7 @@ export default class EmptyTileHandler {
 
   moveTileBackToPlayer() { 
     delete this.emptyTile.possibleToMove;
-    delete this.game.board[this.game.y][this.game.x].tile;
+    delete this.game.networkInstance.board[this.game.y][this.game.x].tile;
     this.game.currentPlayer.currentTiles.push(this.emptyTile);
   }
 }

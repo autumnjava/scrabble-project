@@ -10,8 +10,9 @@ export default class TurnSkipper {
 
   clickOnEventHandler() {
     this.moveTilesOnBoardToPlayer();
-    this.game.currentPlayer.attemptCounter++;
-    this.game.gameEnder.checkGameEnd();
+    let store = this.game.networkInstance.networkStore;
+    store.players[store.currentPlayerIndex].attemptCounter += 1;
+    this.game.gameEnder.endTheGame(this.game.gameEnder.checkGameEnd());
   }
 
   moveTilesOnBoardToPlayer() {

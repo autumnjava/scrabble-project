@@ -125,9 +125,10 @@ export default {
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
       if (tilesWithPossibleToMove(this.networkInstance.board).length > 0) {
         // if there are tiles on the board already
+        this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.networkInstance.board)]
         removeTilesFromBoard(this.networkInstance.board);
+        this.render();
       }
-      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
       this.lastClickedTile = me;
       return;
     }
@@ -141,13 +142,14 @@ export default {
       let { top, left } = $stand.offset();
       let bottom = top + $stand.height();
       let right = left + $stand.width();
-      let player = that.players[+$(me).attr('data-player')];
+      let player = that.currentPlayer;
       // if dragged within the limit of the stand
       // NOTE: Later maybe need to check if the stand is not full. at the moment not needed
+      console.log('oldObject', oldObject);
       if (pageX > left && pageX < right
         && pageY > top && pageY < bottom) {
         let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-        let pt = player.currentTiles;
+        let pt = that.currentPlayer.currentTiles;
         // move around
         pt.splice(newIndex, 0, oldObject); //add back to stand
         this.wordCheckerInstance.removeFromPlayerTilesPlaced(oldObject, player);

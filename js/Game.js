@@ -78,8 +78,6 @@ class Game {
   }
 
 
-
-
   async tilesFromFile() {
     this.networkInstance.tiles = [];
     // Read the tile info from file
@@ -123,7 +121,7 @@ class Game {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.wordCheckerInstance.messageBox.hideMessage();
         that.tileChanger.clickOnEventHandler();
-        that.gameEnder.checkGameEnd();
+        that.gameEnder.endTheGame(that.gameEnder.checkGameEnd());
         that.networkInstance.changePlayer();
         that.render();
       }
@@ -132,14 +130,14 @@ class Game {
     //Click on "Break button" too exit the game (in process)
     exitButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
-
+        that.exit.clickOnEventHandler();
       }
     })
 
     checkWordButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.wordCheckerInstance.checkWordWithSAOL();
-        that.gameEnder.checkGameEnd();
+        that.gameEnder.endTheGame(that.gameEnder.checkGameEnd());
         that.render();
       }
     })
@@ -249,31 +247,6 @@ class Game {
     }
     $('header').animate({ "font-size": "15px", "padding": "5px" });
     $('footer').animate({ "font-size": "10px", "padding": "3px" });
-  }
-  //Check if empty tile is placed on board
-  //in process
-  checkIfEmptyTile() {
-    if (this.networkInstance.board[this.y][this.x].tile.char == " ") {
-      console.log('Empty tile found')
-      let myBool = false;
-      while (!myBool) {
-
-        let letter = prompt('Please write in 1 letter for empty tile', '');
-
-        //Place letter in empty tile if: letter is not null, length of letter is 1 and letter is not a number
-        if (letter != null && letter.length == 1 && Number.isNaN(parseInt(letter))) {
-          letter = letter.toUpperCase();
-          myBool = true;
-          this.networkInstance.board[this.y][this.x].tile.char = letter;
-
-          this.render();
-          console.log('new tile on x and y:', this.networkInstance.board[this.y][this.x].tile)
-        }
-      }
-    }
-
-    this.addDragEvents();
-    this.moveTilesAroundBoard();
   }
 
   currentTilePoints() {
