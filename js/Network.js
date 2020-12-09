@@ -10,7 +10,9 @@ export default class NetWork {
 
   listenForNetworkChanges() {
     // if statement if it is not my turn dont listen to changes
-    this.game.render();
+    if (this.networkStore.currentPlayerIndex === this.game.meIndex) {
+      this.game.render();
+    }
   }
 
   async preStart() {
