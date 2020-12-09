@@ -15,21 +15,24 @@ export default class NetWork {
     }
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
+    let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
     console.log("has the game ended? ", this.game.gameEnder.checkGameEnd());
     console.log("has all players been calculated?", allPlayersCalculated);
+    console.log('players', this.networkStore.players);
     if (this.game.gameEnder.checkGameEnd()) {
-      if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
+      if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage && !allPlayersInEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
           this.game.gameEnder.endTheGame(true); // end and render endPage
           this.game.gameEnder.render(); // här kommer inEndPage bli true
           this.changePlayer();
-          return;
         }
-        this.game.gameEnder.endTheGame(true); // end and render endPage
-        this.changePlayer();
+        else {
+          this.game.gameEnder.endTheGame(true); // end and render endPage
+          this.changePlayer();
+        }
       }
-      else{
-        this.changePlayer();
+      else if(allPlayersInEndPage){
+        return;
       }
     }
   }

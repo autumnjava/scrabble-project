@@ -27,11 +27,8 @@ export default class GameEnder {
 
   checkGameEnd() {
     let countedPlayers = 0;
-    let count = 1;
     let store = this.game.networkInstance.networkStore;
     for (let player of store.players) {
-      console.log('player' + count + ' ' +  player);
-      console.log('player' +count + ' attempts', player.attemptCounter);
       if (player.attemptCounter >= 3) {
         countedPlayers++;
       }
@@ -48,8 +45,6 @@ export default class GameEnder {
       else {
         this.endGame = false;
       }
-      console.log("counter player", countedPlayers);
-      count++;
     }
     return this.endGame;
   }
