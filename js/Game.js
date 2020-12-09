@@ -110,13 +110,15 @@ class Game {
         that.turnSkipper.clickOnEventHandler();
         that.wordCheckerInstance.messageBox.hideMessage();
         if (that.gameEnder.checkGameEnd()) {
-          console.log("game ended");
+          console.log("skip button gameEnded");
           that.gameEnder.endTheGame(true);
-          return;
         }
-        that.networkInstance.changePlayer();
-        changePossibleToMoveToFalse(that.networkInstance.board);
-        that.render();
+        else {
+          console.log("changePlayer, skipping normally");
+          that.networkInstance.changePlayer();
+          changePossibleToMoveToFalse(that.networkInstance.board);
+          that.render();
+        }
       }
     });
 

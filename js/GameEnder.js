@@ -60,6 +60,7 @@ export default class GameEnder {
   removeCurrentTilesFromPlayer() {
     // only applies to currentPlayer and calculates if player has not been calculated
     let store = this.game.networkInstance.networkStore;
+    console.log(store.players[store.currentPlayerIndex].playerName,store.players[store.currentPlayerIndex].calculated);
     if (!store.players[store.currentPlayerIndex].calculated){
     let totalMinusPoints = 0;
       if (this.game.currentPlayer.currentTiles.length === 0) {
