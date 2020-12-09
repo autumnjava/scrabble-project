@@ -37,7 +37,7 @@ export default class GameEnder {
         this.reason = 'Alla spelare har försökt minst 3 gånger';
         break;
       }
-      if (player.currentTiles.length == 0 && this.game.tiles.length == 0) {
+      if (player.currentTiles.length == 0 && this.game.networkInstance.tiles.length == 0) {
         this.endGame = true;
         this.reason = 'Inga brickor kvar';
         break;

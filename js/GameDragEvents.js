@@ -92,8 +92,8 @@ export default {
       this.x = squareIndex % 15;
 
       // put the tile on the board and re-render
-      this.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
-      this.board[this.y][this.x].tile.possibleToMove = true;
+      this.networkInstance.board[this.y][this.x].tile = player.currentTiles.splice(tileIndex, 1)[0];
+      this.networkInstance.board[this.y][this.x].tile.possibleToMove = true;
       this.wordCheckerInstance.sortTiles(tile, this.x, this.y, this.currentPlayer);
       this.render();
       this.emptyTileHandler.checkIfEmptyTile(this.board[this.y][this.x].tile);
@@ -116,8 +116,8 @@ export default {
     let oldIndex = +$(me).attr('data-tile');
     let oldY = Math.floor(oldIndex / 15);
     let oldX = oldIndex % 15;
-    let oldObject = this.board[oldY][oldX].tile;
-    let oldSquare = this.board[oldY][oldX];
+    let oldObject = this.networkInstance.board[oldY][oldX].tile;
+    let oldSquare = this.networkInstance.board[oldY][oldX];
 
     // reset the z-index
     me.css({ zIndex: '' });
@@ -164,7 +164,7 @@ export default {
       let newX = squareIndex % 15;
 
       delete oldSquare.tile;
-      this.board[newY][newX].tile = oldObject;
+      this.networkInstance.board[newY][newX].tile = oldObject;
       this.lastClickedTile = me;
       this.render();
     }

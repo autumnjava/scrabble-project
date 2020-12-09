@@ -1,9 +1,12 @@
 import { getTileDivDatasetAsObject } from "../Helpers/TileHelper.js";
+import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
+import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
 import { getTileDivInnerHtmlAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivInnerTextAsObject } from "../Helpers/TileHelper.js";
 import { getTileDivAsATileObject } from "../Helpers/TileHelper.js";
-import { tilesWithPossibleToMove } from "../Helpers/BoardHelper.js";
-import { removeTilesFromBoard } from "../Helpers/BoardHelper.js";
+
+
+
 
 export default class TileChanger {
 
@@ -46,13 +49,13 @@ export default class TileChanger {
   }
 
   hideChangeTiles(minTilesToShow) {
-    if (this.game.tiles.length < minTilesToShow) {
+    if (this.game.networkInstance.tiles.length < minTilesToShow) {
       this.square.hide();
     }
   }
 
   hideButton(minTilesToShow) {
-    if (this.game.tiles.length < minTilesToShow) {
+    if (this.game.networkInstance.tiles.length < minTilesToShow) {
       this.button.hide();
     }
   }
@@ -84,14 +87,14 @@ export default class TileChanger {
 
   addTileDivInSquareFromBoard(tileDiv) { // assume tile is moved from board
     let newTile = getTileDivAsATileObject(tileDiv);
-    if(!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
+    if (!tileDiv.hasClass('onChangeTilesSquare')) { // do not add if allready on board
       this.inSquareTiles.push(newTile);
       this.returnTileToPlayer(newTile);
       tileDiv.addClass('onChangeTilesSquare');
     }
   }
 
-  isTileInSquareTiles(tile) { 
+  isTileInSquareTiles(tile) {
     if (!tile) {
       for (let t of this.inSquareTiles) {
         if (t.char === tile.char && t.points === tile.points) {
@@ -106,13 +109,13 @@ export default class TileChanger {
     this.inSquareTiles = [];
   }
 
-  returnTileToPlayer(tile) { 
+  returnTileToPlayer(tile) {
     this.game.currentPlayer.currentTiles.push(tile);
   }
   moveTilesOnBoardToPlayer() {
-    let tilesOnBoard = tilesWithPossibleToMove(this.game.board);
+    let tilesOnBoard = tilesWithPossibleToMove(this.game.networkInstance.board);
     if (tilesOnBoard.length > 0) {
-      this.game.board = removeTilesFromBoard(this.game.board);
+      this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
       this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesOnBoard];
     }
   }

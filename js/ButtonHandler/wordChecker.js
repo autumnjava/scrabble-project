@@ -46,7 +46,7 @@ export default class WordChecker {
   }
 
   checkIfWordIsOnStartSquare() {
-    if (!this.game.board[7][7].tile) {
+    if (!this.game.networkInstance.board[7][7].tile) {
       this.invalidMove = true;
     }
   }
@@ -63,7 +63,7 @@ export default class WordChecker {
 
 
   isBoardEmpty() {
-    return this.game.board.flat().every(x => !x.tile);
+    return this.game.networkInstance.board.flat().every(x => !x.tile);
   }
 
   collectWords() {
@@ -74,10 +74,10 @@ export default class WordChecker {
       let points = [];
       let specialValues = [];
       for (let col = 0; col < 15; col++) {
-        if (this.game.board[row][col].tile) {
-          chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
-          points.push(this.game.board[row][col].tile.points);
-          specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
+        if (this.game.networkInstance.board[row][col].tile) {
+          chars += this.game.networkInstance.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
+          points.push(this.game.networkInstance.board[row][col].tile.points);
+          specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (col >= 14 && chars.length > 1) {
             words.push({ chars, points, specialValues });
             chars = '';
@@ -101,10 +101,10 @@ export default class WordChecker {
       let points = [];
       let specialValues = [];
       for (let row = 0; row < 15; row++) {
-        if (this.game.board[row][col].tile) {
-          chars += this.game.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
-          points.push(this.game.board[row][col].tile.points);
-          specialValues.push(this.game.board[row][col].specialValue ? this.game.board[row][col].specialValue : 0);
+        if (this.game.networkInstance.board[row][col].tile) {
+          chars += this.game.networkInstance.board[row][col].tile.char; // if the square has a tile, add the property char to the string chars
+          points.push(this.game.networkInstance.board[row][col].tile.points);
+          specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (row >= 14 && chars.length > 1) {
             words.push({ chars, points, specialValues });
             chars = '';
@@ -154,7 +154,7 @@ export default class WordChecker {
     let tw = false;
     //here, the words shall be valid "this.allOK" = true
     for (let tile of this.game.currentPlayer.tilesPlaced) {
-      delete this.game.board[tile.positionY][tile.positionX].specialValue;
+      delete this.game.networkInstance.board[tile.positionY][tile.positionX].specialValue;
     }
 
     for (let wordObject of this.wordObjects) {
@@ -193,7 +193,7 @@ export default class WordChecker {
 
   removeTilesFromBoard(player) {
     for (let tile of player.tilesPlaced) {
-      let square = this.game.board[tile.positionY][tile.positionX];
+      let square = this.game.networkInstance.board[tile.positionY][tile.positionX];
       delete square.tile;
     }
   }
@@ -955,26 +955,34 @@ export default class WordChecker {
       if (this.game.currentPlayer.correctWordCounter === 3) {
         this.game.currentPlayer.attemptCounter++;
         this.game.currentPlayer.correctWordCounter = 0;
-        this.game.changePlayer();;
+        this.game.networkInstance.changePlayer();
         this.messageBox.hideMessage();
       }
     }
     else if (words) {
       this.messageBox.hideMessage();
-      this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
-      this.game.board = changePossibleToMoveToFalse(this.game.board);
+      let store = this.game.networkInstance.networkStore;
+      console.log('word was a word!');
+
+      this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.networkInstance.board);
+      this.game.networkInstance.board = changePossibleToMoveToFalse(this.game.networkInstance.board);
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
       this.game.currentPlayer.points += this.calculatePoints();
       this.game.currentPlayer.points += this.additionalPoints();
+      if (store.currentPlayerIndex === this.game.meIndex) {
+        store.players[store.currentPlayerIndex].points += this.calculatePoints();
+        store.players[store.currentPlayerIndex].points += this.additionalPoints();
+      }
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
       this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-      this.game.changePlayer();
       this.messageBox.hideMessage();
+      console.log(this.game.networkInstance.tiles, ' tiles in the bag');
+      this.game.networkInstance.changePlayer();
     }
     //resetting for next move
     this.wordToCheck = '';
