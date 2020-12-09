@@ -49,7 +49,6 @@ export default {
       let tilesOnBoard = tilesWithPossibleToMove(this.board);
       if (tilesOnBoard.length > 0) {
         this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
-        console.log(this.currentPlayer.currentTiles);
         // if there are tiles on the board already
         removeTilesFromBoard(this.board);
         this.render();

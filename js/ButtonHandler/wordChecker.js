@@ -43,8 +43,6 @@ export default class WordChecker {
     // Sort so the positions comes i order
     this.invalidMove = (!allYAreSame && !allXAreSame)
 
-    console.log(player.tilesPlaced, ' tiles placed');
-
   }
 
   checkIfWordIsOnStartSquare() {
@@ -61,7 +59,6 @@ export default class WordChecker {
         player.tilesPlaced.splice(i, 1);
       }
     }
-    console.log(player.tilesPlaced, ' after splice');
   }
 
 
@@ -90,7 +87,6 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            console.log("col", col);
             words.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
@@ -133,8 +129,6 @@ export default class WordChecker {
     this.wordObjects = this.collectWords();
     let words = this.wordObjects.map(word => word.chars);
     this.myWords = words;
-    console.log(words, ' words');
-    console.log(this.oldWords, ' old words');
 
     let newWords = words.slice(); // Create a copy
     while (this.oldWords.length) {
@@ -192,7 +186,6 @@ export default class WordChecker {
       else if (tw) {
         tilePointsOfWord *= 3;
       }
-      console.log(tilePointsOfWord, "word points");
       allPoints += tilePointsOfWord;
     }
     return allPoints;
@@ -227,7 +220,6 @@ export default class WordChecker {
 
     if (!this.allTilesNotAtStart) {
       for (let tile of this.game.currentPlayer.tilesPlaced) {
-        console.log(tile)
         //Check div above, below, on right and left of every placed tile
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
 
@@ -238,8 +230,6 @@ export default class WordChecker {
 
           //If found other player's tile above or below test has not been failed
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
-
             this.testFailed = false;
             break;
 
@@ -248,7 +238,6 @@ export default class WordChecker {
 
           }
           else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div above')
 
             this.testFailed = false;
             break;
@@ -257,8 +246,6 @@ export default class WordChecker {
 
           //Same as before when it comes to other player's tile on right and left side
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -267,7 +254,6 @@ export default class WordChecker {
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
             this.testFailed = false;
-            console.log('found div on left')
             break;
 
           }
@@ -286,7 +272,6 @@ export default class WordChecker {
           this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -296,7 +281,6 @@ export default class WordChecker {
 
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
 
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -314,7 +298,6 @@ export default class WordChecker {
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -324,7 +307,6 @@ export default class WordChecker {
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
 
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -343,7 +325,6 @@ export default class WordChecker {
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -353,7 +334,6 @@ export default class WordChecker {
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
 
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -371,7 +351,6 @@ export default class WordChecker {
           this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -380,8 +359,6 @@ export default class WordChecker {
           }
 
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -400,7 +377,6 @@ export default class WordChecker {
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -408,14 +384,12 @@ export default class WordChecker {
 
           }
           else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div above')
             this.testFailed = false;
             break;
           }
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
             this.testFailed = false;
-            console.log('found div on left')
             break;
           }
 
@@ -434,7 +408,6 @@ export default class WordChecker {
           this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
 
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -442,14 +415,12 @@ export default class WordChecker {
 
           }
           else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div above')
             this.testFailed = false;
             break;
           }
 
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
             this.testFailed = false;
-            console.log('found div on right')
             break;
           }
 
@@ -468,7 +439,6 @@ export default class WordChecker {
           this.divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
           if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-            console.log('found div below')
 
             this.testFailed = false;
 
@@ -479,7 +449,6 @@ export default class WordChecker {
 
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
 
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -487,7 +456,6 @@ export default class WordChecker {
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
             this.testFailed = false;
-            console.log('found div on left')
             break;
           }
 
@@ -507,7 +475,6 @@ export default class WordChecker {
           this.divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-            console.log('found div below')
             this.testFailed = false;
 
             break;
@@ -517,7 +484,6 @@ export default class WordChecker {
 
           else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
 
-            console.log('found div on right')
             this.testFailed = false;
             break;
 
@@ -525,7 +491,6 @@ export default class WordChecker {
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
             this.testFailed = false;
-            console.log('found div on left')
             break;
           }
 
@@ -562,8 +527,6 @@ export default class WordChecker {
     let allPositionsYSorted = this.allPositionsY.sort((a, b) => a > b ? 1 : -1);
 
     this.gaps = true;
-    console.log('alla Y samma', this.allYAreSame)
-    console.log('alla X samma', this.allXAreSame)
 
 
     if (this.allXAreSame) {
@@ -572,7 +535,6 @@ export default class WordChecker {
         //Om det är bara en enda tile på brädet blir gaps false
         //Om gaps är false och allaX och allaY är true --> 
       );
-      console.log('this sorts Y positions, sorted positions Y are', allPositionsYSorted);
 
     }
     else if (this.allYAreSame) {
@@ -583,11 +545,9 @@ export default class WordChecker {
 
       );
 
-      console.log('this sorts X positions sorted positions  X are', allPositionsXSorted);
 
     }
-    console.log('Tiles are NOT touching old tiles?', this.testFailed)
-    console.log('are there any gaps?', this.gaps)
+
     return this.gaps;
 
 
@@ -605,11 +565,9 @@ export default class WordChecker {
           let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -617,11 +575,9 @@ export default class WordChecker {
           }
 
           else if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -631,12 +587,9 @@ export default class WordChecker {
 
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -648,12 +601,9 @@ export default class WordChecker {
           }
 
           else if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -671,12 +621,9 @@ export default class WordChecker {
           let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -688,11 +635,9 @@ export default class WordChecker {
           }
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -709,11 +654,9 @@ export default class WordChecker {
 
 
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -723,12 +666,9 @@ export default class WordChecker {
 
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -749,11 +689,9 @@ export default class WordChecker {
           let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
           let divBelow = this.game.board[tile.positionY + 1][tile.positionX].tile;
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -762,12 +700,9 @@ export default class WordChecker {
 
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -785,11 +720,9 @@ export default class WordChecker {
           let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
 
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -798,12 +731,9 @@ export default class WordChecker {
 
 
           else if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -819,11 +749,9 @@ export default class WordChecker {
 
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -834,11 +762,9 @@ export default class WordChecker {
           }
 
           else if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -846,12 +772,9 @@ export default class WordChecker {
           }
 
           else if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -867,11 +790,9 @@ export default class WordChecker {
           let divAbove = this.game.board[tile.positionY - 1][tile.positionX].tile;
           let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -882,11 +803,9 @@ export default class WordChecker {
           }
 
           else if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -896,12 +815,9 @@ export default class WordChecker {
 
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -920,11 +836,9 @@ export default class WordChecker {
 
 
           if (divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(divBelow)) {
-            console.log('found x and y pos below')
             if (!this.allPositionsX.includes(divBelow.positionX) || !this.allPositionsY.includes(divBelow.positionY)) {
               this.allPositionsX.push(divBelow.positionX)
               this.allPositionsY.push(divBelow.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -935,12 +849,9 @@ export default class WordChecker {
           }
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -952,12 +863,9 @@ export default class WordChecker {
           }
 
           else if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -972,11 +880,9 @@ export default class WordChecker {
           let divOnRight = this.game.board[tile.positionY][tile.positionX + 1].tile;
           let divOnLeft = this.game.board[tile.positionY][tile.positionX - 1].tile;
           if (divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(divAbove)) {
-            console.log('found x and y pos above')
             if (!this.allPositionsX.includes(divAbove.positionX) || !this.allPositionsY.includes(divAbove.positionY)) {
               this.allPositionsX.push(divAbove.positionX)
               this.allPositionsY.push(divAbove.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
 
             continue;
@@ -986,12 +892,9 @@ export default class WordChecker {
 
           else if (divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnRight)) {
 
-            console.log('found x and y on right')
             if (!this.allPositionsX.includes(divOnRight.positionX) || !this.allPositionsY.includes(divOnRight.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnRight.positionX)
               this.allPositionsY.push(divOnRight.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -1003,12 +906,9 @@ export default class WordChecker {
           }
 
           else if (divOnLeft !== undefined && !this.game.currentPlayer.tilesPlaced.includes(divOnLeft)) {
-            console.log('found x and y on left')
             if (!this.allPositionsX.includes(divOnLeft.positionX) || !this.allPositionsY.includes(divOnLeft.positionY)) {
-              console.log('är alla Y samma?', this.allYAreSame)
               this.allPositionsX.push(divOnLeft.positionX)
               this.allPositionsY.push(divOnLeft.positionY)
-              console.log(this.allPositionsY, this.allPositionsX)
             }
             if (this.game.currentPlayer.tilesPlaced.length === 1) {
               this.allXAreSame = false;
@@ -1044,7 +944,6 @@ export default class WordChecker {
 
     if (!words || this.invalidMove || this.gaps) {
       this.messageBox.showMessage();
-      console.log('word was not a word');
       this.game.currentPlayer.correctWordCounter++;
       this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.board)];
       this.game.board = removeTilesFromBoard(this.game.board);
@@ -1062,13 +961,11 @@ export default class WordChecker {
     }
     else if (words) {
       this.messageBox.hideMessage();
-      console.log('word was a word!');
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
       this.game.board = changePossibleToMoveToFalse(this.game.board);
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
-      console.log("wordobjects before calculating", this.wordObjects);
       this.game.currentPlayer.points += this.calculatePoints();
       this.game.currentPlayer.points += this.additionalPoints();
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct

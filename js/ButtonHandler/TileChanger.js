@@ -91,10 +91,6 @@ export default class TileChanger {
     }
   }
 
-  isTilesOnBoard(tileDiv) { 
-    console.log("isTileOnBoard");
-  }
-
   isTileInSquareTiles(tile) { 
     if (!tile) {
       for (let t of this.inSquareTiles) {
