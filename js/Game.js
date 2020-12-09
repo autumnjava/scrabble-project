@@ -65,6 +65,7 @@ class Game {
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
         <button class="startGameButton">Start</button>
         <button class="connectGameButton">Anslut</button>
+        <div class = "keyHolder"></div>
     `);
   }
 

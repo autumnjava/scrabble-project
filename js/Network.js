@@ -9,12 +9,14 @@ export default class NetWork {
   }
 
   listenForNetworkChanges() {
+    // if statement if it is not my turn dont listen to changes
     this.game.render();
   }
 
   async preStart() {
     let key = await this.createNetworkKey();
-    $('.startPage').append('Detta är nyckeln : ' + key);
+    let $keyDiv = $('.keyHolder');
+    $keyDiv.text('Detta är nyckeln : ' + key);
     this.connectToStore(key, () => {
       console.log('Something changed...');
     });
