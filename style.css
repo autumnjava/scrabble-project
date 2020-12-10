@@ -130,7 +130,7 @@ background-color: #ccb0a2;
 }
 
 .board .special-tw::after{
-  content: 'TW';
+  content: 'TO';
   color: #fff;
   font-style: bold;
   display: block;
@@ -148,7 +148,7 @@ background-color: #d6e1e7;
 }
 
 .board .special-dl::after{
-  content: 'DL';
+  content: 'DB';
   color: #FFF;
   font-style: bold;
   display: block;
@@ -161,7 +161,7 @@ background-color: #98aab4;
 }
 
 .board .special-dw::after{
-  content: 'DW';
+  content: 'DO';
   color: #FFF;
   font-style: bold;
   display: block;
@@ -175,7 +175,7 @@ background-color: #e5d4c2;
 }
 
 .board .special-tl::after{
-  content: 'TL';
+  content: 'TB';
   color: #fff;
   font-style: bold;
   display: block;
