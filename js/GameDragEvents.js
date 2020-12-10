@@ -124,10 +124,12 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) { // if dropped on change tiles square
       if (tilesWithPossibleToMove(this.board).length > 0) {
+        this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.board)]
         // if there are tiles on the board already
-        removeTilesFromBoard(this.board);
+        this.board = removeTilesFromBoard(this.board);
+        this.render();
       }
-      this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
+      //this.tileChanger.addTileDivInSquareFromBoard(me); // add tile back to player (still on board)
       this.lastClickedTile = me;
       return;
     }

@@ -247,6 +247,8 @@ body .tile {
   position: absolute;
   background-color: rgb(243, 206, 165);
   margin: -1px;
+  width: 5vh;
+  height: 5vh;
 }
 
 .tile span {
