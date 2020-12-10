@@ -66,9 +66,7 @@ export default class GameEnder {
       let totalMinusPoints = 0;
       console.log("totalminuspoints", totalMinusPoints);
       console.log("curentPlayer", this.game.currentPlayer);
-      if (this.game.currentPlayer.currentTiles.length === 0) {
-      }
-      else {
+      if (this.game.currentPlayer.currentTiles.length > 0) {
         for (let tile of this.game.currentPlayer.currentTiles) {
           for (let key in tile) {
             let val = tile[key];
@@ -85,8 +83,21 @@ export default class GameEnder {
         this.game.currentPlayer.points -= totalMinusPoints;
         store.players[this.game.meIndex].points -= totalMinusPoints;
         store.players[this.game.meIndex].minusPoints += totalMinusPoints;
+        store.players[this.game.meIndex].calculated = true;
       }
-      store.players[this.game.meIndex].calculated = true;
+      else if (this.game.currentPlayer.currentTiles.length === 0 && store.players[this.game.meIndex].minusPoints === 0) { 
+        store.players[this.game.meIndex].calculated = true;
+        if(store.players.every(player => player.calculated)) {
+          for (let player of this.networkStore.players) {
+            store.players[this.game.meIndex].points += player.minusPoints;
+          }
+        }
+        else { 
+          store.players[this.game.meIndex].calculated = false;
+        }
+
+
+      }
     }
   }
 
