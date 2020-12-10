@@ -60,9 +60,12 @@ export default class GameEnder {
   removeCurrentTilesFromPlayer() {
     // only applies to currentPlayer and calculates if player has not been calculated
     let store = this.game.networkInstance.networkStore;
-    console.log(store.players[store.currentPlayerIndex].playerName,store.players[store.currentPlayerIndex].calculated);
-    if (!store.players[store.currentPlayerIndex].calculated){
-    let totalMinusPoints = 0;
+    console.log(store.players[this.game.meIndex].playerName, store.players[this.game.meIndex].calculated, store.players[this.game.meIndex].points);
+
+    if (!store.players[this.game.meIndex].calculated){
+      let totalMinusPoints = 0;
+      console.log("totalminuspoints", totalMinusPoints);
+      console.log("curentPlayer", this.game.currentPlayer);
       if (this.game.currentPlayer.currentTiles.length === 0) {
       }
       else {
@@ -74,14 +77,16 @@ export default class GameEnder {
             }
           }
         }
+        console.log("totalminuspoints calculation", totalMinusPoints);
+        console.log("curentPlayer", this.game.currentPlayer);
         // This will remove all tiles left in players array of tiles when game ends
         this.game.currentPlayer.currentTiles.splice(0, this.game.currentPlayer.currentTiles.length);
         // The sum of players tiles left will be decreased from players points
         this.game.currentPlayer.points -= totalMinusPoints;
-        store.players[store.currentPlayerIndex].points -= totalMinusPoints;
-        store.players[store.currentPlayerIndex].minusPoints += totalMinusPoints;
+        store.players[this.game.meIndex].points -= totalMinusPoints;
+        store.players[this.game.meIndex].minusPoints += totalMinusPoints;
       }
-      store.players[store.currentPlayerIndex].calculated = true;
+      store.players[this.game.meIndex].calculated = true;
     }
   }
 

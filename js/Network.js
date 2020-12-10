@@ -18,7 +18,7 @@ export default class NetWork {
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
     console.log('listener active');
     if (this.game.gameEnder.checkGameEnd()) {
-      if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage && !allPlayersInEndPage) { // i'm not in endpage
+      if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
           this.game.gameEnder.endTheGame(true); // end and render endPage
           this.game.gameEnder.render(); // här kommer inEndPage bli true
@@ -53,6 +53,7 @@ export default class NetWork {
     this.networkStore = await Store.getNetworkStore(key, () => this.listenForNetworkChanges());
 
     let store = this.networkStore;
+    window.store = store;
     console.log(store, 'connected to store')
 
     // add player names,the board and points to the network
