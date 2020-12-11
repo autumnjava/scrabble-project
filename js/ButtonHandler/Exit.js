@@ -59,11 +59,9 @@ export default class Exit {
       console.log("YES button pressed");
       that.hidePopup();
       that.moveTilesOnBoardToPlayer();
-      for (let i = 0; i < that.game.networkInstance.networkStore.players.length; i++) {
-        console.log(i);
-        that.gameEnder.endTheGame(true);
-        that.game.networkInstance.changePlayer();
-      }
+      that.gameEnder.endTheGame(true); // just calculates and sort player list
+      that.game.networkInstance.networkStore.exitPressed = true; // set it to true
+      that.game.networkInstance.changePlayer();
     });
 
     this.noButton.click(() => {

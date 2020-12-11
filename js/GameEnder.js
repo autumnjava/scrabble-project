@@ -7,10 +7,11 @@ export default class GameEnder {
     this.page = $('<div class="endPage"></div>');
   }
 
-  endTheGame(gameOver = this.endGame) {
+  endTheGame(gameOver) {
     if (gameOver) {
       this.removeCurrentTilesFromPlayer();
       this.sortByPoints();
+      this.endGame = true;
       }
       //If endGame is true sort players' points and rank them (in process)
   }
@@ -28,25 +29,26 @@ export default class GameEnder {
   checkGameEnd() {
     let countedPlayers = 0;
     let store = this.game.networkInstance.networkStore;
+    let endGame = false;
     for (let player of store.players) {
       if (player.attemptCounter >= 3) {
         countedPlayers++;
       }
       if (countedPlayers === store.players.length) {
-        this.endGame = true;
+        endGame = true;
         this.reason = 'Alla spelare har försökt minst 3 gånger';
         break;
       }
       if (this.game.networkInstance.tiles.length == 0) {
-        this.endGame = true;
+        endGame = true;
         this.reason = 'Inga brickor kvar';
         break;
       }
       else {
-        this.endGame = false;
+        endGame = false;
       }
     }
-    return this.endGame;
+    return endGame;
   }
 
   sortByPoints() {

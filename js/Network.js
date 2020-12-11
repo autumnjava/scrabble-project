@@ -17,7 +17,9 @@ export default class NetWork {
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
     console.log('listener active');
-    if (this.game.gameEnder.checkGameEnd()) {
+    console.log("pressed? ", this.networkStore.exitPressed);
+    console.log("game ended by itself?", this.game.gameEnder.checkGameEnd());
+    if (this.networkStore.exitPressed || this.game.gameEnder.checkGameEnd()) {
       if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
           this.game.gameEnder.endTheGame(true); // end and render endPage
@@ -68,6 +70,7 @@ export default class NetWork {
     };
     store.board = store.board || this.game.createBoard();
     store.tiles = store.tiles || await this.game.tilesFromFile();
+    store.exitPressed = false;
     this.game.createPlayers();
     this.game.meIndex = store.players.length;
     store.players.push(player);
