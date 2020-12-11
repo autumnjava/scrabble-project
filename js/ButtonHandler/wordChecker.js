@@ -950,7 +950,6 @@ export default class WordChecker {
     else if (words) {
       this.messageBox.hideMessage();
       //this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.board);
-      this.game.currentPlayer.tilesPlaced = [];
       this.game.board = changePossibleToMoveToFalse(this.game.board); // tiles sticked
 
       //give player points for correct word
@@ -962,6 +961,7 @@ export default class WordChecker {
       this.game.currentPlayer.correctWordCounter = 0; // Reset when correct
       let newTiles = [...playerTiles, ...this.game.getTiles(this.game.currentPlayer.tilesPlaced.length)];
       this.game.currentPlayer.currentTiles = newTiles;
+      this.game.currentPlayer.tilesPlaced = [];
       this.game.changePlayer();
       this.messageBox.hideMessage();
     }
