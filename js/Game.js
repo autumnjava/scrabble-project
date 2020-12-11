@@ -123,7 +123,6 @@ class Game {
     //Click on "change tiles" to change tiles
     changeTilesButton.click(function () {
       that.tileChanger.clickOnEventHandler();
-      that.gameEnder.checkGameEnd();
       that.changePlayer();
       that.wordCheckerInstance.messageBox.hideMessage();
       that.render();
@@ -135,11 +134,8 @@ class Game {
     })
 
     checkWordButton.click(function () {
-
-      //that.wordCheckerInstance.calculatePoints(that.currentPlayer);
-
-      that.wordCheckerInstance.checkWordWithSAOL();
-      that.gameEnder.checkGameEnd();
+      that.wordCheckerInstance.clickOnEventHandler();
+      //that.wordCheckerInstance.checkWordWithSAOL();
       that.render();
     })
 

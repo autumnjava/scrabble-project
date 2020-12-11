@@ -167,6 +167,7 @@ export default {
 
       delete oldSquare.tile;
       this.board[newY][newX].tile = oldObject;
+      this.wordCheckerInstance.sortTiles(this.board[newY][newX].tile, newX, newY, this.currentPlayer);
       this.lastClickedTile = me;
       this.render();
     }
