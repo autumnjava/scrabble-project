@@ -110,11 +110,9 @@ class Game {
         that.turnSkipper.clickOnEventHandler();
         that.wordCheckerInstance.messageBox.hideMessage();
         if (that.gameEnder.checkGameEnd()) {
-          console.log("skip button gameEnded");
           that.gameEnder.endTheGame(true);
         }
         else {
-          console.log("changePlayer, skipping normally");
           that.networkInstance.changePlayer();
           changePossibleToMoveToFalse(that.networkInstance.board);
           that.render();
@@ -127,9 +125,15 @@ class Game {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.wordCheckerInstance.messageBox.hideMessage();
         that.tileChanger.clickOnEventHandler();
-        that.gameEnder.endTheGame(that.gameEnder.checkGameEnd());
-        that.networkInstance.changePlayer();
-        that.render();
+        if (that.gameEnder.checkGameEnd()) {
+          console.log("change game ended");
+          that.gameEnder.endTheGame(true);
+        }
+        else {
+          console.log("change normally");
+          that.networkInstance.changePlayer();
+          that.render();
+        }
       }
     });
 
@@ -143,7 +147,6 @@ class Game {
     checkWordButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.wordCheckerInstance.checkWordWithSAOL();
-        that.gameEnder.endTheGame(that.gameEnder.checkGameEnd());
         that.render();
       }
     })
