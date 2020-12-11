@@ -10,6 +10,7 @@ export default class GameStarter {
     this.popupBox = $('#connectToGamePopupBox');
     this.closeSpan = $("#connectPopupClose");
     this.submitButton = $("#connectToGameSubmitButton");
+    this.message = $('#connectP')
     this.buttonHandlers();
   }
 
@@ -18,7 +19,7 @@ export default class GameStarter {
       <div id="connectToGamePopupBox">
         <div id="connectToGamePopupBoxContent">
           <span class="popupClose" id="connectPopupClose">&times;</span>
-          <p>Var god och mata in nätverksnyckeln!</p>
+          <p id="connectP">Var god och mata in nätverksnyckeln!</p>
           <br>
             <input type="text" id="connectToGameInput" placeholder="Skriv in nyckeln här" required}>
             <button class="connectToGameSubmitButton" name="connectToGameSubmitButton" id="connectToGameSubmitButton" type="submit">Okej</button>
@@ -44,6 +45,7 @@ export default class GameStarter {
   hidePopup() {
     this.popupBox.css({ display: 'none' });
     $('input[id=connectToGameInput]').val('');
+    this.message.text("Var god och mata in nätverksnyckeln!");
   }
 
 }

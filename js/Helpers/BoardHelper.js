@@ -11,7 +11,7 @@ export const tilesWithPossibleToMove = (board) => {
 }
 
 export const removeTilesFromBoard = (board) => {
-  let newBoard = board;
+  let newBoard = board.slice();
   newBoard.flat().forEach(square => {
     if (square.tile !== undefined) {
       if (square.tile.possibleToMove) {
@@ -23,7 +23,7 @@ export const removeTilesFromBoard = (board) => {
 }
 
 export const changePossibleToMoveToFalse = (board) => {
-  let newBoard = board;
+  let newBoard = board.slice();
   newBoard.flat().map((x) => {
     if (x.tile) { // same as if(typeof x.tile !== "undefined")
       x.tile.possibleToMove = false;

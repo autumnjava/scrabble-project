@@ -45,10 +45,27 @@ export default class WordChecker {
 
   }
 
-  checkIfWordIsOnStartSquare() {
-    if (!this.game.networkInstance.board[7][7].tile) {
-      this.invalidMove = true;
+  clickOnEventHandler() {
+    if (!this.invalidMove) {
+      this.invalidMove = (this.checkEmptySpace() || this.checkIfCorrectPosition()); //om en av dem är true, så blir invalidMove true
+      //this.gaps = true betyder finns gaps
+      //this.testFailed = true tiles ligger inte bradvid varandra
+      console.log("X and Y same, but gaps or no tiles between F", this.invalidMove);
+      if (this.checkIfWordIsOnStartSquare() && !this.invalidMove) {
+        this.checkWordWithSAOL();
+      }
+      else { 
+        this.invalidMove = true; // just make sure invalidMove is true
+        this.wordFailed();
+      }
     }
+    else {
+      this.wordFailed();
+    }
+  }
+
+  checkIfWordIsOnStartSquare() {
+    return !(!this.game.networkInstance.board[7][7].tile);
   }
 
   removeFromPlayerTilesPlaced(oldObject, player) {
@@ -219,8 +236,9 @@ export default class WordChecker {
 
 
     if (!this.allTilesNotAtStart) {
-      for (let tile of this.game.currentPlayer.tilesPlaced) {
+      for (let tile of tilesWithPossibleToMove(this.game.networkInstance.board)) {
         //Check div above, below, on right and left of every placed tile
+        console.log(this.game.networkInstance.board[tile.positionY][tile.positionX]);
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
 
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
@@ -233,12 +251,8 @@ export default class WordChecker {
             this.testFailed = false;
             break;
 
-
-
-
           }
           else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-
             this.testFailed = false;
             break;
 
@@ -249,7 +263,6 @@ export default class WordChecker {
             this.testFailed = false;
             break;
 
-
           }
 
           else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
@@ -257,12 +270,9 @@ export default class WordChecker {
             break;
 
           }
-
           //If there is none of other player's tile around my tile, test has been failed and move is invalid
           else {
             this.testFailed = true;
-
-
 
           }
         }
@@ -943,21 +953,7 @@ export default class WordChecker {
     let playerTiles = this.game.currentPlayer.currentTiles;
 
     if (!words || this.invalidMove || this.gaps) {
-      this.messageBox.showMessage();
-      this.game.currentPlayer.correctWordCounter++;
-      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.networkInstance.board)];
-      this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
-
-      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-
-      // If player has tried to check a word 3 times unsuccessfully, 
-      // attemptCounter will increase, correctWordCounter will reset 0 & change player
-      if (this.game.currentPlayer.correctWordCounter === 3) {
-        this.game.currentPlayer.attemptCounter++;
-        this.game.currentPlayer.correctWordCounter = 0;
-        this.game.networkInstance.changePlayer();
-        this.messageBox.hideMessage();
-      }
+      this.wordFailed();
     }
     else if (words) {
       this.messageBox.hideMessage();
@@ -990,5 +986,21 @@ export default class WordChecker {
     this.game.render();
   }
 
+  wordFailed() {
+    this.messageBox.showMessage();
+    this.game.currentPlayer.correctWordCounter++;
+    this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.networkInstance.board)];
+    this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
 
+    this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+
+    // If player has tried to check a word 3 times unsuccessfully, 
+    // attemptCounter will increase, correctWordCounter will reset 0 & change player
+    if (this.game.currentPlayer.correctWordCounter === 3) {
+      this.game.currentPlayer.attemptCounter++;
+      this.game.currentPlayer.correctWordCounter = 0;
+      this.game.networkInstance.changePlayer();
+      this.messageBox.hideMessage();
+    }
+  }
 }

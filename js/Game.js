@@ -146,7 +146,8 @@ class Game {
 
     checkWordButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
-        that.wordCheckerInstance.checkWordWithSAOL();
+        //that.wordCheckerInstance.checkWordWithSAOL();
+        that.wordCheckerInstance.clickOnEventHandler();
         that.render();
       }
     })

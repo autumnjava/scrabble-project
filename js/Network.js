@@ -60,22 +60,27 @@ export default class NetWork {
 
     // add player names,the board and points to the network
     store.players = store.players || [];
-    let player = {
-      "playerName": this.game.getName(),
-      "points": 0,
-      "attemptCounter": 0,
-      "minusPoints": 0,
-      "inEndPage": false,
-      "calculated": false
-    };
-    store.board = store.board || this.game.createBoard();
-    store.tiles = store.tiles || await this.game.tilesFromFile();
-    store.exitPressed = false;
-    this.game.createPlayers();
-    this.game.meIndex = store.players.length;
-    store.players.push(player);
-    store.currentPlayerIndex = 0;
-    this.game.startGame();
+    if (store.players.length < 4) {
+      let player = {
+        "playerName": this.game.getName(),
+        "points": 0,
+        "attemptCounter": 0,
+        "minusPoints": 0,
+        "inEndPage": false,
+        "calculated": false
+      };
+      store.board = store.board || this.game.createBoard();
+      store.tiles = store.tiles || await this.game.tilesFromFile();
+      store.exitPressed = false;
+      this.game.createPlayers();
+      this.game.meIndex = store.players.length;
+      store.players.push(player);
+      store.currentPlayerIndex = 0;
+      this.game.startGame();
+    }
+    else {
+      this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+    }
   }
 
   changePlayer() {
