@@ -83,9 +83,9 @@ export default class TileChanger {
     }
 
     if (this.inSquareTiles.length > 0) {
-      this.button.css({ 'cursor': 'pointer', 'opacity': '' });
-      this.button.attr("disabled", false);
       this.button.addClass('changeTilesButton_hover');
+      this.button.css({ 'cursor': 'pointer', 'opacity': '1' });
+      this.button.attr("disabled", false);
     }
   }
 
@@ -111,7 +111,6 @@ export default class TileChanger {
   }
 
   removeAllTilesInSquare(tile) {
-    //checkWordButton.removeClass('checkWordButton_hover');
     this.button.css({ 'cursor': 'default', 'opacity': '0.2' });
     this.button.attr("disabled", true);
     this.inSquareTiles = [];
