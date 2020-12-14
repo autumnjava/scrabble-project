@@ -297,7 +297,7 @@ body .tile {
 .playerList {
   position: absolute;
   top: 5vh;
-  right: 22vw;
+  right: 15vw;
 }
 .playerList span {
   margin: calc(10px + 2vw);

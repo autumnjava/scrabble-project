@@ -1,6 +1,6 @@
 import { tilesWithPossibleToMove } from "./Helpers/BoardHelper.js";
 
-export default class EmptyTileHandler { 
+export default class EmptyTileHandler {
 
   constructor(game) {
     this.game = game;
@@ -31,21 +31,21 @@ export default class EmptyTileHandler {
     return false;
   }
 
-  createPopupBox() { 
+  createPopupBox() {
     return `
       <div id="emptyTilePopupBox">
         <div id="emptyTilePopupBoxContent">
           <span class="popupClose" id="popupClose">&times;</span>
           <p>Var god och mata in en bokstav till den tomma brickan!</p>
           <br>
-            <input type="text" id="emptyTileInput" placeholder="Skriv in bokstaven här" minlength="1" maxlength="1" required}>
+            <input type="text" id="emptyTileInput" placeholder="Skriv in bokstaven här" minlength="1" maxlength="1" required>
             <button class="emptyTileSubmitButton" name="emptyTileSubmitButton" id="emptySubmitButton" type="submit">Okej</button>
         </div>
       </div>
     `
   }
 
-  showPopup() { 
+  showPopup() {
     $('body .tile').css({ "zIndex": "3", "position": "static" });
     this.popupBox.css({ display: 'block' });
   }
@@ -74,7 +74,7 @@ export default class EmptyTileHandler {
     })
   }
 
-  checkInputValidAndChange(letter) { 
+  checkInputValidAndChange(letter) {
     let isValid = letter.length === 1 && (letter.match(/^[a-zåÅäÄöÖ]+$/i));
     if (isValid) {
       this.emptyTile.char = letter.toUpperCase();
@@ -88,10 +88,10 @@ export default class EmptyTileHandler {
 
   tryAgain() {
     $('input[id=emptyTileInput]').val('');
-    $('input[id=emptyTileInput]').attr('placeholder','Försök igen!');
+    $('input[id=emptyTileInput]').attr('placeholder', 'Försök igen!');
   }
 
-  moveTileBackToPlayer() { 
+  moveTileBackToPlayer() {
     delete this.emptyTile.possibleToMove;
     delete this.game.networkInstance.board[this.game.y][this.game.x].tile;
     this.game.currentPlayer.currentTiles.push(this.emptyTile);
