@@ -294,8 +294,23 @@ body .tile {
   font-weight: 800;
 }
 
+.playerList {
+  position: absolute;
+  top: 5vh;
+  right: 22vw;
+}
+.playerList span {
+  margin: calc(10px + 2vw);
+  padding: 5px 10px;
+  font-family: Arial;
+  background-color: #213951;
+  border-radius: 50px;
+  color: white;
+  font-weight: 400;
+}
+
 .topPlayers{
-    font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 30px;
   font-weight: 800;
 }

@@ -15,16 +15,13 @@ export default class PlayerList {
 
   updatePlayerList() {
     this.list = this.game.networkInstance.networkStore.players;
-    console.log(this.list, 'PlayersListfrom network, PlayerList');
   }
 
   updateAndShowPlayerList() {
     this.updatePlayerList();
-    console.log('in show list');
-    //$('.playerList').html('');
+    $('.playerList').html('');
     for (let player of this.list) {
       if (this.game.meIndex !== this.list.indexOf(player)) {
-        console.log('condition met');
         let playerSpan = '<span class="playerListSpan">' + player.playerName + ': ' + player.points + '</span>';
         $('.playerList').append(playerSpan);
       }
