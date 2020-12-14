@@ -129,11 +129,9 @@ class Game {
         that.wordCheckerInstance.messageBox.hideMessage();
         that.tileChanger.clickOnEventHandler();
         if (that.gameEnder.checkGameEnd()) {
-          console.log("change game ended");
           that.gameEnder.endTheGame(true);
         }
         else {
-          console.log("change normally");
           that.networkInstance.changePlayer();
           that.render();
         }
