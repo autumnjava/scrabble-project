@@ -31,7 +31,7 @@ export default class NetWork {
           this.changePlayer();
         }
       }
-      else if(!allPlayersInEndPage){
+      else if (!allPlayersInEndPage) {
         this.changePlayer();
       }
     }

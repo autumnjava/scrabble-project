@@ -34,10 +34,21 @@ class Game {
 
   startGame() {
     this.currentPlayer = this.players[0];
-    if (this.networkInstance.networkStore.players.length > 1) {
-      this.render();
+    let store = this.networkInstance.networkStore;
+    // if (this.networkInstance.networkStore.players.length > 1) {
+    console.log(store.players[store.currentPlayerIndex] === 0, 'check currenplayer dont start');
+    console.log(store.players[0].playerName);
+    console.log(this.currentPlayer.name);
+    console.log(store.players[0].playerName !== this.currentPlayer.name);
 
+    if (store.players[0].playerName !== this.currentPlayer.name) {
+      console.log(this.currentPlayer.name);
     }
+    else {
+      return;
+    }
+
+
 
   }
 
@@ -53,9 +64,14 @@ class Game {
   }
 
   addEventListener() {
+    $('body').on('click', '.newGameButton', async () => {
+      this.networkInstance.preStart();
+      $('#newGameButton').hide();
+      $('#startGameButton').show();
+    });
 
     $('body').on('click', '.startGameButton', async () => {
-      this.networkInstance.preStart();
+      this.startGame();
     });
 
     $('body').on('click', '.connectGameButton', () => {
@@ -66,10 +82,12 @@ class Game {
   createStartPage() {
     $('#gamePage').hide();
     $('#endPage').hide();
+    $('#startGameButton').hide();
     $('.startPage').html(/*html*/`
     <div class ="startPageContent">
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
-        <button class="startGameButton">Start</button>
+        <button class="newGameButton">Nytt Spel</button>
+        <button class="startGameButton">Starta</button>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
     </div>
