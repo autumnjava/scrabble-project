@@ -49,6 +49,9 @@ class Game {
   }
   getName() {
     this.playerName = $('input[name="playerName"]').val();
+    if (this.playerName.length < 1) {
+      this.playerName = 'Player';
+    }
     return this.playerName;
   }
 
@@ -68,7 +71,7 @@ class Game {
     $('#endPage').hide();
     $('.startPage').html(/*html*/`
     <div class ="startPageContent">
-        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
+        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" minlength="2" maxlength="10" required>
         <button class="startGameButton">Start</button>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
