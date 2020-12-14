@@ -85,6 +85,7 @@ export default class TileChanger {
     if (this.inSquareTiles.length > 0) {
       this.button.css({ 'cursor': 'pointer', 'opacity': '' });
       this.button.attr("disabled", false);
+      this.button.addClass('changeTilesButton_hover');
     }
   }
 
