@@ -20,6 +20,7 @@ export default class PlayerList {
   updateAndShowPlayerList() {
     this.updatePlayerList();
     $('.playerList').html('');
+    console.log('list of players',this.list);
     for (let player of this.list) {
       if (this.game.meIndex !== this.list.indexOf(player)) {
         let playerSpan = '<span class="playerListSpan">' + player.playerName + ': ' + player.points + '</span>';

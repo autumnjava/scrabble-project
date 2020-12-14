@@ -11,7 +11,8 @@ export default class NetWork {
   listenForNetworkChanges() {
     console.log('listener active');
     // if statement if it is not my turn dont listen to changes
-    if ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
+    if (!this.onlyOnce || ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage)) {
+      this.onlyOnce = true;
       this.networkStore.moveMade = false;
       this.game.playerList.updateAndShowPlayerList();
       this.game.render();
@@ -55,11 +56,9 @@ export default class NetWork {
 
   async connectToStore(key) {
     this.networkStore = await Store.getNetworkStore(key, () => this.listenForNetworkChanges());
-
     let store = this.networkStore;
     window.store = store;
     console.log(store, 'connected to store')
-
     // add player names,the board and points to the network
     store.gameStarted = store.gameStarted || false;
     if (!store.gameStarted) {

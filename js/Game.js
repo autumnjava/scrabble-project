@@ -35,10 +35,13 @@ class Game {
 
   startGame() {
     this.currentPlayer = this.players[0];
-    if (this.networkInstance.networkStore.players.length > 1) {
-      this.render();
-    }
     this.playerList = new PlayerList(this);
+    if (this.networkInstance.networkStore.players.length > 1) {
+      setTimeout(() => {
+        this.networkInstance.listenForNetworkChanges();
+        this.render();
+      }, 0);
+    }
   }
 
 
