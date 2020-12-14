@@ -290,9 +290,7 @@ body .tile {
   font-weight: 800;
 }
 
-#instructionsButton{
-
- 
+#gameInstructions{
   color: white;
   background-color:   #cf816a;
   cursor: pointer;
@@ -303,7 +301,69 @@ body .tile {
 
 }
 
-#instructionsButton:hover{
+
+
+#gameInstructions:hover{
   background-color:transparent;
   color: rgb(31, 30, 30);
+}
+
+#instructionsBox .instructionsClose{
+  cursor: pointer;
+   color: #98aab4;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+
+}
+
+#instructionsBox {
+ display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 80%; /* Full height */
+  background-color: rgba(0,0,0,0.4); 
+ 
+}
+
+#instructionsBoxContent {
+  position: relative;
+  background-color: #e5d4c2;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 1;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  height: 60%;
+ overflow: auto; 
+  overflow-y: scroll;
+}
+
+#instructionsBox p {
+  padding: 1em;
+  color: #213951;
+  font-size: 1.2vw;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+#instructionsBox .instructionsClose:hover{
+  color: #213951;
+  text-decoration: none;
+
+}
+
+#instructionsBoxContent .tilesSpan, .boardSpan, .turnsSpan, .wordsSpan, .endSpan, .pointsSpan{
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(33, 57, 81);
+  display: block;
+  padding: 2rem;
 }

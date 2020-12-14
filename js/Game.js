@@ -10,6 +10,8 @@ import EmptyTileHandler from "./EmptyTileHandler.js";
 import TileChanger from "./ButtonHandler/TileChanger.js"
 import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 import Exit from "./ButtonHandler/Exit.js"
+import Instructions from "./ButtonHandler/Instructions.js";
+
 class Game {
 
   players = [];
@@ -21,6 +23,7 @@ class Game {
   turnSkipper = new TurnSkipper(this);
   exit = new Exit(this);
   emptyTileHandler = new EmptyTileHandler(this);
+  instructionsButton = new Instructions(this);
 
   async start() {
     this.createFormAndShowInStartPage();
@@ -79,6 +82,7 @@ class Game {
       $('header').animate({ "font-size": "15px", "padding": "5px" });
       $('footer').animate({ "font-size": "10px", "padding": "3px" });
       that.startGame();
+
     }
 
     let form = document.getElementById('form');
@@ -110,6 +114,14 @@ class Game {
     let checkWordButton = $('#checkWordButton');
     let skipButton = $('#skipButton');
     let changeTilesButton = $('#changeTilesButton');
+    let instructions = $('#gameInstructions');
+
+    //Click on instructions button to see rules of the game
+    instructions.click(function () {
+
+      that.instructionsButton.showInstructions();
+    });
+
 
     //Click on "skip" to skip the round
     skipButton.click(function () {
