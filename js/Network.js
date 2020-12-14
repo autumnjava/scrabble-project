@@ -1,6 +1,5 @@
 import Game from "./Game.js";
 import Store from 'https://network-lite.nodehill.com/store';
-import Player from "./Player.js";
 
 export default class NetWork {
 
@@ -11,8 +10,12 @@ export default class NetWork {
   listenForNetworkChanges() {
     console.log('listener active');
     // if statement if it is not my turn dont listen to changes
-    if (!this.onlyOnce || ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage)) {
-      this.onlyOnce = true;
+    let inGameConditions = ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage);
+    if (this.networkStore.playerJoined > 0 || !this.onlyOnce || inGameConditions) {
+      if (this.networkStore.playerJoined <= 0) {
+        this.onlyOnce = true;
+      }
+      this.networkStore.playerJoined--;
       this.networkStore.moveMade = false;
       this.game.playerList.updateAndShowPlayerList();
       this.game.render();
@@ -70,7 +73,8 @@ export default class NetWork {
           "attemptCounter": 0,
           "minusPoints": 0,
           "inEndPage": false,
-          "calculated": false
+          "calculated": false,
+          "playerJoined": true
         };
         store.board = store.board || this.game.createBoard();
         store.tiles = store.tiles || await this.game.tilesFromFile();
@@ -79,6 +83,7 @@ export default class NetWork {
         this.game.createPlayers();
         this.game.meIndex = store.players.length;
         store.players.push(player);
+        store.playerJoined = store.players.length;
         store.currentPlayerIndex = 0;
         this.game.startGame();
       }
