@@ -12,7 +12,7 @@ export default class NetWork {
     console.log('listener active');
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
-      this.game.playerList.updatePlayerList();
+      this.game.playerList.updateAndShowPlayerList();
       this.game.render();
       this.game.wordCheckerInstance.newWordsToCheck();
     }

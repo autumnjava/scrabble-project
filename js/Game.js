@@ -202,7 +202,7 @@ class Game {
     let that = this;
 
     $('.board, .players').remove();
-    let $players = $('<div class="players"/>').appendTo('.gamePage');
+    let $players = $('<div class="players"/>').appendTo('.playerGameContent');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.networkInstance.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
@@ -229,6 +229,9 @@ class Game {
     else {
       $('.myturn').text('Vänta...');
     }
+
+    //this.playerList.updateAndShowPlayerList();
+
     this.tileChanger.hideChangeTiles(7);
 
     $('.tiles').html(
