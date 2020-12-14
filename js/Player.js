@@ -33,7 +33,8 @@ export default class Player {
        <div class="player-icon">
       <div class="icon"><i class="fas fa-user fa-3x"></i></div>
        <div class="pname">${this.name} </div>
-       <div class="ppoints">${this.points} Points </div>
+       <div class="ppoints">${this.points} poäng </div>
+       <div class="tilesLeft">Brickor kvar: ${this.myGame.tiles.length} </div>
       </div>
      
       `;
