@@ -1,4 +1,5 @@
 import Game from "./Game.js";
+import GlobalDataHandler from "./GlobalDataHandler.js";
 import Store from 'https://network-lite.nodehill.com/store';
 import Player from "./Player.js";
 
@@ -9,6 +10,7 @@ export default class NetWork {
   }
 
   listenForNetworkChanges() {
+    let hej = new GlobalDataHandler(this.game);
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
       this.game.render();
@@ -31,7 +33,7 @@ export default class NetWork {
           this.changePlayer();
         }
       }
-      else if(!allPlayersInEndPage){
+      else if (!allPlayersInEndPage) {
         this.changePlayer();
       }
     }
