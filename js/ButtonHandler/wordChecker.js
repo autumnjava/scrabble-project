@@ -177,8 +177,6 @@ export default class WordChecker {
       delete this.game.networkInstance.board[tile.positionY][tile.positionX].specialValue;
     }
 
-    console.log("collected new wordObjs", this.wordObjects);
-
     for (let wordObject of this.wordObjects) {
       let tilePointsOfWord = 0;
       let chars = wordObject.chars.split('');
