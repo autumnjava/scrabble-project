@@ -59,32 +59,40 @@ export default class NetWork {
     console.log(store, 'connected to store')
 
     // add player names,the board and points to the network
-    store.players = store.players || [];
-    if (store.players.length < 4) {
-      let player = {
-        "playerName": this.game.getName(),
-        "points": 0,
-        "attemptCounter": 0,
-        "minusPoints": 0,
-        "inEndPage": false,
-        "calculated": false
-      };
-      store.board = store.board || this.game.createBoard();
-      store.tiles = store.tiles || await this.game.tilesFromFile();
-      store.exitPressed = false;
-      this.game.createPlayers();
-      this.game.meIndex = store.players.length;
-      store.players.push(player);
-      store.currentPlayerIndex = 0;
-      this.game.startGame();
+    store.gameStarted = store.gameStarted || false;
+    if (!store.gameStarted) {
+      store.players = store.players || [];
+      if (store.players.length < 4) {
+        let player = {
+          "playerName": this.game.getName(),
+          "points": 0,
+          "attemptCounter": 0,
+          "minusPoints": 0,
+          "inEndPage": false,
+          "calculated": false
+        };
+        store.board = store.board || this.game.createBoard();
+        store.tiles = store.tiles || await this.game.tilesFromFile();
+        store.exitPressed = false;
+        this.game.createPlayers();
+        this.game.meIndex = store.players.length;
+        store.players.push(player);
+        store.currentPlayerIndex = 0;
+        this.game.startGame();
+      }
+      else {
+        this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+      }
     }
     else {
-      this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+      this.game.gameStarter.message.text('Spelet har redan startat!');
+
     }
   }
 
   changePlayer() {
     let store = this.networkStore;
+    store.gameStarted = true;
     if (store.currentPlayerIndex < store.players.length - 1) {
       store.currentPlayerIndex++;
     }
