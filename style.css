@@ -289,3 +289,21 @@ body .tile {
   font-size: 30px;
   font-weight: 800;
 }
+
+#instructionsButton{
+
+ 
+  color: white;
+  background-color:  rgb(33, 57, 81);
+  cursor: pointer;
+  border: 5px solid white;
+  border-radius: 50px;
+ 
+  transition: all 300ms ease-in-out;
+
+}
+
+#instructionsButton:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
