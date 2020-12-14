@@ -12,6 +12,7 @@ export default class NetWork {
     console.log('listener active');
     // if statement if it is not my turn dont listen to changes
     if ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
+      this.networkStore.moveMade = false;
       this.game.playerList.updateAndShowPlayerList();
       this.game.render();
       this.game.wordCheckerInstance.newWordsToCheck();
@@ -95,7 +96,7 @@ export default class NetWork {
   changePlayer() {
     let store = this.networkStore;
     store.gameStarted = true;
-    store.moveMade = false;
+    store.moveMade = true;
     this.game.playerList.updateAndShowPlayerList();
     this.game.render();
     if (store.currentPlayerIndex < store.players.length - 1) {
