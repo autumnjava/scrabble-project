@@ -213,13 +213,6 @@ export default class WordChecker {
     return allPoints;
   }
 
-  removeTilesFromBoard(player) {
-    for (let tile of player.tilesPlaced) {
-      let square = this.game.networkInstance.board[tile.positionY][tile.positionX];
-      delete square.tile;
-    }
-  }
-
   async checkWordWithSAOL() {
     let checkedWithSAOL = [];
     // Loop through all words and check with SAOL if they are true or false

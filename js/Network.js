@@ -13,6 +13,7 @@ export default class NetWork {
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
       this.game.render();
+      this.game.wordCheckerInstance.newWordsToCheck();
     }
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
@@ -29,7 +30,7 @@ export default class NetWork {
           this.changePlayer();
         }
       }
-      else if(!allPlayersInEndPage){
+      else if (!allPlayersInEndPage) {
         this.changePlayer();
       }
     }
