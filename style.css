@@ -94,6 +94,11 @@
   color: rgb(31, 30, 30);
 }
 
+.changeTilesButton_hover:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
 .buttons > .button:hover{
   background-color:transparent;
   color: rgb(31, 30, 30);

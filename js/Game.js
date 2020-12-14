@@ -230,6 +230,12 @@ class Game {
       checkWordButton.attr("disabled", false);
     }
 
+    let changeTilesButton = $('#changeTilesButton');
+    changeTilesButton.removeClass('changeTilesButton_hover');
+    changeTilesButton.css({ 'cursor': 'default', 'opacity': '0.2' });
+    changeTilesButton.attr("disabled", true);
+
+
     this.addDragEvents();
     this.moveTilesAroundBoard();
   }
