@@ -9,6 +9,7 @@ export default class NetWork {
   }
 
   listenForNetworkChanges() {
+    console.log('listener active');
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
       this.game.render();
@@ -16,9 +17,6 @@ export default class NetWork {
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
-    console.log('listener active');
-    console.log("pressed? ", this.networkStore.exitPressed);
-    console.log("game ended by itself?", this.game.gameEnder.checkGameEnd());
     if (this.networkStore.exitPressed || this.game.gameEnder.checkGameEnd()) {
       if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated

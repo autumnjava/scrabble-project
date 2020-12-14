@@ -84,7 +84,7 @@ export default class WordChecker {
   }
 
   collectWords() {
-    let words = [];
+    let wordObjects = [];
     // Loop through the rows
     for (let row = 0; row < 15; row++) {
       let chars = '';
@@ -96,7 +96,7 @@ export default class WordChecker {
           points.push(this.game.networkInstance.board[row][col].tile.points);
           specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (col >= 14 && chars.length > 1) {
-            words.push({ chars, points, specialValues });
+            wordObjects.push({ chars, points, specialValues });
             chars = '';
             points = [];
             specialValues = [];
@@ -104,7 +104,7 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, points, specialValues }); // push the string chars into the array of words
+            wordObjects.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -123,7 +123,7 @@ export default class WordChecker {
           points.push(this.game.networkInstance.board[row][col].tile.points);
           specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (row >= 14 && chars.length > 1) {
-            words.push({ chars, points, specialValues });
+            wordObjects.push({ chars, points, specialValues });
             chars = '';
             points = [];
             specialValues = [];
@@ -131,7 +131,7 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, points, specialValues }); // push the string chars into the array of words
+            wordObjects.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -139,13 +139,12 @@ export default class WordChecker {
         }
       }
     }
-    return words; // an object {chars, points, specialValue}
+    return wordObjects; // an object {chars, points, specialValue}
   }
 
   newWordsToCheck() {
     this.wordObjects = this.collectWords();
     let words = this.wordObjects.map(word => word.chars);
-    this.myWords = words;
 
     let newWords = words.slice(); // Create a copy
     while (this.oldWords.length) {
@@ -170,9 +169,11 @@ export default class WordChecker {
     let dw = false;
     let tw = false;
     //here, the words shall be valid "this.allOK" = true
-    for (let tile of this.game.currentPlayer.tilesPlaced) {
+    for (let tile of tilesWithPossibleToMove(this.game.networkInstance.board)) {
       delete this.game.networkInstance.board[tile.positionY][tile.positionX].specialValue;
     }
+
+    console.log("collected new wordObjs", this.wordObjects);
 
     for (let wordObject of this.wordObjects) {
       let tilePointsOfWord = 0;
