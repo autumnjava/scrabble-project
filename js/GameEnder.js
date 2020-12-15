@@ -12,8 +12,8 @@ export default class GameEnder {
       this.removeCurrentTilesFromPlayer();
       this.sortByPoints();
       this.endGame = true;
-      }
-      //If endGame is true sort players' points and rank them (in process)
+    }
+    //If endGame is true sort players' points and rank them (in process)
   }
 
   showPage() {
@@ -62,12 +62,9 @@ export default class GameEnder {
   removeCurrentTilesFromPlayer() {
     // only applies to currentPlayer and calculates if player has not been calculated
     let store = this.game.networkInstance.networkStore;
-    console.log(store.players[this.game.meIndex].playerName, store.players[this.game.meIndex].calculated, store.players[this.game.meIndex].points);
 
-    if (!store.players[this.game.meIndex].calculated){
+    if (!store.players[this.game.meIndex].calculated) {
       let totalMinusPoints = 0;
-      console.log("totalminuspoints", totalMinusPoints);
-      console.log("curentPlayer", this.game.currentPlayer);
       if (this.game.currentPlayer.currentTiles.length > 0) {
         for (let tile of this.game.currentPlayer.currentTiles) {
           for (let key in tile) {
@@ -77,8 +74,6 @@ export default class GameEnder {
             }
           }
         }
-        console.log("totalminuspoints calculation", totalMinusPoints);
-        console.log("curentPlayer", this.game.currentPlayer);
         // This will remove all tiles left in players array of tiles when game ends
         this.game.currentPlayer.currentTiles.splice(0, this.game.currentPlayer.currentTiles.length);
         // The sum of players tiles left will be decreased from players points
@@ -87,14 +82,14 @@ export default class GameEnder {
         store.players[this.game.meIndex].minusPoints += totalMinusPoints;
         store.players[this.game.meIndex].calculated = true;
       }
-      else if (this.game.currentPlayer.currentTiles.length === 0 && store.players[this.game.meIndex].minusPoints === 0) { 
+      else if (this.game.currentPlayer.currentTiles.length === 0 && store.players[this.game.meIndex].minusPoints === 0) {
         store.players[this.game.meIndex].calculated = true;
-        if(store.players.every(player => player.calculated)) {
+        if (store.players.every(player => player.calculated)) {
           for (let player of this.networkStore.players) {
             store.players[this.game.meIndex].points += player.minusPoints;
           }
         }
-        else { 
+        else {
           store.players[this.game.meIndex].calculated = false;
         }
 
