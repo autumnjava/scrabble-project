@@ -16,7 +16,9 @@ export default {
   dragStart(e) {
     let me = $(e.currentTarget); //Tile that we are currently dragging.
     $(me).css({ zIndex: 2 });
-    $('.changeTiles .changeTilesSquare').addClass('hover');
+    if (this.tiles.length >= 7) {
+      $('.changeTiles .changeTilesSquare').addClass('hover');
+    }
     this.lastClickedTile = me;
   },
 
@@ -47,7 +49,7 @@ export default {
     this.tileChanger.squareChangeClass('hover', true);
     if (this.tileChanger.isPointerInSquare(pageX, pageY)) {
       let tilesOnBoard = tilesWithPossibleToMove(this.board);
-      if (tilesOnBoard.length > 0) {
+      if (tilesOnBoard.length > 0 || this.tiles.length < 7) {
         this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesOnBoard]
         // if there are tiles on the board already
         removeTilesFromBoard(this.board);

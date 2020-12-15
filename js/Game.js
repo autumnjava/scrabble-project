@@ -224,7 +224,7 @@ class Game {
     );
 
     $players.append(this.currentPlayer.render());
-    this.tileChanger.hideChangeTiles(7);
+    this.tileChanger.unableChangeTilesButton(7);
 
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')

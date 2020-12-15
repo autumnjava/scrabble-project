@@ -47,9 +47,10 @@ export default class TileChanger {
     else this.square.removeClass(className);
   }
 
-  hideChangeTiles(minTilesToShow) {
+  unableChangeTilesButton(minTilesToShow) {
     if (this.game.tiles.length < minTilesToShow) {
-      this.square.hide();
+      this.button.css({ 'cursor': 'default', 'opacity': '0.2' });
+      this.button.attr("disabled", true);
     }
   }
 
@@ -67,7 +68,7 @@ export default class TileChanger {
   }
 
   pointerInSquare(pointerX, pointerY) {
-    if (this.isPointerInSquare(pointerX, pointerY)) {
+    if (this.isPointerInSquare(pointerX, pointerY) && this.game.tiles.length >= 7) {
       this.squareChangeClass('hover');
     } else {
       this.squareChangeClass('hover', true);
