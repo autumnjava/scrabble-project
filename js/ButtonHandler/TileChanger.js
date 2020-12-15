@@ -24,6 +24,7 @@ export default class TileChanger {
 
     let playerTiles = this.game.currentPlayer.currentTiles;
     if (this.inSquareTiles.length > 0) {
+
       for (let tileToRemove of this.inSquareTiles) {
         if (playerTiles.includes(tileToRemove)) {
           let tileToRemoveIndex = playerTiles.indexOf(tileToRemove);
@@ -36,6 +37,7 @@ export default class TileChanger {
       this.game.currentPlayer.attemptCounter += 1;
     }
     else {
+
       this.game.currentPlayer.currentTiles = [...this.game.getTiles(), ' '];
       this.game.currentPlayer.attemptCounter += 1;
     }
@@ -78,10 +80,15 @@ export default class TileChanger {
   addTileDivInSquare(tileDiv) { // assume  tile is moved from stand
     let tileIndex = getTileDivDatasetAsObject(tileDiv).tile;
     let tile = this.game.currentPlayer.currentTiles[tileIndex];
-
     if (!tileDiv.hasClass('onChangeTilesSquare')) {
       this.inSquareTiles.push(tile);
       tileDiv.addClass('onChangeTilesSquare');
+    }
+
+    if (this.inSquareTiles.length > 0) {
+      this.button.addClass('changeTilesButton_hover');
+      this.button.css({ 'cursor': 'pointer', 'opacity': '1' });
+      this.button.attr("disabled", false);
     }
   }
 
@@ -101,11 +108,14 @@ export default class TileChanger {
           return t;
         }
       }
+
     }
     return '';
   }
 
   removeAllTilesInSquare(tile) {
+    this.button.css({ 'cursor': 'default', 'opacity': '0.2' });
+    this.button.attr("disabled", true);
     this.inSquareTiles = [];
   }
 

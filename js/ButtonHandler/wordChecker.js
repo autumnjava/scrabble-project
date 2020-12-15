@@ -42,7 +42,20 @@ export default class WordChecker {
     let allPositionsXSorted = [];
     // Sort so the positions comes i order
     this.invalidMove = (!allYAreSame && !allXAreSame)
+    console.log("invalidMove false=x,y same", this.invalidMove);
+  }
 
+  clickOnEventHandler() {
+    this.checkEmptySpace();
+    console.log("T start", this.checkIfWordIsOnStartSquare());
+    console.log("F invalidMove", this.checkIfCorrectPosition());
+    console.log("F gaps", this.gaps);
+    if (this.checkIfWordIsOnStartSquare() && !this.checkIfCorrectPosition() && !this.gaps) {
+      this.checkWordWithSAOL();
+    }
+    else {
+      this.wordFailed();
+    }
   }
 
   clickOnEventHandler() {
@@ -431,7 +444,6 @@ export default class WordChecker {
 
 
   checkEmptySpace() {
-
 
     //Problem! Om man placerar endast en tile på brädet blir allXAreSame true och allYAreSame true
     this.addOldTiles();

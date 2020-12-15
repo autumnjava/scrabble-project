@@ -14,6 +14,8 @@ import Exit from "./ButtonHandler/Exit.js"
 import Store from 'https://network-lite.nodehill.com/store';
 import Network from "./Network.js";
 import PlayerList from "./PlayerList.js";
+import Instructions from "./ButtonHandler/Instructions.js";
+
 class Game {
 
   players = [];
@@ -26,6 +28,7 @@ class Game {
   exit = new Exit(this);
   emptyTileHandler = new EmptyTileHandler(this);
   networkInstance = new Network(this);
+  instructionsButton = new Instructions(this);
 
   async start() {
     this.createStartPage();
@@ -104,6 +107,14 @@ class Game {
     let checkWordButton = $('#checkWordButton');
     let skipButton = $('#skipButton');
     let changeTilesButton = $('#changeTilesButton');
+    let instructions = $('#gameInstructions');
+
+    //Click on instructions button to see rules of the game
+    instructions.click(function () {
+
+      that.instructionsButton.showInstructions();
+    });
+
 
     //Click on "skip" to skip the round
     skipButton.click(function () {
