@@ -7,14 +7,12 @@ export default class GlobalDataHandler {
     this.game = game;
     this.localStore = Store.getLocalStore();
     this.createHighScoreList();
+    //this.getHighScores(player);
   }
 
   createHighScoreList() {
     this.localStore.highScores = this.localStore.highScores || [];
-    this.localStore.highScores.push('hej');
-    this.localStore.highScores.push('tjena');
-    console.log(this.localStore.highScores, 'localstore');
-    localStorage.clear();
+    //localStorage.clear();
   }
 
   printHighScores() {
@@ -24,8 +22,9 @@ export default class GlobalDataHandler {
 
   }
 
-  getHighScores() {
-
+  getHighScores(player) {
+    this.localStore.highScores.push(player);
+    console.log(this.localStore.highScores, ' THE HIGHSCORELIST');
   }
 
 }

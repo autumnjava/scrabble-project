@@ -5,12 +5,15 @@ import Player from "./Player.js";
 
 export default class NetWork {
 
+  highScoreList = new GlobalDataHandler(this.game);
+
   constructor(game) {
     this.game = game;
   }
 
   listenForNetworkChanges() {
-    let hej = new GlobalDataHandler(this.game);
+
+    let me = this.networkStore.players[this.networkStore.currentPlayerIndex];
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
       this.game.render();
@@ -18,12 +21,14 @@ export default class NetWork {
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
-    console.log('listener active');
-    console.log("pressed? ", this.networkStore.exitPressed);
-    console.log("game ended by itself?", this.game.gameEnder.checkGameEnd());
+
     if (this.networkStore.exitPressed || this.game.gameEnder.checkGameEnd()) {
       if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
+          for (let player of this.networkStore.players) {
+            this.highScoreList.getHighScores(player);
+            console.log("Player pushed", player);
+          }
           this.game.gameEnder.endTheGame(true); // end and render endPage
           this.game.gameEnder.render(); // här kommer inEndPage bli true
           this.changePlayer();
