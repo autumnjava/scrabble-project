@@ -30,8 +30,8 @@ export default class GlobalDataHandler {
     }
     highScoreDiv.append(highScoreTitle)
     highScoreDiv.append(highScoreList);
-    $('body').append(highScoreDiv);
-    //$('body').append(this.page);
+
+    return highScoreDiv;
   }
 
   getHighScores(player) {

@@ -103,7 +103,7 @@ export default class GameEnder {
     this.hideEverything();
     this.page.html(''); // empty the endPage just in case
     let rankingDiv = $('<div class="ranking"></div>');
-    let rankingListTitle = $('<p class="topPlayers">Resultat:<p>');
+    let rankingListTitle = $('<p class="topPlayers">Resultat<p>');
     let rankingList = $('<ol></ol>');
     let rankingNumber = 1;
     for (let player of this.sortedPlayers) {
@@ -118,6 +118,7 @@ export default class GameEnder {
     rankingDiv.append(rankingList);
     this.page.append(rankingDiv);
     let topTen = this.game.networkInstance.highScoreList.printHighScores();
+
     this.page.append(topTen);
     $('body').append(this.page);
     this.game.networkInstance.networkStore.players[this.game.networkInstance.networkStore.currentPlayerIndex].inEndPage = true;
