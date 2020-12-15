@@ -1,8 +1,11 @@
 import Game from "./Game.js";
+import GlobalDataHandler from "./GlobalDataHandler.js";
 import Store from 'https://network-lite.nodehill.com/store';
 import Player from "./Player.js";
 
 export default class NetWork {
+
+  highScoreList = new GlobalDataHandler(this.game);
 
   constructor(game) {
     this.game = game;
@@ -22,6 +25,10 @@ export default class NetWork {
     if (this.networkStore.exitPressed || this.game.gameEnder.checkGameEnd()) {
       if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
+          for (let player of this.networkStore.players) {
+            this.highScoreList.getHighScores(player);
+            console.log("Player pushed", player);
+          }
           this.game.gameEnder.endTheGame(true); // end and render endPage
           this.game.gameEnder.render(); // här kommer inEndPage bli true
           this.changePlayer();

@@ -1,6 +1,11 @@
 .endPage{
+  display: flex;
+  justify-content: center;
   margin-top: 90px;
   margin-bottom: 33.33px;
+  width: 100%;
+  padding-top: 15vh;
+  font-family: Arial;
 }
 
 .endPage .large {
@@ -8,13 +13,11 @@
 }
 
 .ranking {
-  margin: 20vh 30vh;
+  margin: 15vh;
+  margin-top: 0;
 }
 
 .ranking ol {
-  display: block;
-  margin: 10px auto;
-  text-align: center;
   color: #213951;
 }
 
@@ -26,21 +29,39 @@
 }
 
 .ranking li span{
-  background-color: #98aab4;
+
   border-radius: 2px;
   color:  #213951;
-}
-
-.ranking li.rank1 span{
-  
+  float: left;
+  width: 20vw;
 }
 
 .ranking li.rank1{
-  font-size: calc(12px + 1vh + 3vw);
   color: 	#cf816a;
   background-color: #e5d4c2;
 }
 
 .ranking li.rank1::marker{
   color: 	#cf816a;
+}
+
+.highScoreDiv{
+  margin: 15vh;
+  margin-top: 0;
+  font-size: calc(10px + 0.2vh + 0.5vw);
+}
+
+.highScoreDiv li{
+  color: #213951;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.highScoreDiv li span{
+  float: left;
+  width: 10vw;
+}
+
+.topPlayers{
+  color: #213951;
 }

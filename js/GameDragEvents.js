@@ -145,7 +145,7 @@ export default {
       let player = that.currentPlayer;
       // if dragged within the limit of the stand
       // NOTE: Later maybe need to check if the stand is not full. at the moment not needed
-      console.log('oldObject', oldObject);
+
       if (pageX > left && pageX < right
         && pageY > top && pageY < bottom) {
         let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
