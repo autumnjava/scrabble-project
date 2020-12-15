@@ -45,15 +45,15 @@ export default class WordChecker {
     console.log("invalidMove false=x,y same", this.invalidMove);
   }
 
-  clickOnEventHandler() { 
+  clickOnEventHandler() {
     this.checkEmptySpace();
-    console.log("T start",this.checkIfWordIsOnStartSquare());
+    console.log("T start", this.checkIfWordIsOnStartSquare());
     console.log("F invalidMove", this.checkIfCorrectPosition());
     console.log("F gaps", this.gaps);
     if (this.checkIfWordIsOnStartSquare() && !this.checkIfCorrectPosition() && !this.gaps) {
       this.checkWordWithSAOL();
     }
-    else { 
+    else {
       this.wordFailed();
     }
   }
@@ -954,7 +954,7 @@ export default class WordChecker {
 
       //give player points for correct word
       //also empty the tilesplaced array for next round of currentplayer
-      console.log("calculated points",this.calculatePoints());
+      console.log("calculated points", this.calculatePoints());
       this.game.currentPlayer.points += this.calculatePoints();
       this.game.currentPlayer.points += this.additionalPoints();
       this.game.currentPlayer.attemptCounter = 0; // Reset when correct
@@ -970,7 +970,7 @@ export default class WordChecker {
     this.game.render();
   }
 
-  wordFailed() { 
+  wordFailed() {
     this.messageBox.showMessage();
     this.game.currentPlayer.correctWordCounter++;
     this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.board)];
