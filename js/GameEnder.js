@@ -117,6 +117,8 @@ export default class GameEnder {
     rankingDiv.append(rankingListTitle)
     rankingDiv.append(rankingList);
     this.page.append(rankingDiv);
+    let topTen = this.game.networkInstance.highScoreList.printHighScores();
+    this.page.append(topTen);
     $('body').append(this.page);
     this.game.networkInstance.networkStore.players[this.game.networkInstance.networkStore.currentPlayerIndex].inEndPage = true;
   }

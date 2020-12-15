@@ -16,10 +16,22 @@ export default class GlobalDataHandler {
   }
 
   printHighScores() {
-
-
-
-
+    let highScoreDiv = $('<div class="highScoreDiv"></div>');
+    let highScoreTitle = $('<p class="topPlayers">Poängtoppen<p>');
+    let highScoreList = $('<ol></ol>');
+    let rankingNumber = 1;
+    for (let player of this.topTen) {
+      let playerList = $(`<li class="rank${rankingNumber}"></li>`);
+      playerList.append(`
+      <p><span class="highScorePosition${rankingNumber}">${player.playerName}</span> ${player.points}</p>
+      `)
+      rankingNumber++;
+      highScoreList.append(playerList);
+    }
+    highScoreDiv.append(highScoreTitle)
+    highScoreDiv.append(highScoreList);
+    $('body').append(highScoreDiv);
+    //$('body').append(this.page);
   }
 
   getHighScores(player) {
