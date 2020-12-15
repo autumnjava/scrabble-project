@@ -53,8 +53,7 @@ class Game {
   }
 
   addEventListener() {
-
-    $('body').on('click', '.startGameButton', async () => {
+    $('.createKeyButton').on('click', async () => {
       this.networkInstance.preStart();
     });
 
@@ -64,12 +63,14 @@ class Game {
   }
 
   createStartPage() {
+    this.clickedCreateKey = false;
     $('#gamePage').hide();
     $('#endPage').hide();
     $('.startPage').html(/*html*/`
     <div class ="startPageContent">
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
-        <button class="startGameButton">Start</button>
+        <button class="createKeyButton">Skapa nyckel</button>
+        <div class="waitingForOtherPlayers"></div>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
     </div>
