@@ -9,6 +9,7 @@ export default class NetWork {
 
   constructor(game) {
     this.game = game;
+    this.clickedCreateKey = false;
   }
 
   listenForNetworkChanges() {
@@ -45,13 +46,23 @@ export default class NetWork {
   }
 
   async preStart() {
-    let key = await this.createNetworkKey();
-    let $keyDiv = $('.keyHolder');
-    $keyDiv.css({ display: 'block' });
-    $keyDiv.text('Detta är nyckeln : ' + key);
-    this.connectToStore(key, () => {
-      console.log('Something changed...');
-    });
+    while (!this.clickedCreateKey) {
+      let key = await this.createNetworkKey();
+      $('.createKeyButton').hide();
+      //CHECK HERE IF ANOTHER PLAYER HAS JOINED THE GAME:
+      $('.waitingForOtherPlayers').html(/*html*/`
+      <p> Väntar på andra spelaren att joina<span>.</span><span>.</span><span>.</span></p>
+      `);
+      this.clickedCreateKey = true;
+
+      let $keyDiv = $('.keyHolder');
+      $keyDiv.css({ display: 'block' });
+      $keyDiv.text('Detta är nyckeln : ' + key);
+      this.connectToStore(key, () => {
+        console.log('Something changed...');
+      });
+    }
+
   }
 
   async createNetworkKey() {
