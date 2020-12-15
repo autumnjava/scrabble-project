@@ -13,6 +13,7 @@ import TurnSkipper from "./ButtonHandler/TurnSkipper.js"
 import Exit from "./ButtonHandler/Exit.js"
 import Store from 'https://network-lite.nodehill.com/store';
 import Network from "./Network.js";
+import PlayerList from "./PlayerList.js";
 class Game {
 
   players = [];
@@ -36,9 +37,8 @@ class Game {
     this.currentPlayer = this.players[0];
     if (this.networkInstance.networkStore.players.length > 1) {
       this.render();
-
     }
-
+    this.playerList = new PlayerList(this);
   }
 
 
@@ -146,7 +146,8 @@ class Game {
 
     checkWordButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
-        that.wordCheckerInstance.checkWordWithSAOL();
+        //that.wordCheckerInstance.checkWordWithSAOL();
+        that.wordCheckerInstance.clickOnEventHandler();
         that.render();
       }
     })

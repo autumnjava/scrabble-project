@@ -45,10 +45,31 @@ export default class WordChecker {
 
   }
 
-  checkIfWordIsOnStartSquare() {
-    if (!this.game.networkInstance.board[7][7].tile) {
-      this.invalidMove = true;
+  clickOnEventHandler() {
+
+
+    if (!this.invalidMove) {
+      this.invalidMove = (this.checkEmptySpace() || this.checkIfCorrectPosition()); //om en av dem är true, så blir invalidMove true
+      console.log('are there any gaps?', this.gaps)
+      console.log('not touching old tiles?', this.testFailed)
+      //this.gaps = true betyder finns gaps
+      //this.testFailed = true tiles ligger inte bradvid varandra
+      console.log("X and Y same, but gaps or no tiles between F", this.invalidMove);
+      if (this.checkIfWordIsOnStartSquare() && !this.invalidMove) {
+        this.checkWordWithSAOL();
+      }
+      else {
+        this.invalidMove = true; // just make sure invalidMove is true
+        this.wordFailed();
+      }
     }
+    else {
+      this.wordFailed();
+    }
+  }
+
+  checkIfWordIsOnStartSquare() {
+    return !(!this.game.networkInstance.board[7][7].tile);
   }
 
   removeFromPlayerTilesPlaced(oldObject, player) {
@@ -67,7 +88,7 @@ export default class WordChecker {
   }
 
   collectWords() {
-    let words = [];
+    let wordObjects = [];
     // Loop through the rows
     for (let row = 0; row < 15; row++) {
       let chars = '';
@@ -79,7 +100,7 @@ export default class WordChecker {
           points.push(this.game.networkInstance.board[row][col].tile.points);
           specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (col >= 14 && chars.length > 1) {
-            words.push({ chars, points, specialValues });
+            wordObjects.push({ chars, points, specialValues });
             chars = '';
             points = [];
             specialValues = [];
@@ -87,7 +108,7 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, points, specialValues }); // push the string chars into the array of words
+            wordObjects.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -106,7 +127,7 @@ export default class WordChecker {
           points.push(this.game.networkInstance.board[row][col].tile.points);
           specialValues.push(this.game.networkInstance.board[row][col].specialValue ? this.game.networkInstance.board[row][col].specialValue : 0);
           if (row >= 14 && chars.length > 1) {
-            words.push({ chars, points, specialValues });
+            wordObjects.push({ chars, points, specialValues });
             chars = '';
             points = [];
             specialValues = [];
@@ -114,7 +135,7 @@ export default class WordChecker {
         }
         else if (chars) {
           if (this.isBoardEmpty() || chars.length > 1) {
-            words.push({ chars, points, specialValues }); // push the string chars into the array of words
+            wordObjects.push({ chars, points, specialValues }); // push the string chars into the array of words
           }
           chars = '';
           points = [];
@@ -122,13 +143,12 @@ export default class WordChecker {
         }
       }
     }
-    return words; // an object {chars, points, specialValue}
+    return wordObjects; // an object {chars, points, specialValue}
   }
 
   newWordsToCheck() {
     this.wordObjects = this.collectWords();
     let words = this.wordObjects.map(word => word.chars);
-    this.myWords = words;
 
     let newWords = words.slice(); // Create a copy
     while (this.oldWords.length) {
@@ -153,9 +173,11 @@ export default class WordChecker {
     let dw = false;
     let tw = false;
     //here, the words shall be valid "this.allOK" = true
-    for (let tile of this.game.currentPlayer.tilesPlaced) {
+    for (let tile of tilesWithPossibleToMove(this.game.networkInstance.board)) {
       delete this.game.networkInstance.board[tile.positionY][tile.positionX].specialValue;
     }
+
+    console.log("collected new wordObjs", this.wordObjects);
 
     for (let wordObject of this.wordObjects) {
       let tilePointsOfWord = 0;
@@ -191,13 +213,6 @@ export default class WordChecker {
     return allPoints;
   }
 
-  removeTilesFromBoard(player) {
-    for (let tile of player.tilesPlaced) {
-      let square = this.game.networkInstance.board[tile.positionY][tile.positionX];
-      delete square.tile;
-    }
-  }
-
   async checkWordWithSAOL() {
     let checkedWithSAOL = [];
     // Loop through all words and check with SAOL if they are true or false
@@ -214,304 +229,206 @@ export default class WordChecker {
 
     this.testFailed = false;
 
+
+    //Problem: stannar på den första iterationen och går inte vidare
     //Check if none of tiles placed are on start square
     this.allTilesNotAtStart = this.game.currentPlayer.tilesPlaced.some(x => x.positionY == 7 && x.positionX == 7);
 
 
+
     if (!this.allTilesNotAtStart) {
-      for (let tile of this.game.currentPlayer.tilesPlaced) {
+      for (let tile of tilesWithPossibleToMove(this.game.networkInstance.board)) {
+        console.log('tilen som vi kollar på nu är', tile)
         //Check div above, below, on right and left of every placed tile
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
-
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-
           //If found other player's tile above or below test has not been failed
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
+            console.log('found div below')
             this.testFailed = false;
-            break;
+            return this.testFailed;
 
-
-
-
+            //Funkar inte när alla nya tiles är endast above?
           }
-          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
+            console.log('found div above')
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
-
           //Same as before when it comes to other player's tile on right and left side
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
+            console.log('found div on right')
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
 
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
+            console.log('found div on left')
             this.testFailed = false;
-            break;
+            return this.testFailed;
 
           }
-
           //If there is none of other player's tile around my tile, test has been failed and move is invalid
           else {
             this.testFailed = true;
-
-
-
           }
         }
-
         else if (tile.positionY == 0 && tile.positionX == 0) {
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
-
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
           else {
             this.testFailed = true;
-
           }
 
-
         }
-
         else if (tile.positionY == 14 && tile.positionX == 14) {
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-
-          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
           else {
             this.testFailed = true;
-
           }
 
-
         }
-
-
         else if (tile.positionY == 0 && tile.positionX == 14) {
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
 
           }
           else {
             this.testFailed = true;
-
           }
 
-
         }
-
         else if (tile.positionY == 14 && tile.positionX == 0) {
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
-
-          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
           else {
             this.testFailed = true;
-
           }
 
-
         }
-
         else if (tile.positionX == 14) {
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
           }
-
           //If there is none of other player's tile around my tile, test has been failed and move is invalid
           else {
             this.testFailed = true;
-
-
           }
-
         }
-
         else if (tile.positionX == 0) {
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
-
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-          else if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
           }
-
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-            this.testFailed = false;
-            break;
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
+            return this.testFailed;
           }
-
-
           else {
             this.testFailed = true;
-
           }
-
-
         }
-
         else if (tile.positionY == 0) {
-
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-          if (this.divBelow != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divBelow)) {
-
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
           }
-
           else {
             this.testFailed = true;
-
-
           }
-
-
         }
-
         else if (tile.positionY == 14) {
-
           this.divAbove = this.game.networkInstance.board[tile.positionY - 1][tile.positionX].tile;
           this.divOnRight = this.game.networkInstance.board[tile.positionY][tile.positionX + 1].tile;
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
-
-          if (this.divAbove != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divAbove)) {
+          if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
             this.testFailed = false;
-
-            break;
-
-
+            return this.testFailed;
           }
-
-          else if (this.divOnRight != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnRight)) {
-
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
             this.testFailed = false;
-            break;
-
+            return this.testFailed;
           }
-
-          else if (this.divOnLeft != undefined && !this.game.currentPlayer.tilesPlaced.includes(this.divOnLeft)) {
+          else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
             this.testFailed = false;
-            break;
+            return this.testFailed;
           }
-
-
           else {
             this.testFailed = true;
-
-
           }
-
         }
-
-
       }
-
+      return this.testFailed;
     }
 
-
-
-    return this.testFailed;  //Returns true if word has not correct position and false if everything is ok
+    //Returns true if word has not correct position and false if everything is ok
   }
+
+
 
   checkEmptySpace() {
 
@@ -936,28 +853,16 @@ export default class WordChecker {
       this.invalidMove = true;
 
     }
+
     this.checkEmptySpace();
+
 
 
 
     let playerTiles = this.game.currentPlayer.currentTiles;
 
     if (!words || this.invalidMove || this.gaps) {
-      this.messageBox.showMessage();
-      this.game.currentPlayer.correctWordCounter++;
-      this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.networkInstance.board)];
-      this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
-
-      this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
-
-      // If player has tried to check a word 3 times unsuccessfully, 
-      // attemptCounter will increase, correctWordCounter will reset 0 & change player
-      if (this.game.currentPlayer.correctWordCounter === 3) {
-        this.game.currentPlayer.attemptCounter++;
-        this.game.currentPlayer.correctWordCounter = 0;
-        this.game.networkInstance.changePlayer();
-        this.messageBox.hideMessage();
-      }
+      this.wordFailed();
     }
     else if (words) {
       this.messageBox.hideMessage();
@@ -990,5 +895,21 @@ export default class WordChecker {
     this.game.render();
   }
 
+  wordFailed() {
+    this.messageBox.showMessage();
+    this.game.currentPlayer.correctWordCounter++;
+    this.game.currentPlayer.currentTiles = [...this.game.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.game.networkInstance.board)];
+    this.game.networkInstance.board = removeTilesFromBoard(this.game.networkInstance.board);
 
+    this.game.currentPlayer.tilesPlaced.splice(0, this.game.currentPlayer.tilesPlaced.length);
+
+    // If player has tried to check a word 3 times unsuccessfully, 
+    // attemptCounter will increase, correctWordCounter will reset 0 & change player
+    if (this.game.currentPlayer.correctWordCounter === 3) {
+      this.game.currentPlayer.attemptCounter++;
+      this.game.currentPlayer.correctWordCounter = 0;
+      this.game.networkInstance.changePlayer();
+      this.messageBox.hideMessage();
+    }
+  }
 }

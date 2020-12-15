@@ -9,16 +9,16 @@ export default class NetWork {
   }
 
   listenForNetworkChanges() {
+    console.log('listener active');
     // if statement if it is not my turn dont listen to changes
     if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
+      this.game.playerList.updatePlayerList();
       this.game.render();
+      this.game.wordCheckerInstance.newWordsToCheck();
     }
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
-    console.log('listener active');
-    console.log("pressed? ", this.networkStore.exitPressed);
-    console.log("game ended by itself?", this.game.gameEnder.checkGameEnd());
     if (this.networkStore.exitPressed || this.game.gameEnder.checkGameEnd()) {
       if (!this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) { // i'm not in endpage
         if (allPlayersCalculated) { // all calculated
@@ -31,7 +31,7 @@ export default class NetWork {
           this.changePlayer();
         }
       }
-      else if(!allPlayersInEndPage){
+      else if (!allPlayersInEndPage) {
         this.changePlayer();
       }
     }
@@ -60,22 +60,27 @@ export default class NetWork {
 
     // add player names,the board and points to the network
     store.players = store.players || [];
-    let player = {
-      "playerName": this.game.getName(),
-      "points": 0,
-      "attemptCounter": 0,
-      "minusPoints": 0,
-      "inEndPage": false,
-      "calculated": false
-    };
-    store.board = store.board || this.game.createBoard();
-    store.tiles = store.tiles || await this.game.tilesFromFile();
-    store.exitPressed = false;
-    this.game.createPlayers();
-    this.game.meIndex = store.players.length;
-    store.players.push(player);
-    store.currentPlayerIndex = 0;
-    this.game.startGame();
+    if (store.players.length < 4) {
+      let player = {
+        "playerName": this.game.getName(),
+        "points": 0,
+        "attemptCounter": 0,
+        "minusPoints": 0,
+        "inEndPage": false,
+        "calculated": false
+      };
+      store.board = store.board || this.game.createBoard();
+      store.tiles = store.tiles || await this.game.tilesFromFile();
+      store.exitPressed = false;
+      this.game.createPlayers();
+      this.game.meIndex = store.players.length;
+      store.players.push(player);
+      store.currentPlayerIndex = 0;
+      this.game.startGame();
+    }
+    else {
+      this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+    }
   }
 
   changePlayer() {
