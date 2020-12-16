@@ -3,7 +3,7 @@ export default class PlayerList {
   constructor(game) {
     this.game = game;
     this.updatePlayerList();
-    $('.gamePage').append(this.createPlayeList());
+    $('.playerGameContent').prepend(this.createPlayeList());
   }
 
 

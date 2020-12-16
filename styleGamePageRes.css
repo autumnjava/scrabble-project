@@ -1,0 +1,81 @@
+/*$desktop: 1200px;
+$
+$
+$
+*/
+:root {
+  --desktop: 1200px;
+  --laptop: 992px;
+  --tablet: 768px;
+  --phone: 480px;
+}
+/*phone*/
+@media only screen and (max-width: 767.98px){
+  .gamePage {
+    display: grid;
+    background-color: pink;
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 37px;
+  }
+
+
+  .board > div {
+  border: 0.5px solid rgb(39, 37, 37);
+  margin: 0.2px;
+  width: 5vw;
+  height: 5vw;
+  }
+  
+  .board .special-tl::after, .board .special-tw::after, .board .special-dl::after, .board .special-dw::after{
+    font-size: 3.2vw;
+  }
+  .board .special-start::after{
+    padding-top: 1.7vw;
+    font-size: 1.5vw;
+  }
+
+  .board .tile {
+  width: 5vw;
+  height: 5vw;
+  font-size: small;
+  }
+
+  .board .tile span{
+  font-size: 2vw;
+  right: 1px;
+  bottom: 1px;
+  }
+
+  .playerGameContent{
+    display: inline-block;
+    background-color: black;
+  }
+
+  .playerGameContent > div{
+    position: relative;
+    background-color: black;
+    flex: 1 0 100%;
+  }
+
+}
+
+/*tablet*/
+@media only screen and (min-width: 768px) and (max-width: 991.98px){
+  .gamePage {
+    background-color: green;
+  }
+}
+
+
+/*laptop*/
+@media only screen and (min-width: 992px) and (max-width: 1200px){
+  .gamePage {
+    background-color: black;
+    width: 75%;
+    border: 3px dotted red;
+    margin: 0 auto;
+    margin-top: 37px;
+  }
+}
+

@@ -219,7 +219,7 @@ class Game {
 
     $('.board, .players').remove();
     let $players = $('<div class="players"/>').appendTo('.playerGameContent');
-    let $board = $('<div class="board"/>').appendTo('.gamePage');
+    let $board = $('<div class="board"/>').prependTo('.gamePage');
     this.networkInstance.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.networkInstance.board.flat().map((x, i) => `
