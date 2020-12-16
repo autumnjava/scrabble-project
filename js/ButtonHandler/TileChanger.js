@@ -58,7 +58,8 @@ export default class TileChanger {
 
   hideButton(minTilesToShow) {
     if (this.game.networkInstance.tiles.length < minTilesToShow) {
-      this.button.hide();
+      this.button.css({ 'cursor': 'default', 'opacity': '0.2' });
+      this.button.attr("disabled", true);
     }
   }
 
