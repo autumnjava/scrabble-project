@@ -240,6 +240,7 @@ class Game {
       $('.myturn').text('Vänta...');
     }
     this.tileChanger.hideChangeTiles(7);
+    this.tileChanger.hideButton(7);
 
     $('.tiles').html(
       this.networkInstance.tiles.map(x => `<div>${x.char}</div>`).join('')
@@ -249,6 +250,10 @@ class Game {
       this.moveTilesAroundBoard();
     }
 
+    let changeTilesButton = $('#changeTilesButton');
+    changeTilesButton.removeClass('changeTilesButton_hover');
+    changeTilesButton.css({ 'cursor': 'default', 'opacity': '0.2' });
+    changeTilesButton.attr("disabled", true);
 
     let checkWordButton = $('#checkWordButton');
     //If there are no tiles on the board that has property data-possibleToMove, button is disabled.
@@ -264,6 +269,8 @@ class Game {
     $('header').animate({ "font-size": "15px", "padding": "5px" });
     $('footer').animate({ "font-size": "10px", "padding": "3px" });
   }
+
+
 
 }
 
