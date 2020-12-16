@@ -86,13 +86,14 @@
   color: white;
   background-color: #213951;/*#f5b880;*/
   cursor: pointer;
-  border: 0.2em solid white;
+  border: 0.3vw solid white;
   border-radius: 50px;
   padding: 0.5em 1.5em;
-  font-size: 2.5vh;
+  font-size: 1.2vw;
   text-transform: uppercase;
   font-weight: bold;
   transition: all 300ms ease-in-out;
+  margin: 0 1vw;
  
   /*display: inline-block;
    /*position: absolute;
@@ -102,9 +103,10 @@
 
 
 .buttons {
+  bottom: 10vh;
+  margin: 0 auto;
   position: absolute;
-  bottom: 5vh;
-  right: 5vh; 
+  left: 5%;
 }
 
 .checkWordButton_hover:hover{
@@ -271,20 +273,21 @@ body .tile {
   border: 1px solid #000;
   border-radius: 3px;
   margin: 0 2px;
-  font-size: 3.5vh;
+  font-size: 2.2vw;
 }
 
 .board .tile {
   position: absolute;
   background-color: rgb(243, 206, 165);
-  margin: -1px;
-  width: 5vw;
-  height: 5vw;
+  margin: -0.01vw;
+  width: 2.7vw;
+  height: 2.7vw;
+  font-size: 2vw;
 }
 
 .tile span {
   position: absolute;
-  font-size: 1.5vh;
+  font-size: 0.8vw;
   right: 3px;
   bottom: 3px;
 }
@@ -353,6 +356,9 @@ body .tile {
   border-radius: 50px;
  
   transition: all 300ms ease-in-out;
+  position: absolute;
+  bottom: 2vh;
+  right: 0;
 
 }
 
