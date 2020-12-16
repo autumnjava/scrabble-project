@@ -80,8 +80,6 @@ class Game {
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
         <button class="createKeyButton">Skapa nyckel</button>
         <div class="waitingForOtherPlayers"></div>
-        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" minlength="2" maxlength="10" required>
-        <button class="startGameButton">Start</button>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
     </div>
