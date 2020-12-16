@@ -1,7 +1,6 @@
 import Game from "./Game.js";
 import GlobalDataHandler from "./GlobalDataHandler.js";
 import Store from 'https://network-lite.nodehill.com/store';
-import Player from "./Player.js";
 
 export default class NetWork {
 
@@ -15,11 +14,18 @@ export default class NetWork {
   listenForNetworkChanges() {
     console.log('listener active');
     // if statement if it is not my turn dont listen to changes
-    if (this.networkStore.currentPlayerIndex === this.game.meIndex && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage) {
-      this.game.playerList.updatePlayerList();
+    let inGameConditions = ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage);
+    if (this.networkStore.playerJoined > 0 || !this.onlyOnce || inGameConditions) {
+      if (this.networkStore.playerJoined <= 0) {
+        this.onlyOnce = true;
+      }
+      this.networkStore.playerJoined--;
+      this.networkStore.moveMade = false;
+      this.game.playerList.updateAndShowPlayerList();
       this.game.render();
       this.game.wordCheckerInstance.newWordsToCheck();
     }
+
 
     let allPlayersCalculated = this.networkStore.players.every(player => player.calculated);
     let allPlayersInEndPage = this.networkStore.players.every(player => player.inEndPage);
@@ -71,38 +77,50 @@ export default class NetWork {
 
   async connectToStore(key) {
     this.networkStore = await Store.getNetworkStore(key, () => this.listenForNetworkChanges());
-
     let store = this.networkStore;
     window.store = store;
     console.log(store, 'connected to store')
-
     // add player names,the board and points to the network
-    store.players = store.players || [];
-    if (store.players.length < 4) {
-      let player = {
-        "playerName": this.game.getName(),
-        "points": 0,
-        "attemptCounter": 0,
-        "minusPoints": 0,
-        "inEndPage": false,
-        "calculated": false
-      };
-      store.board = store.board || this.game.createBoard();
-      store.tiles = store.tiles || await this.game.tilesFromFile();
-      store.exitPressed = false;
-      this.game.createPlayers();
-      this.game.meIndex = store.players.length;
-      store.players.push(player);
-      store.currentPlayerIndex = 0;
-      this.game.startGame();
+    store.gameStarted = store.gameStarted || false;
+    if (!store.gameStarted) {
+      store.players = store.players || [];
+      if (store.players.length < 4) {
+        let player = {
+          "playerName": this.game.getName(),
+          "points": 0,
+          "attemptCounter": 0,
+          "minusPoints": 0,
+          "inEndPage": false,
+          "calculated": false,
+          "playerJoined": true
+        };
+        store.board = store.board || this.game.createBoard();
+        store.tiles = store.tiles || await this.game.tilesFromFile();
+        store.exitPressed = false;
+        store.moveMade = false;
+        this.game.createPlayers();
+        this.game.meIndex = store.players.length;
+        store.players.push(player);
+        store.playerJoined = store.players.length;
+        store.currentPlayerIndex = 0;
+        this.game.startGame();
+      }
+      else {
+        this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+      }
     }
     else {
-      this.game.gameStarter.message.text('Spelrummet är redan fullt!');
+      this.game.gameStarter.message.text('Spelet har redan startat!');
+
     }
   }
 
   changePlayer() {
     let store = this.networkStore;
+    store.gameStarted = true;
+    store.moveMade = true;
+    this.game.playerList.updateAndShowPlayerList();
+    this.game.render();
     if (store.currentPlayerIndex < store.players.length - 1) {
       store.currentPlayerIndex++;
     }

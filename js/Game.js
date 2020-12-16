@@ -38,10 +38,13 @@ class Game {
 
   startGame() {
     this.currentPlayer = this.players[0];
-    if (this.networkInstance.networkStore.players.length > 1) {
-      this.render();
-    }
     this.playerList = new PlayerList(this);
+    if (this.networkInstance.networkStore.players.length > 1) {
+      setTimeout(() => {
+        this.networkInstance.listenForNetworkChanges();
+        this.render();
+      }, 0);
+    }
   }
 
 
@@ -52,6 +55,9 @@ class Game {
   }
   getName() {
     this.playerName = $('input[name="playerName"]').val();
+    if (this.playerName.length < 1) {
+      this.playerName = 'Player';
+    }
     return this.playerName;
   }
 
@@ -74,6 +80,8 @@ class Game {
         <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
         <button class="createKeyButton">Skapa nyckel</button>
         <div class="waitingForOtherPlayers"></div>
+        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" minlength="2" maxlength="10" required>
+        <button class="startGameButton">Start</button>
         <button class="connectGameButton">Anslut</button>
         <div class = "keyHolder"></div>
     </div>
@@ -212,7 +220,7 @@ class Game {
     let that = this;
 
     $('.board, .players').remove();
-    let $players = $('<div class="players"/>').appendTo('.gamePage');
+    let $players = $('<div class="players"/>').appendTo('.playerGameContent');
     let $board = $('<div class="board"/>').appendTo('.gamePage');
     this.networkInstance.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
@@ -239,6 +247,9 @@ class Game {
     else {
       $('.myturn').text('Vänta...');
     }
+
+    //this.playerList.updateAndShowPlayerList();
+
     this.tileChanger.hideChangeTiles(7);
     this.tileChanger.hideButton(7);
 

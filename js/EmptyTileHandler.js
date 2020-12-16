@@ -38,7 +38,7 @@ export default class EmptyTileHandler {
           <span class="popupClose" id="popupClose">&times;</span>
           <p>Var god och mata in en bokstav till den tomma brickan!</p>
           <br>
-            <input type="text" id="emptyTileInput" placeholder="Skriv in bokstaven här" minlength="1" maxlength="1" required}>
+            <input type="text" id="emptyTileInput" placeholder="Skriv in bokstaven här" minlength="1" maxlength="1" required>
             <button class="emptyTileSubmitButton" name="emptyTileSubmitButton" id="emptySubmitButton" type="submit">Okej</button>
         </div>
       </div>
