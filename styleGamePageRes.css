@@ -19,6 +19,12 @@ $
     margin-top: 37px;
   }
 
+  .board {
+    display: block;
+    border: 3px solid #b77b57;
+    margin: 0 auto;
+  }
+
 
   .board > div {
   border: 0.5px solid rgb(39, 37, 37);
@@ -48,14 +54,48 @@ $
   }
 
   .playerGameContent{
-    display: inline-block;
-    background-color: black;
+    display: block;
+    width: 100%;
   }
 
   .playerGameContent > div{
     position: relative;
-    background-color: black;
-    flex: 1 0 100%;
+    top: 100px;
+    left: 0;
+  }
+
+  .gamePage .buttons {
+    background-color: red;
+  }
+
+  .gamePage button {
+  position: relative;
+  border: 1px solid white;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 2.5vw;
+  text-transform: uppercase;
+  } 
+
+  .gamePage .boxes {
+    width: 70%;
+    top: 0;
+    right: 0;
+  }
+
+  .gamePage .players{
+    width: 100%;
+    background-color: red;
+  }
+
+  .stand {
+    min-width: 0;
+    width: 70%;
+    padding: 10px;
+  }
+
+  .player-icon .pname{
+    font-size: 14px;
   }
 
 }

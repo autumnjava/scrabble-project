@@ -20,11 +20,11 @@ export default class MessageBox {
   }
 
   showMessage() { 
-    $('#' + this.id).css({display: 'block'});
+    $('#' + this.id).css({ 'display': 'block', 'opacity': '1'});
   }
 
   hideMessage() {
-  $('#' + this.id).css({ display: 'none' });
+    $('#' + this.id).css({ 'display': 'none', 'transition': 'opacity 1s ease-out', 'opacity': '0'});
   }
 
 }
