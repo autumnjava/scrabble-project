@@ -29,7 +29,6 @@
 
 .playerGameContent {
   flex-basis: auto;
-  background-color: pink;
   position: relative;
   width: 50%;
 }
@@ -93,7 +92,7 @@
   text-transform: uppercase;
   font-weight: bold;
   transition: all 300ms ease-in-out;
-  margin: 0 1vw;
+  margin: 0 0.5vw;
  
   /*display: inline-block;
    /*position: absolute;
@@ -225,7 +224,7 @@ background-color: #b77b57;
 
 .players {
   position: absolute;
-  top: 5vh;
+  top: 10%;
   left: 10%;
   width: 40vw;
 }
@@ -328,12 +327,12 @@ body .tile {
   
 .playerList {
   position: absolute;
-  top: 20vh;
+  top: 30%;
   left: 10%;
 }
 
 .playerList span {
-  margin: calc(10px + 2vw);
+  margin: calc(5px + 1vw);
   padding: 5px 10px;
   font-family: Arial;
   background-color: #213951;
