@@ -37,7 +37,6 @@ export default class GlobalDataHandler {
   getHighScores(player) {
     this.localStore.highScores.push(player);
     this.sortAndSpliceHighScoreList();
-    console.log(this.topTen, 'sorted highscore list');
   }
 
   sortAndSpliceHighScoreList() {
