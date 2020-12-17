@@ -1,0 +1,90 @@
+#emptyTilePopupBox, #exitPopupBox, #connectToGamePopupBox {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#emptyTilePopupBoxContent, #exitPopupBoxContent, #connectToGamePopupBoxContent {
+  position: relative;
+  background-color: #e5d4c2;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 1;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+}
+
+#emptyTilePopupBox p, #exitPopupBox p, #connectToGamePopupBox p {
+  padding: 1em;
+  color: #213951;
+  font-size: 3vw;
+  font-weight: bold;
+}
+
+#emptyTilePopupBox button, #connectToGamePopupBox button {
+  border: 0.3em solid white;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 2vw;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+}
+
+#emptyTilePopupBox input , #connectToGamePopupBox input{
+  font-size: 3vw;
+  width: 30vw;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 1em;
+
+}
+
+.popupClose {
+  color: #98aab4;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.popupClose:hover, .popupClose:focus {
+  color: #213951;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media only screen and (max-width: 480px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 5vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}
+@media only screen and (min-width: 480.02px) and (max-width: 768px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 5vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}
+@media only screen and (min-width: 768.02px) and (max-width: 1200px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 3vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}

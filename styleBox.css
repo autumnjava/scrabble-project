@@ -1,0 +1,45 @@
+.boxes {
+  position: absolute;
+  display: block;
+  top: 40%;
+  left: 0;
+  width: 100%;
+}
+
+.boxes .changeTilesSquare{
+  margin: 0 auto;
+  text-align: center;
+  height: 10vw;
+  width: 10vw;
+  border: 0.3em dashed #e5d4c2;
+  border-radius: 10px;
+  background-color: #cf816a;
+}
+
+.boxes .changeTilesSquare p {
+  margin: 0 auto;
+  text-align: center;
+  color: #e5d4c2;
+  margin-top: 10%;
+  font-size: 2vw;
+  width: 80%;
+  height: 60%;
+} 
+
+.boxes .changeTilesSquare.hover {
+  background-color: rgb(33, 57, 81);
+}
+
+.boxes .messageBox {
+  display: none;
+  background-color: rgb(253, 53, 53);
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 0.5em 1.5em;
+  width: 10vw;
+  font-size: 1vw;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+}

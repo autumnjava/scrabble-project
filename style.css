@@ -1,0 +1,442 @@
+/*Styling for buttons*/
+
+.not-show{
+  display:none;
+}
+
+.gameFinish{
+  display: none !important;
+}
+
+.gamePage {
+  /*
+  display: grid;
+  grid-template-columns: 50% 50%; 
+  grid-template-rows: 100%;
+  grid-column-gap: 5px;
+  */
+  display: flex;
+  font-family: Arial;
+}
+
+.startPage .startPageContent{
+  margin: 0 auto;
+   justify-content: center;
+}
+
+.startPage{
+display: flex;
+min-height: calc(100vh - 118px);
+flex-direction: column;
+margin: auto;
+height: 100%;
+}
+
+.playerGameContent {
+flex-basis: auto;
+position: relative;
+width: 50%;
+}
+
+
+.startPage button {
+  display: block;
+  color: white;
+  background-color: #cf816b;/*#f5b880;*/
+  cursor: pointer;
+  border: 5px solid white;
+  border-radius: 50px;
+  margin: 7vh auto;
+  padding: 0.5em 1.7em;
+  font-size: 4vh;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+  /*position: absolute;*/
+}
+
+.nameInput{
+  display: block;
+  margin: 4vh auto 0 auto;
+  text-align: center;
+  border: 2px solid white;
+  border-radius: 20px;
+  font-size: 2.5vh;
+}
+
+.waitingForOtherPlayers > p{
+  margin: 4vh auto 0 auto;
+  padding: 10px;
+  user-select: none;
+  font-family: Arial;
+  color: #213951;
+  text-align: center;
+  font-size: 4vh;
+}
+
+.keyHolder{
+  display: none;
+  padding: 10px;
+  margin: auto;
+  margin-bottom: 20px;
+  width: 37vh;
+  user-select: text;
+  font-size: 5vh;
+  font-family: Arial;
+  background-color: white;
+  border: 5px dotted #e5d4c2;
+  border-radius: 50px;
+  color: #213951;
+  text-align: center;
+}
+
+.gamePage button {
+  display: inline-block;
+  color: white;
+  background-color: #213951;/*#f5b880;*/
+  cursor: pointer;
+  border: 0.3vw solid white;
+  border-radius: 50px;
+  padding: 0.5em 1.5em;
+  font-size: 1.2vw;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 300ms ease-in-out;
+  margin: 0 0.5vw;
+ 
+  /*display: inline-block;
+   /*position: absolute;
+   bottom: 5rem;
+  right: 10rem;*/
+}
+
+
+.buttons {
+  bottom: 10vh;
+  margin: 0 auto;
+  position: absolute;
+  left: 5%;
+}
+
+.checkWordButton_hover:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+.startPage button:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+.changeTilesButton_hover:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+.buttons > .button:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+.board {
+  flex-basis: auto;
+  border: 10px solid #b77b57; 
+  margin-top: 1vh;
+  margin-left: 20px;
+  border-radius: 5px;
+  display: block;
+}
+
+.board > div {
+  border: 1px solid rgb(39, 37, 37);
+  margin: 0.5px;
+  background-color: rgb(255, 255, 255);
+  width: 2.8vw;
+  height: 2.8vw;
+  float: left;
+  border-radius: 2px;
+}
+
+.board > div:nth-child(15n+1){
+  clear: both;
+}
+
+.board > div::after{
+  display: block;
+}
+
+.board > div.special-tw{
+background-color: #ccb0a2;
+}
+
+.board .special-tw::after{
+  content: 'TO';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.8vw;
+}
+
+.board > div.special-dl{
+background-color: #d6e1e7;
+}
+
+.board .special-dl::after{
+  content: 'DB';
+  color: #FFF;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.8vw;
+}
+
+.board > div.special-dw{
+background-color: #98aab4;
+}
+
+.board .special-dw::after{
+  content: 'DO';
+  color: #FFF;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.8vw;
+}
+
+.board > div.special-tl{
+background-color: #e5d4c2;
+
+}
+
+.board .special-tl::after{
+  content: 'TB';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 1.8vw;
+}
+
+.board > div.special-start{
+background-color: #b77b57;
+}
+
+.board .special-start::after{
+  content: 'START';
+  color: #fff;
+  font-style: bold;
+  display: block;
+  text-align: center;
+  font-size: 0.8vw;
+  padding-top: 1.1vw;
+}
+
+.players {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 40vw;
+}
+
+.player-icon{
+  float: right;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.myturn{
+  font-family: Arial;
+  font-weight: 800;
+  color: #213951 ;
+}
+
+.stand {
+  float: left;
+  background-color:#213951;
+  padding: 20px;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: absolute;
+  width: 28vw;
+}
+
+.stand::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.stand .tile {
+  cursor: pointer;
+}
+
+body .tile {
+  z-index: 1;
+  position: relative;
+  text-align:center;
+  width: 3vw;
+  height: 3vw;
+  float: left;
+  background-color: rgb(229, 212, 194); 
+  border: 1px solid #000;
+  border-radius: 3px;
+  margin: 0 2px;
+  font-size: 2.2vw;
+}
+
+.board .tile {
+  position: absolute;
+  background-color: rgb(243, 206, 165);
+  margin: -0.01vw;
+  width: 2.7vw;
+  height: 2.7vw;
+  font-size: 2vw;
+}
+
+.tile span {
+  position: absolute;
+  font-size: 0.8vw;
+  right: 3px;
+  bottom: 3px;
+}
+
+.tile.none {
+  border: 0;
+  background-color: transparent;
+}
+
+.fas{
+  color: rgb(33, 57, 81);
+
+}
+
+.board > div.hover {
+  background-color: orange;
+}
+
+
+.pname {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #213951;
+}
+
+.ppoints{
+  font-family: 'Open Sans', sans-serif;
+  font-size: small;
+  color: #213951;
+  font-weight: 800;
+}
+
+.tilesLeft{
+  font-family: 'Open Sans', sans-serif;
+  font-size: small;
+}
+  
+.playerList {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+}
+
+.playerList span {
+  margin: calc(5px + 1vw);
+  padding: 5px 10px;
+  font-family: Arial;
+  background-color: #213951;
+  border-radius: 50px;
+  color: white;
+  font-weight: 400;
+}
+
+.topPlayers{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+#gameInstructions{
+  color: white;
+  background-color:   #cf816a;
+  cursor: pointer;
+  border: 5px solid white;
+  border-radius: 50px;
+  padding: 0.5em 0.75em;
+  transition: all 300ms ease-in-out;
+  position: absolute;
+  bottom: 2vh;
+  right: 0;
+
+}
+
+
+
+#gameInstructions:hover{
+  background-color:transparent;
+  color: rgb(31, 30, 30);
+}
+
+#instructionsBox .instructionsClose{
+  cursor: pointer;
+  color: #98aab4;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+}
+
+#instructionsBox {
+  display: none; /* Hidden by default */
+  position: absolute; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0,0,0,0.4); 
+ 
+}
+
+#instructionsBoxContent {
+  position: relative;
+  background-color: #e5d4c2;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 1;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  height: 60%;
+ overflow: auto; 
+  overflow-y: scroll;
+}
+
+#instructionsBox p {
+  padding: 1em;
+  color: #213951;
+  font-size: 1.2vw;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+#instructionsBox .instructionsClose:hover{
+  color: #213951;
+  text-decoration: none;
+
+}
+
+#instructionsBoxContent span{
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(33, 57, 81);
+  display: block;
+  padding: 2rem;
+}

@@ -1,0 +1,37 @@
+/*Styling for the website in general*/
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  outline: none;
+}
+
+body {
+background-color: #d6e1e7;
+flex: 1;
+}
+
+header {
+color: white;
+background-color:  #213951;
+text-align: center;
+width: 100%;
+padding: 10px 0;
+z-index: 1;
+font-family:'Pacifico', cursive;
+font-size: 30px;
+margin: 0;
+}
+
+footer {
+padding: 5px 0;
+margin-top: 20px;
+color: white;
+background-color:  #213951;
+text-align: center;
+width: 100%;
+font-family: 'Open Sans', sans-serif;
+font-size: small;
+height: 15px;
+}
