@@ -23,7 +23,7 @@ export default class GameEnder {
 
   hideEverything() {
     $('.startPage').hide();
-    $('.gamePage').hide();
+    $('.gamePage').addClass('gameFinish');
   }
 
   checkGameEnd() {

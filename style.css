@@ -23,6 +23,11 @@
   margin-bottom: 19.5px;
   font-family: Arial;
 }
+
+.gameFinish{
+  display: none !important;
+}
+
 .startPage .startPageContent{
   padding-top: 10vh;
 }
@@ -353,7 +358,7 @@ body .tile {
   cursor: pointer;
   border: 5px solid white;
   border-radius: 50px;
- 
+  padding: 0.5em 0.75em;
   transition: all 300ms ease-in-out;
   position: absolute;
   bottom: 2vh;
