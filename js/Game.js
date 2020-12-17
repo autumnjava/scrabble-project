@@ -126,6 +126,7 @@ class Game {
     skipButton.click(function () {
       if (that.networkInstance.networkStore.currentPlayerIndex === that.meIndex) {
         that.turnSkipper.clickOnEventHandler();
+        that.tileChanger.removeAllTilesInSquare();
         that.wordCheckerInstance.messageBox.hideMessage();
         if (that.gameEnder.checkGameEnd()) {
           that.gameEnder.endTheGame(true);
