@@ -1,29 +1,27 @@
 .boxes {
   position: absolute;
-  display: inline-block;
-  margin: 2vh;
-  top: 24vh;
-  right: 10vw;
-  width: 70vh;
+  display: block;
+  top: 40%;
+  left: 0;
+  width: 100%;
 }
 
 .boxes .changeTilesSquare{
-  position: relative;
-  margin: auto;
+  margin: 0 auto;
   text-align: center;
-  height: 30vh;
-  width: 30vh;
+  height: 10vw;
+  width: 10vw;
   border: 0.3em dashed #e5d4c2;
   border-radius: 10px;
   background-color: #cf816a;
 }
 
 .boxes .changeTilesSquare p {
-  margin: auto;
-  margin-top: 25%;
+  margin: 0 auto;
   text-align: center;
   color: #e5d4c2;
-  font-size: 5vh;
+  margin-top: 10%;
+  font-size: 2vw;
   width: 80%;
   height: 60%;
 } 
@@ -34,12 +32,12 @@
 
 .boxes .messageBox {
   display: none;
-  background-color: rgb(253, 0, 0);
+  background-color: rgb(253, 53, 53);
   border-radius: 10px;
   margin: 10px auto;
   padding: 0.5em 1.5em;
-  width: 30vh;
-  font-size: 2.5vh;
+  width: 10vw;
+  font-size: 1vw;
   text-transform: uppercase;
   text-align: center;
   font-weight: bold;

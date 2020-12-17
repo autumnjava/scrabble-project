@@ -77,7 +77,7 @@ class Game {
     $('#endPage').hide();
     $('.startPage').html(/*html*/`
     <div class ="startPageContent">
-        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
+        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" maxLength=9 required>
         <button class="createKeyButton">Skapa nyckel</button>
         <div class="waitingForOtherPlayers"></div>
         <button class="connectGameButton">Anslut</button>
@@ -219,8 +219,8 @@ class Game {
     let that = this;
 
     $('.board, .players').remove();
-    let $players = $('<div class="players"/>').appendTo('.playerGameContent');
-    let $board = $('<div class="board"/>').appendTo('.gamePage');
+    let $players = $('<div class="players"/>').prependTo('.playerGameContent');
+    let $board = $('<div class="board"/>').prependTo('.gamePage');
     this.networkInstance.board.flat().forEach(x => $board.append('<div/>'));
     $('.board').html(
       this.networkInstance.board.flat().map((x, i) => `

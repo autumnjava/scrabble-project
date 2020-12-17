@@ -6,7 +6,7 @@ export default class Instructions {
   }
 
   initial() {
-    $('.gamePage').append(this.createPopupBox());
+    $('body').append(this.createPopupBox());
     this.instructionsBox = $('#instructionsBox');
     this.closeSpan = $("#instructionsClose");
     this.buttonHandlers();
