@@ -61,4 +61,30 @@
   text-decoration: none;
   cursor: pointer;
 }
-
+@media only screen and (max-width: 480px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 5vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}
+@media only screen and (min-width: 480.02px) and (max-width: 768px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 5vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}
+@media only screen and (min-width: 768.02px) and (max-width: 1200px){
+  #connectToGamePopupBox p, #connectToGamePopupBox button{
+    font-size: 3vw;
+  }
+  #connectToGamePopupBox input{
+    width: 70%;
+    font-size: 4vw;
+  }
+}
