@@ -63,6 +63,7 @@ export default class EmptyTileHandler {
     let that = this;
     this.closeSpan.click(function () {
       that.moveTileBackToPlayer();
+      that.game.tileChanger.removeAllTilesInSquare();
       that.hidePopup();
       that.game.render();
     });

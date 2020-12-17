@@ -67,7 +67,6 @@ export default class Instructions {
     let that = this;
     this.closeSpan.click(function () {
       that.hideInstructions();
-      that.game.render();
     });
   }
 
