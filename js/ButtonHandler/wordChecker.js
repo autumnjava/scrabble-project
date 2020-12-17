@@ -42,14 +42,10 @@ export default class WordChecker {
     let allPositionsXSorted = [];
     // Sort so the positions comes i order
     this.invalidMove = (!allYAreSame && !allXAreSame)
-    console.log("invalidMove false=x,y same", this.invalidMove);
   }
 
   clickOnEventHandler() {
     this.checkEmptySpace();
-    console.log("T start", this.checkIfWordIsOnStartSquare());
-    console.log("F invalidMove", this.checkIfCorrectPosition());
-    console.log("F gaps", this.gaps);
     if (this.checkIfWordIsOnStartSquare() && !this.checkIfCorrectPosition() && !this.gaps) {
       this.checkWordWithSAOL();
     }
@@ -63,11 +59,7 @@ export default class WordChecker {
 
     if (!this.invalidMove) {
       this.invalidMove = (this.checkEmptySpace() || this.checkIfCorrectPosition()); //om en av dem är true, så blir invalidMove true
-      console.log('are there any gaps?', this.gaps)
-      console.log('not touching old tiles?', this.testFailed)
-      //this.gaps = true betyder finns gaps
-      //this.testFailed = true tiles ligger inte bradvid varandra
-      console.log("X and Y same, but gaps or no tiles between F", this.invalidMove);
+
       if (this.checkIfWordIsOnStartSquare() && !this.invalidMove) {
         this.checkWordWithSAOL();
       }
@@ -249,7 +241,7 @@ export default class WordChecker {
 
     if (!this.allTilesNotAtStart) {
       for (let tile of tilesWithPossibleToMove(this.game.networkInstance.board)) {
-        console.log('tilen som vi kollar på nu är', tile)
+
         //Check div above, below, on right and left of every placed tile
         if (tile.positionY !== 14 && tile.positionY !== 0 && tile.positionX !== 14 && tile.positionX !== 0) {
           this.divBelow = this.game.networkInstance.board[tile.positionY + 1][tile.positionX].tile;
@@ -258,26 +250,26 @@ export default class WordChecker {
           this.divOnLeft = this.game.networkInstance.board[tile.positionY][tile.positionX - 1].tile;
           //If found other player's tile above or below test has not been failed
           if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divBelow) && this.divBelow !== undefined) {
-            console.log('found div below')
+ 
             this.testFailed = false;
             return this.testFailed;
 
             //Funkar inte när alla nya tiles är endast above?
           }
           else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divAbove) && this.divAbove !== undefined) {
-            console.log('found div above')
+
             this.testFailed = false;
             return this.testFailed;
           }
           //Same as before when it comes to other player's tile on right and left side
           else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnRight) && this.divOnRight !== undefined) {
-            console.log('found div on right')
+
             this.testFailed = false;
             return this.testFailed;
 
           }
           else if (!tilesWithPossibleToMove(this.game.networkInstance.board).includes(this.divOnLeft) && this.divOnLeft !== undefined) {
-            console.log('found div on left')
+
             this.testFailed = false;
             return this.testFailed;
 
@@ -879,7 +871,6 @@ export default class WordChecker {
       let store = this.game.networkInstance.networkStore;
       let points = this.calculatePoints();
       let addPoints = this.additionalPoints();
-      console.log('word was a word!');
 
       this.game.currentPlayer.tilesPlaced = tilesWithPossibleToMove(this.game.networkInstance.board);
       this.game.networkInstance.board = changePossibleToMoveToFalse(this.game.networkInstance.board);
