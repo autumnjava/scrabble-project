@@ -34,4 +34,6 @@ width: 100%;
 font-family: 'Open Sans', sans-serif;
 font-size: small;
 height: 15px;
+position: absolute;
+bottom: 0;
 }
