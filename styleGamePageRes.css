@@ -337,7 +337,6 @@
   .gamePage {
     width: 98%;
     margin: 0 auto;
-    margin-top: 15%;
   }
 
   .board {
@@ -407,8 +406,4 @@
     font-size: 1.5vw;
   }
 
-    footer{
-      position: absolute;
-      bottom: 0;
-  }
 }
