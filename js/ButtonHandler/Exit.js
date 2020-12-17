@@ -56,7 +56,6 @@ export default class Exit {
     });
 
     this.yesButton.click(function () {
-      console.log("YES button pressed");
       that.hidePopup();
       that.moveTilesOnBoardToPlayer();
       that.gameEnder.endTheGame(true); // just calculates and sort player list
@@ -65,7 +64,6 @@ export default class Exit {
     });
 
     this.noButton.click(() => {
-      console.log("NO button pressed");
       that.hidePopup();
     });
   }
