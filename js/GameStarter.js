@@ -35,7 +35,6 @@ export default class GameStarter {
     });
     this.submitButton.click(function () {
       let networkKey = $('input[id="connectToGameInput"]').val();
-      //that.game.networkInstance.connectToStore(networkKey, that.game.networkInstance.listener);
       that.game.networkInstance.connectToStore(networkKey);
     })
   }
