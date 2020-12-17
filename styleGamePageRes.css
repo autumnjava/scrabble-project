@@ -10,7 +10,7 @@ $
   --phone: 480px;
 }
 /*phone*/
-@media only screen and (max-width: 767.98px){
+@media only screen and (max-width: 480px){
   .gamePage {
     flex-direction: column;
     justify-content: space-evenly;
@@ -44,7 +44,7 @@ $
   .board .tile {
   width: 5vw;
   height: 5vw;
-  font-size: small;
+  font-size: 3.7vw;
   }
 
   .board .tile span{
@@ -71,6 +71,7 @@ $
     display: block;
     width: 98%;
     height: 40vh;
+    margin: 0 auto;
   }
 
   .playerGameContent > div{
@@ -155,16 +156,184 @@ $
     font-size: 3vw;
   }
 
+  #instructionsBoxContent p{
+    font-size: 2vw;
+  }
 
+  #instructionsBoxContent span{
+    font-size: 5vw;
+    padding: 1em;
+  }
+
+  #emptyTilePopupBox input {
+    font-size: 5vw;
+    width: 100%;
+  }
+
+  #emptyTilePopupBox button, #emptyTilePopupBox p, #exitPopupBox p, #exitPopupBox button{
+    font-size: 4vw;
+  }
 
 }
 
 /*tablet*/
-@media only screen and (min-width: 768px) and (max-width: 991.98px){
+@media only screen and (min-width: 480.01px) and (max-width: 768px){
   .gamePage {
-    background-color: green;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 98%;
+    margin: 0 auto;
+    margin-top: 37px;
   }
+
+  .board {
+    border: 4px solid #b77b57;
+    margin: 0 auto;
+    margin-top: 1vh;
+  }
+
+
+  .board > div {
+    border: 0.5px solid rgb(39, 37, 37);
+    margin: 0.2px;
+    width: 4.5vw;
+    height: 4.5vw;
+  }
+  
+  .board .special-tl::after, .board .special-tw::after, .board .special-dl::after, .board .special-dw::after{
+    font-size: 3vw;
+  }
+  .board .special-start::after{
+    padding-top: 1.7vw;
+    font-size: 1.3vw;
+  }
+
+  .board .tile {
+    width: 4.2vw;
+    height: 4.2vw;
+    font-size: 3.3vw;
+  }
+
+  .board .tile span{
+    font-size: 1.5vw;
+    right: 2px;
+    bottom: 2px;
+  }
+
+  body .tile {
+    padding-top: 1px;
+    width: 7vw;
+    height: calc(7vw - 1px);
+    font-size: 4.5vw;
+    margin: 0 1px;
+  }
+
+  body .tile span{
+    font-size: 2vw;
+    right: 2px;
+    bottom: 2px;
+  }
+
+  .playerGameContent{
+    display: block;
+    background-color: lightblue;
+    width: 98%;
+    height: 35vh;
+    margin: 0 auto;
+  }
+
+  .playerGameContent > div{
+    left: 0;
+  }
+
+  .players{
+    top: 3%;
+    width: 100%;
+  }
+
+  .stand {
+    min-width: 0;
+    width: 73%;
+    padding: 10px;
+  }
+  .player-icon, .tilesLeft{
+    font-size: 2.5vw;
+  }
+
+  .player-icon .pname, .ppoints, .myturn{
+    font-size: 3vw;
+  }
+
+  .playerList {
+    float: left;
+    top: 30%;
+    width: 30%;
+  }
+
+  .playerList span {
+    display: inline-block;
+    padding: 0.5vh 2vw;
+    margin: calc(1px + 1vw);
+    font-size: 3vw;    
+  }
+
+  .boxes {
+    top: 30%;
+    width: 100%;
+  }
+
+  .boxes .changeTilesSquare{
+    margin: 0 auto;
+    height: 15vw;
+    width: 15vw;
+  }
+
+  .boxes .changeTilesSquare p {
+    margin-top: 16%;
+    font-size: 3vw;
+  } 
+  .boxes .messageBox {
+    margin: 0 auto;
+    margin-top: 1vh;
+    padding: 0.5em 1.5em;
+    width: 20vw;
+    font-size: 2vw;
+    text-align: center;
+    font-weight: bold;
+    transition: all 300ms ease-in-out;
+  }
+
+  .buttons {
+    top: 80%;
+    text-align: center;
+  }
+
+  .buttons button {
+    margin: 0.4vh;
+    padding: 1vh 3vw;
+    font-size: 3vw;
+  }
+
+    #instructionsBoxContent p{
+    font-size: 2vw;
+  }
+
+  #instructionsBoxContent span{
+    font-size: 5vw;
+    padding: 1em;
+  }
+
+  #emptyTilePopupBox input {
+    font-size: 5vw;
+    width: 100%;
+  }
+
+  #emptyTilePopupBox button, #emptyTilePopupBox p, #exitPopupBox p, #exitPopupBox button{
+    font-size: 4vw;
+  }
+
 }
+
 
 
 /*laptop*/

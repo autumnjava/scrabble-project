@@ -375,16 +375,19 @@ body .tile {
 
 #instructionsBox .instructionsClose{
   cursor: pointer;
-   color: #98aab4;
+  color: #98aab4;
   float: right;
   font-size: 28px;
   font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 0;
 
 }
 
 #instructionsBox {
   display: none; /* Hidden by default */
-  position: relative; /* Stay in place */
+  position: absolute; /* Stay in place */
   z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
@@ -425,7 +428,7 @@ body .tile {
 
 }
 
-#instructionsBoxContent .tilesSpan, .boardSpan, .turnsSpan, .wordsSpan, .endSpan, .pointsSpan{
+#instructionsBoxContent span{
   text-align: center;
   font-size: 2rem;
   color: rgb(33, 57, 81);
