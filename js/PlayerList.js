@@ -28,9 +28,9 @@ export default class PlayerList {
     }
   }
 
-  truncatePlayerNames(playerName) { 
+  truncatePlayerNames(playerName) {
     let length = 3;
-    return playerName.substring(0, length) + (playerName.length <=3 ? '': '.');
+    return playerName.substring(0, length) + (playerName.length <= 3 ? '' : '.');
   }
 
 }
