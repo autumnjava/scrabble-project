@@ -177,7 +177,7 @@ $
 }
 
 /*tablet*/
-@media only screen and (min-width: 480.01px) and (max-width: 768px){
+@media only screen and (min-width: 480.02px) and (max-width: 768px){
   .gamePage {
     flex-direction: column;
     justify-content: space-evenly;
@@ -236,7 +236,6 @@ $
 
   .playerGameContent{
     display: block;
-    background-color: lightblue;
     width: 98%;
     height: 35vh;
     margin: 0 auto;
@@ -337,13 +336,78 @@ $
 
 
 /*laptop*/
-@media only screen and (min-width: 992px) and (max-width: 1200px){
+@media only screen and (min-width: 768.02px) and (max-width: 1200px){
   .gamePage {
-    background-color: black;
-    width: 75%;
-    border: 3px dotted red;
+    width: 98%;
     margin: 0 auto;
-    margin-top: 37px;
+    margin-top: 15%;
+  }
+
+  .board {
+    border: 4px solid #b77b57;
+    margin: 0;
+  }
+
+
+  .board > div {
+    border: 0.5px solid rgb(39, 37, 37);
+    margin: 0.2px;
+    width: 2.8vw;
+    height: 2.8vw;
+  }
+  
+  .board .special-tl::after, .board .special-tw::after, .board .special-dl::after, .board .special-dw::after{
+    font-size: 1.7vw;
+  }
+  .board .special-start::after{
+    padding-top: 1vw;
+    font-size: 0.8vw;
+  }
+
+  .board .tile {
+    width: 2.6vw;
+    height: calc(2.6vw - 1px);
+    font-size: 1.5vw;
+  }
+
+  .board .tile span{
+    font-size: 1vw;
+    right: 1px;
+    bottom: 1px;
+  }
+
+  body .tile {
+    padding-top: 1px;
+    width: 3.5vw;
+    height: calc(3.5vw - 1px);
+    font-size: 2vw;
+    margin: 0 1px;
+  }
+
+  body .tile span{
+    font-size: 1.2vw;
+    right: 2px;
+    bottom: 2px;
+  }
+
+  .playerGameContent > div{
+    left: 2%;
+  }
+
+  .players{
+    width: 100%;
+  }
+
+  .stand{
+    width: 70%;
+  }
+
+  .player-icon, .tilesLeft{
+    font-size: 1.2vw;
+  }
+
+  .player-icon .pname, .ppoints, .myturn{
+    font-size: 1.5vw;
   }
 }
 
