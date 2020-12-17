@@ -393,7 +393,7 @@ body .tile {
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 80%; /* Full height */
+  height: 100%; /* Full height */
   background-color: rgba(0,0,0,0.4); 
  
 }
