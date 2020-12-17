@@ -77,7 +77,7 @@ class Game {
     $('#endPage').hide();
     $('.startPage').html(/*html*/`
     <div class ="startPageContent">
-        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" required>
+        <input class="nameInput" type="text" name="playerName" placeholder="Skriv ditt namn här" maxLength=9 required>
         <button class="createKeyButton">Skapa nyckel</button>
         <div class="waitingForOtherPlayers"></div>
         <button class="connectGameButton">Anslut</button>

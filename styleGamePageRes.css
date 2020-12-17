@@ -12,17 +12,17 @@ $
 /*phone*/
 @media only screen and (max-width: 767.98px){
   .gamePage {
-    display: grid;
-    background-color: pink;
+    flex-direction: column;
+    justify-content: space-evenly;
     width: 98%;
     margin: 0 auto;
     margin-top: 37px;
   }
 
   .board {
-    display: block;
     border: 3px solid #b77b57;
     margin: 0 auto;
+    margin-top: 1vh;
   }
 
 
@@ -53,23 +53,35 @@ $
   bottom: 1px;
   }
 
+  body .tile {
+    padding-top: 1px;
+    width: 7vw;
+    height: calc(7vw - 1px);
+    font-size: 4.5vw;
+    margin: 0 1px;
+  }
+
+  body .tile span{
+    font-size: 2vw;
+    right: 2px;
+    bottom: 2px;
+  }
+
   .playerGameContent{
     display: block;
-    width: 100%;
+    width: 98%;
+    height: 40vh;
   }
 
   .playerGameContent > div{
-    position: relative;
-    top: 100px;
     left: 0;
   }
 
   .gamePage .buttons {
-    background-color: red;
+    bottom: 0;
   }
 
   .gamePage button {
-  position: relative;
   border: 1px solid white;
   border-radius: 50px;
   padding: 0.5em 1.5em;
@@ -77,26 +89,73 @@ $
   text-transform: uppercase;
   } 
 
-  .gamePage .boxes {
-    width: 70%;
-    top: 0;
-    right: 0;
-  }
-
-  .gamePage .players{
+  .players{
+    top: 5%;
     width: 100%;
-    background-color: red;
   }
 
   .stand {
     min-width: 0;
-    width: 70%;
+    width: 73%;
     padding: 10px;
   }
-
-  .player-icon .pname{
-    font-size: 14px;
+  .player-icon, .tilesLeft{
+    font-size: 2.5vw;
   }
+
+  .player-icon .pname, .ppoints, .myturn{
+    font-size: 3vw;
+  }
+
+  .playerList {
+    top: 25%;
+  }
+
+  .playerList span {
+    padding: 0.5vh 2vw;
+    margin: calc(1px + 1vw);
+    font-size: 4vw;    
+  }
+
+  .boxes {
+    top: 40%;
+  }
+
+  .boxes .changeTilesSquare{
+    margin: 0;
+    height: 25vw;
+    width: 25vw;
+  }
+
+  .boxes .changeTilesSquare p {
+    margin-top: 30%;
+    font-size: 4vw;
+  } 
+  .boxes .messageBox {
+    margin: 0;
+    margin-top: 1vh;
+    padding: 0.5em 1.5em;
+    width: 20vw;
+    font-size: 3vw;
+    text-align: center;
+    font-weight: bold;
+    transition: all 300ms ease-in-out;
+  }
+
+  .buttons {
+    top: 40%;
+    left: 50% !important;
+    width: 30%;
+    text-align: center;
+  }
+
+  .buttons button {
+    margin: 0.4vh;
+    padding: 1vh 3vw;
+    font-size: 3vw;
+  }
+
+
 
 }
 
