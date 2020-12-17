@@ -280,8 +280,6 @@ class Game {
     $('footer').animate({ "font-size": "10px" });
   }
 
-
-
 }
 
 import dragEvents from './GameDragEvents.js';
