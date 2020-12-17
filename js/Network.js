@@ -12,7 +12,6 @@ export default class NetWork {
   }
 
   listenForNetworkChanges() {
-    console.log('listener active');
     // if statement if it is not my turn dont listen to changes
     let inGameConditions = ((this.networkStore.currentPlayerIndex === this.game.meIndex || this.networkStore.moveMade) && !this.networkStore.players[this.networkStore.currentPlayerIndex].inEndPage);
     if (this.networkStore.playerJoined > 0 || !this.onlyOnce || inGameConditions) {
@@ -34,7 +33,7 @@ export default class NetWork {
         if (allPlayersCalculated) { // all calculated
           for (let player of this.networkStore.players) {
             this.highScoreList.getHighScores(player);
-            console.log("Player pushed", player);
+
           }
           this.game.gameEnder.endTheGame(true); // end and render endPage
           this.game.gameEnder.render(); // här kommer inEndPage bli true
@@ -65,7 +64,7 @@ export default class NetWork {
       $keyDiv.css({ display: 'block' });
       $keyDiv.text('Detta är nyckeln: ' + key);
       this.connectToStore(key, () => {
-        console.log('Something changed...');
+
       });
     }
 
@@ -79,7 +78,7 @@ export default class NetWork {
     this.networkStore = await Store.getNetworkStore(key, () => this.listenForNetworkChanges());
     let store = this.networkStore;
     window.store = store;
-    console.log(store, 'connected to store')
+
     // add player names,the board and points to the network
     store.gameStarted = store.gameStarted || false;
     if (!store.gameStarted) {
