@@ -14,7 +14,6 @@ export default class TurnSkipper {
     store.players[store.currentPlayerIndex].attemptCounter += 1;
   }
 
-//funktionen nedan funkar bra //QT
   moveTilesOnBoardToPlayer() {
     let tilesOnBoard = tilesWithPossibleToMove(this.game.networkInstance.board);
     if (tilesOnBoard.length > 0) {
