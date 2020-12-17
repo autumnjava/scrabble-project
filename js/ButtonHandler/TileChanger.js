@@ -114,7 +114,7 @@ export default class TileChanger {
     return '';
   }
 
-  removeAllTilesInSquare(tile) {
+  removeAllTilesInSquare() {
     this.button.css({ 'cursor': 'default', 'opacity': '0.2' });
     this.button.attr("disabled", true);
     this.inSquareTiles = [];
