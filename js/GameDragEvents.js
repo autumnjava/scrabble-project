@@ -127,6 +127,8 @@ export default {
         // if there are tiles on the board already
         this.currentPlayer.currentTiles = [...this.currentPlayer.currentTiles, ...tilesWithPossibleToMove(this.networkInstance.board)]
         removeTilesFromBoard(this.networkInstance.board);
+        me.removeClass('onChangeTilesSquare');
+        this.tileChanger.removeAllTilesInSquare();
         this.render();
       }
       this.lastClickedTile = me;
