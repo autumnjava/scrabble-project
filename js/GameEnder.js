@@ -17,8 +17,8 @@ export default class GameEnder {
   }
 
   showPage() {
-    $('header').animate({ "font-size": "40px", "padding": "10px" });
-    $('footer').animate({ "font-size": "small", "padding": "10px" });
+    $('header').animate({ "font-size": "15px" });
+    $('footer').animate({ "font-size": "10px" });
   }
 
   hideEverything() {
@@ -120,7 +120,8 @@ export default class GameEnder {
     let topTen = this.game.networkInstance.highScoreList.printHighScores();
 
     this.page.append(topTen);
-    $('body').append(this.page);
+    $('.endPageEmpty').css('display', 'flex');
+    $('.endPageEmpty').append(this.page);
     this.game.networkInstance.networkStore.players[this.game.networkInstance.networkStore.currentPlayerIndex].inEndPage = true;
   }
 

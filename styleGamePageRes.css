@@ -11,7 +11,6 @@
     justify-content: space-evenly;
     width: 98%;
     margin: 0 auto;
-    margin-top: 37px;
   }
 
   .board {
@@ -168,7 +167,10 @@
   #emptyTilePopupBox button, #emptyTilePopupBox p, #exitPopupBox p, #exitPopupBox button{
     font-size: 4vw;
   }
-
+  footer{
+      position: absolute;
+      bottom: 0;
+  }
 }
 
 /*tablet*/
@@ -178,7 +180,6 @@
     justify-content: space-evenly;
     width: 98%;
     margin: 0 auto;
-    margin-top: 37px;
   }
 
   .board {
@@ -325,7 +326,10 @@
   #emptyTilePopupBox button, #emptyTilePopupBox p, #exitPopupBox p, #exitPopupBox button{
     font-size: 4vw;
   }
-
+  footer{
+      position: absolute;
+      bottom: 0;
+  }
 }
 
 /*laptop*/
@@ -402,5 +406,9 @@
   .player-icon .pname, .ppoints, .myturn{
     font-size: 1.5vw;
   }
-}
 
+    footer{
+      position: absolute;
+      bottom: 0;
+  }
+}

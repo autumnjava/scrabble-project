@@ -4,11 +4,8 @@
   display:none;
 }
 
-.startPage {
-  margin: 90px auto;
-  overflow: hidden;
-  overflow-y: hidden;
-  overflow-x: hidden;
+.gameFinish{
+  display: none !important;
 }
 
 .gamePage {
@@ -19,23 +16,26 @@
   grid-column-gap: 5px;
   */
   display: flex;
-  margin-top: 37px;
-  margin-bottom: 19.5px;
   font-family: Arial;
 }
 
-.gameFinish{
-  display: none !important;
+.startPage .startPageContent{
+  margin: 0 auto;
+   justify-content: center;
 }
 
-.startPage .startPageContent{
-  padding-top: 10vh;
+.startPage{
+display: flex;
+min-height: calc(100vh - 118px);
+flex-direction: column;
+margin: auto;
+height: 100%;
 }
 
 .playerGameContent {
-  flex-basis: auto;
-  position: relative;
-  width: 50%;
+flex-basis: auto;
+position: relative;
+width: 50%;
 }
 
 
@@ -54,18 +54,19 @@
   transition: all 300ms ease-in-out;
   /*position: absolute;*/
 }
+
 .nameInput{
   display: block;
-  margin-top : 50px;
-  margin: auto;
-  padding : 10px;
+  margin: 4vh auto 0 auto;
+  text-align: center;
   border: 2px solid white;
   border-radius: 20px;
   font-size: 2.5vh;
 }
 
 .waitingForOtherPlayers > p{
-  padding: 0.5em 1.5em;
+  margin: 4vh auto 0 auto;
+  padding: 10px;
   user-select: none;
   font-family: Arial;
   color: #213951;
@@ -75,14 +76,18 @@
 
 .keyHolder{
   display: none;
+  padding: 10px;
+  margin: auto;
+  margin-bottom: 20px;
+  width: 37vh;
   user-select: text;
   font-size: 5vh;
   font-family: Arial;
   background-color: white;
-  padding: 10px;
   border: 5px dotted #e5d4c2;
   border-radius: 50px;
   color: #213951;
+  text-align: center;
 }
 
 .gamePage button {

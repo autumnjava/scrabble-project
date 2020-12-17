@@ -1,10 +1,13 @@
+.endPageEmpty{
+  display: none;
+}
+
 .endPage{
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 90px;
-  margin-bottom: 33.33px;
-  width: 100%;
-  padding-top: 15vh;
+  height: 100%;
+  min-height: calc(100vh - 90px);
   font-family: Arial;
 }
 
@@ -13,7 +16,9 @@
 }
 
 .ranking {
-  margin: 15vh;
+  /*
+  margin: 7vh;
+  */
   margin-top: 0;
 }
 
@@ -29,11 +34,10 @@
 }
 
 .ranking li span{
-
   border-radius: 2px;
   color:  #213951;
   float: left;
-  width: 20vw;
+  width: 18vw;
 }
 
 .ranking li.rank1{
@@ -46,7 +50,7 @@
 }
 
 .highScoreDiv{
-  margin: 15vh;
+  margin: 5vh;
   margin-top: 0;
   font-size: calc(10px + 0.2vh + 0.5vw);
 }
@@ -59,9 +63,18 @@
 
 .highScoreDiv li span{
   float: left;
-  width: 10vw;
+  width: 20vw;
 }
 
 .topPlayers{
   color: #213951;
+  font-size: large;
+  width: 10vw;
+}
+
+@media (min-width: 280px) and (max-width: 340px) { 
+  /* iPhone 5 and Galaxy Fold*/
+  .endPage{
+      min-height: calc(100vh - 85px);
+  }
 }

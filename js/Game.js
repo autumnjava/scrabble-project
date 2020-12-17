@@ -276,8 +276,8 @@ class Game {
       checkWordButton.css({ 'cursor': 'pointer', 'opacity': '' });
       checkWordButton.attr("disabled", false);
     }
-    $('header').animate({ "font-size": "15px", "padding": "5px" });
-    $('footer').animate({ "font-size": "10px", "padding": "3px" });
+    $('header').animate({ "font-size": "15px" });
+    $('footer').animate({ "font-size": "10px" });
   }
 
 

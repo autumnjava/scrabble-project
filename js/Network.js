@@ -63,7 +63,7 @@ export default class NetWork {
 
       let $keyDiv = $('.keyHolder');
       $keyDiv.css({ display: 'block' });
-      $keyDiv.text('Detta är nyckeln : ' + key);
+      $keyDiv.text('Detta är nyckeln: ' + key);
       this.connectToStore(key, () => {
         console.log('Something changed...');
       });
