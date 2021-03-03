@@ -41,3 +41,13 @@ Scrabble game written in HTML + CSS + JS + jQuery.
 <img width="540" src="invalidMove.gif">
 
 <hr>
+
+
+
+
+
+### Network:
+
+<img width="540" src="network.gif">
+
+<hr>
